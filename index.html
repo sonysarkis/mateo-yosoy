@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Botiquín para la Conciencia — Qué hacer cuando no sabes qué hacer</title>
+<meta name="description" content="Primeros auxilios para la crisis humana. Primero estabiliza. Después observa. Luego decide.">
+<meta name="color-scheme" content="light dark">
+<style>
+/* ============================================================
+   BOTIQUÍN PARA LA CONCIENCIA — BLOQUE 1: MODO CRISIS
+   Archivo único. Sin dependencias. Sin red. Sin tracking.
+   ============================================================ */
+
+/* ---------- TOKENS ---------- */
+:root{
+  --charcoal:#262827;
+  --sand:#F2EBDD;
+  --light:#F7F5F0;
+  --terra:#B96445;
+  --sage:#758B77;
+  --muted:#666A67;
+  --emergency:#A43D35;
+  --ev-blue:#466C84;
+  --ev-gold:#A57E3A;
+
+  --bg:var(--light);
+  --bg-raised:#FFFDF8;
+  --bg-sunk:var(--sand);
+  --ink:var(--charcoal);
+  --ink-soft:var(--muted);
+  --line:#DED5C4;
+  --accent:var(--terra);
+  --calm:var(--sage);
+
+  --r-sm:8px; --r-md:14px; --r-lg:22px; --r-xl:32px;
+  --sp-1:.35rem; --sp-2:.7rem; --sp-3:1.1rem; --sp-4:1.6rem;
+  --sp-5:2.4rem; --sp-6:3.4rem; --sp-7:4.8rem;
+
+  --font-body:ui-serif,"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --font-ui:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+
+  --shadow-1:0 1px 2px rgba(38,40,39,.05), 0 4px 16px rgba(38,40,39,.05);
+  --shadow-2:0 2px 6px rgba(38,40,39,.07), 0 18px 44px rgba(38,40,39,.10);
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --dur:.42s;
+}
+[data-theme="dark"]{
+  --bg:#191B1A;
+  --bg-raised:#212423;
+  --bg-sunk:#141615;
+  --ink:#EDE7DA;
+  --ink-soft:#A3A8A2;
+  --line:#343936;
+  --terra:#D68764;
+  --sage:#93AC95;
+  --emergency:#E0705F;
+  --ev-blue:#7BA3BF;
+  --ev-gold:#C8A05C;
+  --shadow-1:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  --shadow-2:0 2px 6px rgba(0,0,0,.35), 0 18px 44px rgba(0,0,0,.4);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--font-body); font-size:1.0625rem; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+h1,h2,h3,h4{line-height:1.18; margin:0; font-weight:600; letter-spacing:-.014em}
+p{margin:0 0 var(--sp-3)}
+p:last-child{margin-bottom:0}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:3px solid var(--accent); outline-offset:3px; border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+.wrap{max-width:44rem; margin:0 auto; padding:0 var(--sp-4)}
+.eyebrow{
+  font-family:var(--font-ui); font-size:.7rem; font-weight:650;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft);
+}
+
+/* ---------- BOTONES ---------- */
+.btn{
+  font-family:var(--font-ui); font-weight:600; font-size:1rem;
+  border:1px solid var(--line); background:var(--bg-raised); color:var(--ink);
+  padding:.95rem 1.4rem; border-radius:var(--r-md);
+  display:inline-flex; align-items:center; justify-content:center; gap:.6rem;
+  text-align:center; min-height:52px; text-decoration:none;
+  transition:transform .16s var(--ease), background .2s, border-color .2s;
+}
+.btn:hover{border-color:var(--ink-soft)}
+.btn:active{transform:scale(.985)}
+.btn--primary{background:var(--charcoal); color:var(--sand); border-color:var(--charcoal)}
+[data-theme="dark"] .btn--primary{background:var(--sand); color:var(--charcoal); border-color:var(--sand)}
+.btn--accent{background:var(--terra); color:#fff; border-color:var(--terra)}
+[data-theme="dark"] .btn--accent{color:#1A1210}
+.btn--ghost{background:transparent}
+.btn--quiet{background:transparent; border-color:transparent; color:var(--ink-soft); font-weight:500; min-height:44px; padding:.6rem .9rem}
+.btn--quiet:hover{color:var(--ink); text-decoration:underline}
+.btn--block{width:100%}
+.btn--lg{font-size:1.15rem; padding:1.3rem 1.6rem; min-height:66px}
+.btn-row{display:flex; gap:var(--sp-2); flex-wrap:wrap}
+.btn-row .btn{flex:1 1 8rem}
+
+/* ---------- BARRA SUPERIOR ---------- */
+.topbar{
+  position:sticky; top:0; z-index:60;
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(14px) saturate(1.3);
+  border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top);
+}
+.topbar__in{
+  max-width:44rem; margin:0 auto; padding:.6rem var(--sp-4);
+  display:flex; align-items:center; gap:var(--sp-2); min-height:58px;
+}
+.brand{
+  font-family:var(--font-ui); font-size:.78rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink);
+  background:none; border:0; padding:.4rem .2rem; margin-right:auto; text-align:left;
+}
+.brand span{display:block; font-weight:500; letter-spacing:.04em; text-transform:none; color:var(--ink-soft); font-size:.68rem}
+.icon-btn{
+  background:transparent; border:1px solid var(--line); border-radius:50%;
+  width:42px; height:42px; display:grid; place-items:center; flex:0 0 auto;
+}
+.icon-btn svg{width:20px; height:20px; stroke:currentColor; fill:none; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.sos{
+  background:var(--emergency); color:#fff; border:0; border-radius:var(--r-md);
+  font-family:var(--font-ui); font-weight:700; font-size:.82rem; letter-spacing:.02em;
+  padding:.7rem .95rem; min-height:44px; display:inline-flex; align-items:center; gap:.45rem;
+  box-shadow:0 2px 10px rgba(164,61,53,.3);
+}
+.sos::before{content:""; width:8px; height:8px; border-radius:50%; background:#fff; opacity:.9}
+
+/* ---------- VISTAS ---------- */
+.view{display:none; animation:fade var(--dur) var(--ease)}
+.view.is-active{display:block}
+@keyframes fade{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+
+/* ---------- HOME ---------- */
+.hero{padding:var(--sp-6) 0 var(--sp-5); position:relative}
+.hero h1{
+  font-size:clamp(2.1rem,8.5vw,3.4rem); font-weight:600; letter-spacing:-.03em;
+  margin:var(--sp-3) 0 var(--sp-3); text-wrap:balance;
+}
+.hero__lede{font-size:1.18rem; color:var(--ink-soft); max-width:30rem; margin-bottom:var(--sp-5)}
+.hero__lede b{color:var(--ink); font-weight:600}
+
+/* Horizonte artificial — elemento firma */
+.horizon{
+  width:100%; max-width:19rem; aspect-ratio:1; margin:0 auto var(--sp-4);
+  border-radius:50%; overflow:hidden; position:relative;
+  border:1px solid var(--line); background:var(--bg-sunk); box-shadow:var(--shadow-1);
+}
+.horizon__sky{position:absolute; inset:0; background:linear-gradient(180deg, var(--ev-blue) 0%, color-mix(in srgb,var(--ev-blue) 55%, var(--bg-sunk)) 100%)}
+.horizon__ground{position:absolute; left:-30%; right:-30%; top:50%; bottom:-40%; background:linear-gradient(180deg, var(--terra) 0%, color-mix(in srgb,var(--terra) 60%, var(--charcoal)) 100%)}
+.horizon__plate{position:absolute; inset:0; transform-origin:center; animation:sway 13s ease-in-out infinite}
+.horizon__line{position:absolute; left:0; right:0; top:50%; height:2px; background:var(--sand); opacity:.85}
+.horizon__mark{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:64%; height:2px; background:transparent}
+.horizon__mark::before,.horizon__mark::after{content:""; position:absolute; top:-9px; width:34%; height:2.5px; background:var(--sand); box-shadow:0 0 0 1px rgba(38,40,39,.25)}
+.horizon__mark::before{left:0} .horizon__mark::after{right:0}
+.horizon__dot{position:absolute; left:50%; top:50%; width:9px; height:9px; margin:-4.5px 0 0 -4.5px; border-radius:50%; background:var(--sand); box-shadow:0 0 0 1px rgba(38,40,39,.25)}
+.horizon__cap{position:absolute; inset:0; border-radius:50%; box-shadow:inset 0 0 0 10px var(--bg-raised), inset 0 0 26px rgba(38,40,39,.18)}
+@keyframes sway{0%,100%{transform:rotate(-7deg) translateY(3%)} 28%{transform:rotate(5deg) translateY(-2%)} 55%{transform:rotate(-3deg) translateY(1%)} 78%{transform:rotate(6deg) translateY(-3%)}}
+.horizon__caption{
+  text-align:center; font-family:var(--font-ui); font-size:.78rem; color:var(--ink-soft);
+  letter-spacing:.05em; margin-bottom:var(--sp-5);
+}
+
+.paths{display:grid; gap:var(--sp-3); margin-bottom:var(--sp-5)}
+.path{
+  display:block; width:100%; text-align:left; border:1px solid var(--line);
+  background:var(--bg-raised); border-radius:var(--r-lg); padding:var(--sp-4);
+  transition:transform .18s var(--ease), box-shadow .2s, border-color .2s;
+}
+.path:hover{border-color:var(--ink-soft); box-shadow:var(--shadow-1)}
+.path:active{transform:scale(.99)}
+.path h2{font-size:1.5rem; margin-bottom:.35rem}
+.path p{font-family:var(--font-ui); font-size:.94rem; color:var(--ink-soft); margin:0}
+.path--crisis{
+  background:var(--charcoal); border-color:var(--charcoal); color:var(--sand);
+  box-shadow:var(--shadow-2); padding:var(--sp-5) var(--sp-4);
+}
+.path--crisis h2{font-size:1.9rem}
+.path--crisis p{color:color-mix(in srgb, var(--sand) 72%, transparent)}
+[data-theme="dark"] .path--crisis{background:var(--sand); border-color:var(--sand); color:var(--charcoal)}
+[data-theme="dark"] .path--crisis p{color:color-mix(in srgb, var(--charcoal) 72%, transparent)}
+.path--soon{opacity:.62}
+.path__tag{
+  display:inline-block; font-family:var(--font-ui); font-size:.66rem; font-weight:700;
+  letter-spacing:.13em; text-transform:uppercase; padding:.25rem .55rem;
+  border:1px solid currentColor; border-radius:99px; margin-bottom:.7rem; opacity:.75;
+}
+
+/* ---------- HUB ---------- */
+.pagehead{padding:var(--sp-5) 0 var(--sp-4)}
+.pagehead h1{font-size:clamp(1.7rem,6.5vw,2.4rem); margin:.5rem 0 var(--sp-2)}
+.pagehead p{color:var(--ink-soft); font-size:1.06rem}
+.options{display:grid; gap:var(--sp-2); margin-bottom:var(--sp-5)}
+.opt{
+  display:flex; align-items:center; gap:var(--sp-3); width:100%; text-align:left;
+  border:1px solid var(--line); background:var(--bg-raised); border-radius:var(--r-md);
+  padding:var(--sp-3) var(--sp-4); min-height:76px;
+  transition:transform .18s var(--ease), border-color .2s;
+}
+.opt:hover{border-color:var(--ink-soft)}
+.opt:active{transform:scale(.99)}
+.opt__time{
+  font-family:var(--font-ui); font-weight:700; font-size:.8rem; letter-spacing:.02em;
+  color:var(--terra); flex:0 0 3.4rem;
+}
+.opt__body{flex:1}
+.opt__body strong{display:block; font-size:1.12rem; font-weight:600; margin-bottom:.1rem}
+.opt__body span{font-family:var(--font-ui); font-size:.88rem; color:var(--ink-soft)}
+.opt__chev{flex:0 0 auto; color:var(--ink-soft)}
+.opt__chev svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- STEPPER ---------- */
+.stepper{min-height:calc(100vh - 58px); display:flex; flex-direction:column; padding-bottom:var(--sp-5)}
+.stepper__bar{display:flex; gap:5px; padding:var(--sp-4) 0 0}
+.stepper__seg{flex:1; height:4px; border-radius:99px; background:var(--line); overflow:hidden}
+.stepper__seg i{display:block; height:100%; width:0; background:var(--terra); border-radius:99px}
+.stepper__seg.is-done i{width:100%}
+.stepper__meta{
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:var(--font-ui); font-size:.76rem; color:var(--ink-soft);
+  letter-spacing:.06em; text-transform:uppercase; padding:var(--sp-2) 0 0;
+}
+.step{flex:1; display:flex; flex-direction:column; justify-content:center; padding:var(--sp-5) 0}
+.step__label{
+  font-family:var(--font-ui); font-size:.72rem; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--terra); margin-bottom:var(--sp-3);
+}
+.step h2{font-size:clamp(1.9rem,7.5vw,2.8rem); margin-bottom:var(--sp-3); text-wrap:balance}
+.step__text{font-size:1.22rem; line-height:1.55; color:var(--ink-soft); max-width:32rem}
+.step__text b{color:var(--ink); font-weight:600}
+.step__list{margin:var(--sp-3) 0 0; padding:0; list-style:none}
+.step__list li{
+  font-size:1.08rem; padding:.65rem 0 .65rem var(--sp-4); position:relative;
+  border-top:1px solid var(--line);
+}
+.step__list li::before{
+  content:attr(data-n); position:absolute; left:0; top:.72rem;
+  font-family:var(--font-ui); font-size:.76rem; font-weight:700; color:var(--terra);
+}
+.step__foot{padding-top:var(--sp-4); display:grid; gap:var(--sp-2)}
+
+/* ---------- CRONÓMETRO ---------- */
+.timer{
+  display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-3) 0;
+  font-family:var(--font-ui);
+}
+.timer__ring{position:relative; width:64px; height:64px; flex:0 0 auto}
+.timer__ring svg{transform:rotate(-90deg); width:100%; height:100%}
+.timer__ring circle{fill:none; stroke-width:5}
+.timer__ring .bg{stroke:var(--line)}
+.timer__ring .fg{stroke:var(--terra); stroke-linecap:round; transition:stroke-dashoffset .3s linear}
+.timer__num{
+  position:absolute; inset:0; display:grid; place-items:center;
+  font-size:.94rem; font-weight:700; font-variant-numeric:tabular-nums;
+}
+.timer__ctrl{display:flex; gap:.5rem}
+
+/* ---------- RESPIRACIÓN ---------- */
+.breath{text-align:center; padding:var(--sp-4) 0}
+.breath__orb{
+  width:min(58vw,15rem); aspect-ratio:1; margin:0 auto var(--sp-4);
+  border-radius:50%; display:grid; place-items:center; position:relative;
+  background:radial-gradient(circle at 50% 45%, color-mix(in srgb,var(--sage) 40%, transparent), transparent 68%);
+  border:1px solid var(--line);
+  transition:transform 3.9s cubic-bezier(.4,0,.5,1);
+  transform:scale(.72);
+}
+.breath__orb.is-in{transform:scale(1)}
+.breath__orb::after{
+  content:""; position:absolute; inset:14%; border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--sage) 55%, transparent);
+}
+.breath__cue{
+  font-family:var(--font-ui); font-size:1.15rem; font-weight:600; letter-spacing:.04em;
+  color:var(--ink);
+}
+.breath__count{
+  font-family:var(--font-ui); font-size:2.6rem; font-weight:300; font-variant-numeric:tabular-nums;
+  color:var(--ink-soft); line-height:1; margin-top:.3rem;
+}
+.breath__cycles{font-family:var(--font-ui); font-size:.8rem; color:var(--ink-soft); letter-spacing:.08em; text-transform:uppercase; margin-top:var(--sp-3)}
+.breath__warn{
+  font-family:var(--font-ui); font-size:.88rem; color:var(--ink-soft);
+  background:var(--bg-sunk); border-radius:var(--r-md); padding:var(--sp-3);
+  margin-top:var(--sp-4); text-align:left;
+}
+
+/* ---------- PREGUNTA DE VERIFICACIÓN ---------- */
+.check{padding:var(--sp-4) 0}
+.check__q{font-size:1.6rem; font-weight:600; text-wrap:balance; margin-bottom:var(--sp-2)}
+.check__hint{font-family:var(--font-ui); font-size:.94rem; color:var(--ink-soft); margin-bottom:var(--sp-4)}
+.check__opts{display:grid; gap:var(--sp-2)}
+.check__opt{
+  width:100%; text-align:left; border:1px solid var(--line); background:var(--bg-raised);
+  border-radius:var(--r-md); padding:var(--sp-3) var(--sp-4); min-height:64px;
+  font-family:var(--font-ui); font-size:1.02rem; font-weight:500; line-height:1.4;
+  transition:border-color .2s, transform .16s var(--ease);
+}
+.check__opt:hover{border-color:var(--ink-soft)}
+.check__opt:active{transform:scale(.99)}
+.check__opt small{display:block; font-size:.83rem; color:var(--ink-soft); font-weight:400; margin-top:.2rem}
+.check__opt--danger{border-color:color-mix(in srgb,var(--emergency) 45%, var(--line))}
+.check__opt--danger:hover{border-color:var(--emergency)}
+
+/* ---------- CARDS / BLOQUES ---------- */
+.card{
+  background:var(--bg-raised); border:1px solid var(--line);
+  border-radius:var(--r-lg); padding:var(--sp-4); margin-bottom:var(--sp-3);
+}
+.card h3{font-size:1.22rem; margin-bottom:var(--sp-2)}
+.card p{font-family:var(--font-ui); font-size:.98rem; color:var(--ink-soft)}
+.quote{
+  border-left:3px solid var(--sage); padding:var(--sp-2) 0 var(--sp-2) var(--sp-3);
+  margin:var(--sp-4) 0; font-size:1.16rem; line-height:1.5;
+}
+.note{
+  font-family:var(--font-ui); font-size:.88rem; color:var(--ink-soft);
+  background:var(--bg-sunk); border-radius:var(--r-md); padding:var(--sp-3);
+}
+.divider{height:1px; background:var(--line); border:0; margin:var(--sp-5) 0}
+
+/* ---------- CAMPOS ---------- */
+.field{margin-bottom:var(--sp-3)}
+.field label{
+  display:block; font-family:var(--font-ui); font-size:.8rem; font-weight:650;
+  letter-spacing:.05em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:.5rem;
+}
+.field textarea,.field input{
+  width:100%; font:inherit; font-size:1.02rem; color:var(--ink);
+  background:var(--bg); border:1px solid var(--line); border-radius:var(--r-md);
+  padding:.85rem 1rem; resize:vertical; min-height:56px;
+}
+.field textarea{min-height:96px; line-height:1.5}
+.field textarea::placeholder,.field input::placeholder{color:color-mix(in srgb,var(--ink-soft) 65%, transparent)}
+
+/* ---------- BLOQUE HUMANO ---------- */
+.human{
+  background:var(--bg-sunk); border-radius:var(--r-lg);
+  padding:var(--sp-5) var(--sp-4); margin:var(--sp-5) 0;
+}
+.human p{font-size:1.1rem; line-height:1.55}
+.human .human__last{color:var(--ink); font-weight:600}
+.wa{
+  display:flex; align-items:center; justify-content:center; gap:.6rem;
+  width:100%; min-height:60px; margin-top:var(--sp-3);
+  background:var(--sage); color:#fff; border:0; border-radius:var(--r-md);
+  font-family:var(--font-ui); font-weight:650; font-size:1.05rem; text-decoration:none;
+  transition:transform .16s var(--ease), filter .2s;
+}
+[data-theme="dark"] .wa{color:#152016}
+.wa:hover{filter:brightness(1.06)}
+.wa:active{transform:scale(.99)}
+.wa svg{width:21px;height:21px;fill:currentColor}
+.wa__disclaimer{
+  font-family:var(--font-ui); font-size:.83rem; color:var(--ink-soft);
+  margin-top:var(--sp-2); text-align:center; line-height:1.45;
+}
+
+/* ---------- CAPA DE EMERGENCIA ---------- */
+.overlay{
+  position:fixed; inset:0; z-index:200; display:none;
+  background:var(--bg); overflow-y:auto; overscroll-behavior:contain;
+  padding:env(safe-area-inset-top) 0 var(--sp-6);
+}
+.overlay.is-open{display:block; animation:fade .28s var(--ease)}
+.overlay__head{
+  position:sticky; top:0; background:var(--emergency); color:#fff;
+  padding:var(--sp-4); display:flex; align-items:flex-start; gap:var(--sp-3);
+}
+.overlay__head h2{font-size:1.4rem; flex:1}
+.overlay__head p{font-family:var(--font-ui); font-size:.9rem; opacity:.92; margin:.35rem 0 0}
+.overlay__close{
+  background:rgba(255,255,255,.16); border:0; color:#fff; border-radius:50%;
+  width:40px; height:40px; display:grid; place-items:center; flex:0 0 auto;
+}
+.overlay__close svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.signals{list-style:none; padding:0; margin:0 0 var(--sp-4)}
+.signals li{
+  font-family:var(--font-ui); font-size:1rem; padding:.6rem 0 .6rem 1.6rem;
+  border-bottom:1px solid var(--line); position:relative;
+}
+.signals li::before{
+  content:""; position:absolute; left:.25rem; top:1.1rem;
+  width:7px; height:7px; border-radius:50%; background:var(--emergency);
+}
+.country{
+  display:flex; gap:var(--sp-2); align-items:center; flex-wrap:wrap;
+  margin-bottom:var(--sp-3);
+}
+.country select{
+  font:inherit; font-family:var(--font-ui); font-size:1rem; color:var(--ink);
+  background:var(--bg-raised); border:1px solid var(--line);
+  border-radius:var(--r-md); padding:.8rem 1rem; min-height:52px; flex:1 1 12rem;
+}
+.lines{display:grid; gap:var(--sp-2)}
+.line{
+  display:flex; align-items:center; gap:var(--sp-3); text-decoration:none; color:inherit;
+  border:1px solid var(--line); background:var(--bg-raised);
+  border-radius:var(--r-md); padding:var(--sp-3) var(--sp-4); min-height:76px;
+}
+.line--urgent{border-color:var(--emergency); background:color-mix(in srgb,var(--emergency) 7%, var(--bg-raised))}
+.line__num{
+  font-family:var(--font-ui); font-size:1.45rem; font-weight:700; color:var(--emergency);
+  flex:0 0 auto; letter-spacing:-.02em; font-variant-numeric:tabular-nums;
+}
+.line__meta{flex:1; font-family:var(--font-ui)}
+.line__meta strong{display:block; font-size:.98rem; font-weight:600}
+.line__meta span{font-size:.83rem; color:var(--ink-soft)}
+
+/* ---------- HOJA / DRAWER ---------- */
+.sheet{
+  position:fixed; inset:0; z-index:150; display:none;
+  background:rgba(38,40,39,.42); backdrop-filter:blur(3px);
+  align-items:flex-end; justify-content:center;
+}
+.sheet.is-open{display:flex; animation:fade .24s var(--ease)}
+.sheet__panel{
+  background:var(--bg); width:100%; max-width:44rem;
+  border-radius:var(--r-xl) var(--r-xl) 0 0; padding:var(--sp-4) var(--sp-4) var(--sp-5);
+  max-height:88vh; overflow-y:auto; box-shadow:var(--shadow-2);
+  animation:rise .34s var(--ease);
+}
+@keyframes rise{from{transform:translateY(30px)} to{transform:none}}
+.sheet__grab{width:38px; height:4px; border-radius:99px; background:var(--line); margin:0 auto var(--sp-4)}
+.sheet__panel h2{font-size:1.5rem; margin-bottom:var(--sp-2)}
+.sheet__panel > p{color:var(--ink-soft); font-family:var(--font-ui); font-size:.98rem}
+
+/* ---------- AJUSTES ---------- */
+.setting{
+  display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-3) 0;
+  border-bottom:1px solid var(--line);
+}
+.setting__body{flex:1}
+.setting__body strong{display:block; font-family:var(--font-ui); font-size:1rem; font-weight:600}
+.setting__body span{font-family:var(--font-ui); font-size:.85rem; color:var(--ink-soft)}
+.switch{
+  flex:0 0 auto; width:54px; height:32px; border-radius:99px; border:1px solid var(--line);
+  background:var(--bg-sunk); position:relative; transition:background .22s;
+}
+.switch::after{
+  content:""; position:absolute; top:3px; left:3px; width:24px; height:24px;
+  border-radius:50%; background:var(--bg-raised); box-shadow:var(--shadow-1);
+  transition:transform .22s var(--ease);
+}
+.switch[aria-checked="true"]{background:var(--sage); border-color:var(--sage)}
+.switch[aria-checked="true"]::after{transform:translateX(22px)}
+
+/* ---------- PIE ---------- */
+.foot{
+  border-top:1px solid var(--line); margin-top:var(--sp-6);
+  padding:var(--sp-5) 0 var(--sp-6); font-family:var(--font-ui);
+  font-size:.85rem; color:var(--ink-soft); line-height:1.6;
+}
+.foot strong{color:var(--ink)}
+
+/* ---------- TOAST ---------- */
+.toast{
+  position:fixed; left:50%; bottom:calc(var(--sp-4) + env(safe-area-inset-bottom));
+  transform:translate(-50%,140%); z-index:300;
+  background:var(--charcoal); color:var(--sand);
+  font-family:var(--font-ui); font-size:.92rem; font-weight:500;
+  padding:.85rem 1.3rem; border-radius:99px; box-shadow:var(--shadow-2);
+  transition:transform .34s var(--ease); max-width:calc(100vw - 2rem);
+}
+[data-theme="dark"] .toast{background:var(--sand); color:var(--charcoal)}
+.toast.is-up{transform:translate(-50%,0)}
+
+/* ---------- MOVIMIENTO REDUCIDO ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important}
+  .horizon__plate{animation:none; transform:rotate(-3deg)}
+}
+html[data-motion="off"] *,html[data-motion="off"] *::before,html[data-motion="off"] *::after{
+  animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;
+}
+html[data-motion="off"] .horizon__plate{animation:none; transform:rotate(-3deg)}
+html[data-motion="off"] .breath__orb{transform:scale(.86)}
+
+@media print{.topbar,.sos,.overlay,.sheet{display:none !important}}
+</style>
+</head>
+<body>
+
+<!-- ══════════ BARRA SUPERIOR ══════════ -->
+<header class="topbar">
+  <div class="topbar__in">
+    <button class="brand" data-go="home">Botiquín<span>para la conciencia</span></button>
+    <button class="icon-btn" id="btnSettings" aria-label="Ajustes">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+    <button class="sos" id="btnSOS">Necesito ayuda ahora</button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ══════════ HOME ══════════ -->
+<section class="view is-active" id="v-home" aria-labelledby="home-h">
+  <div class="wrap">
+    <div class="hero">
+      <p class="eyebrow">Primeros auxilios para la crisis humana</p>
+      <h1 id="home-h">Qué hacer cuando no sabes qué hacer.</h1>
+      <p class="hero__lede">Primero <b>estabiliza</b>. Después <b>observa</b>. Luego <b>decide</b>.</p>
+
+      <div class="horizon" role="img" aria-label="Horizonte artificial de avión: el instrumento se mantiene nivelado mientras el fondo se inclina.">
+        <div class="horizon__plate">
+          <div class="horizon__sky"></div>
+          <div class="horizon__ground"></div>
+          <div class="horizon__line"></div>
+        </div>
+        <div class="horizon__mark"></div>
+        <div class="horizon__dot"></div>
+        <div class="horizon__cap"></div>
+      </div>
+      <p class="horizon__caption">Turbulencia no significa caída.</p>
+
+      <div class="paths">
+        <button class="path path--crisis" data-go="crisis">
+          <span class="path__tag">Ahora</span>
+          <h2>Estoy en crisis ahora</h2>
+          <p>Ve directo a lo que puedes hacer en los próximos 60 segundos.</p>
+        </button>
+        <button class="path path--soon" id="pathLearn">
+          <span class="path__tag">Preparación</span>
+          <h2>Quiero comprender y prepararme</h2>
+          <p>Los cuatro cuerpos, emociones, herramientas, turbulencia y evidencia.</p>
+        </button>
+      </div>
+
+      <div class="note">
+        Esto no diagnostica, no trata condiciones clínicas y no reemplaza psicoterapia,
+        psiquiatría ni medicina. Si hay peligro ahora, usa <b>Necesito ayuda ahora</b>.
+      </div>
+    </div>
+  </div>
+  <div class="wrap"><div class="human" data-human></div></div>
+  <div class="wrap"><div class="foot">
+    <p><strong>Botiquín para la Conciencia</strong> · Qué hacer cuando no sabes qué hacer.</p>
+    <p>Nada de lo que escribas sale de este dispositivo. No hay cuentas, ni analítica, ni cookies.</p>
+  </div></div>
+</section>
+
+<!-- ══════════ HUB DE CRISIS ══════════ -->
+<section class="view" id="v-crisis" aria-labelledby="crisis-h">
+  <div class="wrap">
+    <div class="pagehead">
+      <p class="eyebrow">Ahora</p>
+      <h1 id="crisis-h">Elige por el tiempo que tengas.</h1>
+      <p>No tienes que hacer los tres. Empieza por el primero.</p>
+    </div>
+    <div class="options">
+      <button class="opt" data-go="p60">
+        <span class="opt__time">60 s</span>
+        <span class="opt__body"><strong>Frenar</strong><span>Detente, toca tierra, respira, reduce el horizonte.</span></span>
+        <span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <button class="opt" data-go="p5">
+        <span class="opt__time">5 min</span>
+        <span class="opt__body"><strong>Estabilizar</strong><span>Seguridad, respiración, nombrar, hecho y historia, un paso.</span></span>
+        <span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <button class="opt" data-go="p20">
+        <span class="opt__time">20 min</span>
+        <span class="opt__body"><strong>Reorganizar</strong><span>Cuerpo, emoción, mente, aceptación, control, acción, conexión.</span></span>
+        <span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn--block" data-sheet="stuck">No logro conectar con esto</button>
+    </div>
+    <div class="human" data-human></div>
+    <button class="btn btn--quiet" data-go="home">← Volver al inicio</button>
+    <div style="height:var(--sp-6)"></div>
+  </div>
+</section>
+
+<!-- ══════════ PROTOCOLOS (stepper genérico) ══════════ -->
+<section class="view" id="v-proto" aria-live="polite">
+  <div class="wrap">
+    <div class="stepper">
+      <div class="stepper__bar" id="protoBar"></div>
+      <div class="stepper__meta">
+        <span id="protoName">Protocolo</span>
+        <span id="protoCount">1 / 4</span>
+      </div>
+      <div class="step" id="protoStep"></div>
+      <div class="step__foot" id="protoFoot"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CIERRE DE PROTOCOLO ══════════ -->
+<section class="view" id="v-done" aria-labelledby="done-h">
+  <div class="wrap">
+    <div class="pagehead">
+      <p class="eyebrow">Cierre</p>
+      <h1 id="done-h">Llegaste hasta aquí.</h1>
+      <p>Eso ya es suficiente por ahora. No tienes que hacer nada más.</p>
+    </div>
+    <div class="quote">«La intensidad de este momento no es una predicción exacta de mi futuro.»</div>
+    <div class="options">
+      <button class="opt" data-go="crisis">
+        <span class="opt__time">↩</span>
+        <span class="opt__body"><strong>Volver a los protocolos</strong><span>Hacer otro, o repetir el mismo.</span></span>
+        <span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+      <button class="opt" data-sheet="stuck">
+        <span class="opt__time">↯</span>
+        <span class="opt__body"><strong>Sigo sin poder conectar</strong><span>Otras formas de regular que no dependen de respirar.</span></span>
+        <span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span>
+      </button>
+    </div>
+    <div class="human" data-human></div>
+    <div style="height:var(--sp-6)"></div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════ CAPA DE EMERGENCIA ══════════ -->
+<div class="overlay" id="overlaySOS" role="dialog" aria-modal="true" aria-labelledby="sos-h">
+  <div class="overlay__head">
+    <div>
+      <h2 id="sos-h">Si hay peligro ahora, deja este manual.</h2>
+      <p>La autoayuda no es suficiente para lo que aparece abajo.</p>
+    </div>
+    <button class="overlay__close" id="closeSOS" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="wrap" style="padding-top:var(--sp-4)">
+    <p class="eyebrow" style="margin-bottom:var(--sp-2)">Busca atención inmediata si hay</p>
+    <ul class="signals">
+      <li>Riesgo de suicidio o de hacerte daño</li>
+      <li>Intención de hacer daño a otra persona</li>
+      <li>Violencia o abuso activo</li>
+      <li>Pérdida de conciencia o convulsiones</li>
+      <li>Desorientación grave o pérdida de contacto con la realidad</li>
+      <li>Intoxicación o sobredosis</li>
+      <li>Dolor de pecho o falta de aire severa</li>
+      <li>Peligro físico inmediato</li>
+    </ul>
+
+    <p class="eyebrow" style="margin-bottom:var(--sp-2)">Líneas de atención</p>
+    <div class="country">
+      <label for="countrySel" class="sr">País</label>
+      <select id="countrySel"></select>
+    </div>
+    <div class="lines" id="linesBox"></div>
+
+    <div class="note" style="margin-top:var(--sp-4)">
+      Números verificados en fuentes oficiales de cada ministerio de salud en agosto de 2026.
+      Pueden cambiar. Si una línea no contesta, ve al servicio de urgencias más cercano
+      o pide a alguien que te acompañe.
+    </div>
+
+    <hr class="divider">
+    <p style="font-size:1.08rem">Si estás acompañando a otra persona: escucha sin presionar,
+    ayuda con lo práctico, no interrogues sobre los detalles y no prometas silencio absoluto
+    cuando hay riesgo.</p>
+    <button class="btn btn--block" id="closeSOS2" style="margin-top:var(--sp-4)">Volver al manual</button>
+    <div style="height:var(--sp-6)"></div>
+  </div>
+</div>
+
+<!-- ══════════ HOJAS ══════════ -->
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-h">
+  <div class="sheet__panel">
+    <div class="sheet__grab"></div>
+    <div id="sheetBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ═══════════════════════════════════════════════════════════
+   1. ALMACENAMIENTO
+   Adaptador en tres niveles: almacenamiento del visor →
+   localStorage (al abrir el archivo directamente) → memoria.
+   Nada sale nunca del dispositivo.
+   ═══════════════════════════════════════════════════════════ */
+var Store = (function(){
+  var mem = {}, mode = "memory";
+  var hasLS = (function(){
+    try{ var k="__t"; window.localStorage.setItem(k,"1"); window.localStorage.removeItem(k); return true; }
+    catch(e){ return false; }
+  })();
+  if(hasLS) mode = "local";
+
+  function key(k){ return "botiquin:" + k; }
+  return {
+    mode: mode,
+    get:function(k,fallback){
+      try{
+        var raw = (mode==="local") ? window.localStorage.getItem(key(k)) : mem[k];
+        return (raw===null||raw===undefined) ? fallback : JSON.parse(raw);
+      }catch(e){ return fallback; }
+    },
+    set:function(k,v){
+      try{
+        var raw = JSON.stringify(v);
+        if(mode==="local") window.localStorage.setItem(key(k),raw); else mem[k]=raw;
+        return true;
+      }catch(e){ mem[k]=JSON.stringify(v); return false; }
+    },
+    clear:function(){
+      mem = {};
+      if(mode==="local"){
+        try{
+          var del=[];
+          for(var i=0;i<window.localStorage.length;i++){
+            var k=window.localStorage.key(i);
+            if(k && k.indexOf("botiquin:")===0) del.push(k);
+          }
+          del.forEach(function(k){ window.localStorage.removeItem(k); });
+        }catch(e){}
+      }
+    }
+  };
+})();
+
+/* ═══════════════════════════════════════════════════════════
+   2. LÍNEAS DE ATENCIÓN
+   Verificadas en fuentes oficiales, agosto 2026.
+   Para países sin línea nacional confirmada se enlaza el
+   directorio internacional en lugar de publicar un número dudoso.
+   ═══════════════════════════════════════════════════════════ */
+var COUNTRIES = [
+  { code:"CO", name:"Colombia", lines:[
+    { num:"106", label:"Línea 106 — salud mental", meta:"Ministerio de Salud · nacional · 24/7 · gratuita", tel:"106", urgent:true },
+    { num:"123", label:"Emergencias", meta:"Policía, ambulancia y bomberos · 24/7", tel:"123" },
+    { num:"↗", label:"Directorio territorial de salud mental", meta:"MinSalud · líneas por departamento",
+      url:"https://www.minsalud.gov.co/salud/publica/salud-mental/Paginas/linea-106.aspx" }
+  ]},
+  { code:"MX", name:"México", lines:[
+    { num:"800 911 2000", label:"Línea de la Vida", meta:"CONASAMA · Secretaría de Salud · 24/7 · gratuita", tel:"8009112000", urgent:true },
+    { num:"911", label:"Emergencias", meta:"Atención de emergencias · 24/7", tel:"911" }
+  ]},
+  { code:"AR", name:"Argentina", lines:[
+    { num:"0800 999 0091", label:"Salud mental — línea nacional", meta:"Dispositivo Nacional de Orientación y Apoyo · 24/7 · gratuita", tel:"08009990091", urgent:true },
+    { num:"135", label:"Centro de Asistencia al Suicida", meta:"CABA y Gran Buenos Aires · 24/7 · gratuita", tel:"135", urgent:true },
+    { num:"911", label:"Emergencias", meta:"Atención de emergencias · 24/7", tel:"911" }
+  ]},
+  { code:"CL", name:"Chile", lines:[
+    { num:"*4141", label:"Prevención del suicidio", meta:"Ministerio de Salud · 24/7 · gratuita", tel:"*4141", urgent:true },
+    { num:"600 360 7777", label:"Salud Responde — opción 2", meta:"MINSAL · salud mental · 24/7", tel:"6003607777" },
+    { num:"131", label:"SAMU — emergencia médica", meta:"Ambulancia · 24/7", tel:"131" }
+  ]},
+  { code:"PE", name:"Perú", lines:[
+    { num:"113", label:"Línea 113 — opción salud mental", meta:"MINSA · 24/7 · gratuita · sigue el menú hasta salud mental", tel:"113", urgent:true },
+    { num:"106", label:"SAMU — emergencia médica", meta:"Ambulancia · 24/7", tel:"106" }
+  ]},
+  { code:"XX", name:"Otro país", lines:[
+    { num:"↗", label:"Buscar la línea de tu país", meta:"Directorio internacional de líneas de crisis, en español",
+      url:"https://findahelpline.com/es-ES" },
+    { num:"↗", label:"Guía de la OMS: Hacer lo que importa en tiempos de estrés", meta:"Organización Mundial de la Salud · gratuita",
+      url:"https://www.who.int/publications/i/item/9789240003927" }
+  ]}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   3. CONTACTO HUMANO
+   ═══════════════════════════════════════════════════════════ */
+var WA_URL = "https://wa.me/573117889407?text=Hola%2C%20encontr%C3%A9%20la%20p%C3%A1gina%20Botiqu%C3%ADn%20para%20la%20Conciencia%20y%20quisiera%20hablar%20contigo.";
+
+var HUMAN_HTML =
+  '<p>Si tienes a alguien con quien hablar, hazlo.</p>' +
+  '<p>Si no quieres hablar, o no tienes con quién hacerlo, escribe.</p>' +
+  '<p>Y si quieres hablar con quien creó esta página, contáctame. Estaré encantado de ayudarte.</p>' +
+  '<p class="human__last">No estás sola. Estamos para ayudarnos. Entre todos nos ayudamos.</p>' +
+  '<a class="wa" href="'+WA_URL+'" target="_blank" rel="noopener noreferrer">' +
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.16c-.25.69-1.44 1.32-1.99 1.36-.53.04-1.02.23-3.44-.72-2.9-1.14-4.73-4.1-4.87-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.57.81 1.97.88 2.11.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.69-.81.88-1.09.19-.28.37-.23.62-.14.25.09 1.61.76 1.89.9.28.14.46.21.53.32.07.12.07.66-.18 1.35z"/></svg>' +
+    'Hablar por WhatsApp' +
+  '</a>' +
+  '<p class="wa__disclaimer">Soy una persona, no un servicio de emergencia. Respondo cuando puedo.<br>Si es urgente, usa <b>Necesito ayuda ahora</b>.</p>';
+
+/* ═══════════════════════════════════════════════════════════
+   4. MICROCOMPONENTE DE RECONEXIÓN
+   Respiración lenta + verificación de peligro real.
+
+   La pregunta original del manual es «¿Algo malo está pasando
+   en este segundo?». Se conserva íntegra, pero con TRES salidas
+   en lugar de dos: en una crisis de pánico la respuesta honesta
+   es «sí» aunque no exista ningún peligro externo, y enviar ese
+   caso a emergencias refuerza la interpretación catastrófica.
+   La tercera opción existe exactamente para ese caso.
+   ═══════════════════════════════════════════════════════════ */
+function breathStep(moment){
+  var titles = {
+    inicio:  "Antes de empezar, respira.",
+    mitad:   "Pausa. Vuelve a la respiración.",
+    final:   "Antes de cerrar, respira."
+  };
+  return {
+    label:"Reconexión",
+    title:titles[moment] || titles.inicio,
+    kind:"breath",
+    cycles:3,
+    text:"Inhala sin llenar del todo. Deja que la exhalación sea un poco más larga. Sin retenciones, sin forzar."
+  };
+}
+function checkStep(){
+  return {
+    label:"Verificación",
+    kind:"check",
+    title:"¿Algo malo está pasando en este segundo?"
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   5. PROTOCOLOS
+   ═══════════════════════════════════════════════════════════ */
+var PROTOCOLS = {
+
+  /* ---- 60 SEGUNDOS ----
+     Sin ritual de respiración de tres tiempos: el protocolo entero
+     dura un minuto y la prioridad es una acción por pantalla. */
+  p60:{
+    name:"Protocolo de 60 segundos",
+    steps:[
+      { label:"0–10 s", title:"Detente.", seconds:10,
+        text:"<b>No envíes el mensaje. No cierres el negocio. No termines la relación. No conduzcas si estás desorientado.</b> Pon el cuerpo en un lugar seguro.",
+        say:"STOP." },
+      { label:"10–25 s", title:"Toca tierra.", seconds:15,
+        text:"Presiona ambos pies contra el piso. Mira alrededor y nombra en voz baja tres cosas que ves." },
+      { label:"25–45 s", title:"Respira suave.", seconds:20, kind:"breath", cycles:3,
+        text:"Inhala sin esfuerzo. Deja que la exhalación sea un poco más larga. Sin hiperventilar y sin retenciones." },
+      { label:"45–60 s", title:"Reduce el horizonte.", seconds:15,
+        text:"Di, en voz baja:",
+        say:"No tengo que resolver toda mi vida ahora. Solo el siguiente paso." }
+    ]
+  },
+
+  /* ---- 5 MINUTOS ---- */
+  p5:{
+    name:"Protocolo de 5 minutos",
+    steps:[
+      breathStep("inicio"),
+      checkStep(),
+      { label:"Minuto 1", title:"Seguridad y orientación.", seconds:60,
+        text:"Tu sistema está detectando amenaza. Eso no significa que todo lo que estás pensando sea un hecho.",
+        say:"Estoy aquí, ahora. Esto es lo que hay en esta habitación." },
+      { label:"Minutos 1–2", title:"Respiración lenta y cómoda.", seconds:60, kind:"breath", cycles:6,
+        text:"Exhala ligeramente más largo que la inhalación. Sin retenciones, sin forzar." },
+      { label:"Minutos 2–3", title:"Nombra lo que sientes.", seconds:60, kind:"write",
+        text:"Nombrar no elimina la emoción. La hace más manejable.",
+        fields:[
+          { id:"emo", label:"Estoy sintiendo…", ph:"miedo, rabia, tristeza, vergüenza, vacío…" },
+          { id:"cuerpo", label:"En mi cuerpo noto…", ph:"presión en el pecho, mandíbula apretada, temblor…" }
+        ]},
+      breathStep("mitad"),
+      { label:"Minutos 3–4", title:"Separa el hecho de la historia.", seconds:60, kind:"write",
+        text:"Un hecho es lo que registraría una cámara. Una historia es lo que tu mente predice o interpreta.",
+        fields:[
+          { id:"hecho", label:"Hecho verificable", ph:"Lo que ocurrió, sin adjetivos." },
+          { id:"historia", label:"Historia que mi mente cuenta", ph:"Lo que temo, supongo o predigo." }
+        ]},
+      { label:"Minuto 5", title:"Elige una acción pequeña.", seconds:60, kind:"write",
+        text:"Tomar agua. Sentarte. Llamar a alguien. Posponer una decisión. Comer algo. Ir a un lugar seguro. Pedir ayuda profesional.",
+        fields:[
+          { id:"paso5", label:"Siguiente paso útil", ph:"Una sola cosa, de menos de 15 minutos." }
+        ]},
+      breathStep("final")
+    ]
+  },
+
+  /* ---- 20 MINUTOS ---- */
+  p20:{
+    name:"Protocolo de 20 minutos",
+    steps:[
+      breathStep("inicio"),
+      checkStep(),
+      { label:"0–3 min · Cuerpo", title:"Vuelve al cuerpo.", seconds:180, kind:"breath", cycles:8,
+        text:"Pies al suelo. Mira el entorno. De 6 a 10 respiraciones lentas y cómodas. Si prefieres, camina despacio mientras lo haces." },
+      { label:"3–6 min · Emoción", title:"Nombra e intensifica.", seconds:180, kind:"write",
+        text:"Ponle una intensidad de 0 a 10. Después pregunta: ¿qué intenta proteger o señalar esta emoción?",
+        fields:[
+          { id:"p20emo", label:"Emoción e intensidad (0–10)", ph:"tristeza 8, rabia 6…" },
+          { id:"p20señal", label:"¿Qué intenta señalar?", ph:"una pérdida, un límite vulnerado, una amenaza…" }
+        ]},
+      { label:"6–10 min · Mente", title:"Hechos e interpretaciones.", seconds:240, kind:"write",
+        text:"No discutas con tu mente. Solo clasifica.",
+        fields:[
+          { id:"p20hechos", label:"Hechos", ph:"Lo verificable." },
+          { id:"p20interp", label:"Interpretaciones", ph:"Predicciones, suposiciones, lecturas de mente." }
+        ]},
+      breathStep("mitad"),
+      { label:"10–13 min · Aceptación", title:"Reconocer sin aprobar.", seconds:180, kind:"write",
+        text:"Aceptar no es aprobar, resignarse ni quedarse quieto frente a algo dañino. Es dejar de gastar toda la energía peleando con el hecho de que ya está ocurriendo.",
+        fields:[
+          { id:"p20acep", label:"Completa la frase", ph:"No me gusta que ___ esté ocurriendo. Y reconozco que, ahora mismo, esto es parte de la realidad." }
+        ]},
+      { label:"13–16 min · Control", title:"¿Qué depende de ti?", seconds:180, kind:"write",
+        text:"Tres cajones. Después elige una acción solo de los dos primeros.",
+        fields:[
+          { id:"p20c1", label:"Depende de mí", ph:"" },
+          { id:"p20c2", label:"Puedo influir", ph:"" },
+          { id:"p20c3", label:"No depende de mí", ph:"" }
+        ]},
+      { label:"16–18 min · Acción", title:"Una acción de menos de 15 minutos.", seconds:120, kind:"write",
+        text:"Que reduzca riesgo o aumente estabilidad. Pequeña y reversible.",
+        fields:[
+          { id:"p20accion", label:"La acción", ph:"" }
+        ]},
+      { label:"18–20 min · Conexión", title:"Un mensaje concreto.", seconds:120,
+        text:"Pide una conducta, no que alguien te arregle. Aclara si no quieres consejos.",
+        say:"Estoy pasando un momento difícil. ¿Puedes estar conmigo o llamarme diez minutos?" },
+      breathStep("final")
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   6. UTILIDADES
+   ═══════════════════════════════════════════════════════════ */
+var $  = function(s,r){ return (r||document).querySelector(s); };
+var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
+function esc(s){ return String(s).replace(/[&<>"']/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+
+var toastTimer=null;
+function toast(msg){
+  var t=$("#toast"); t.textContent=msg; t.classList.add("is-up");
+  clearTimeout(toastTimer); toastTimer=setTimeout(function(){ t.classList.remove("is-up"); },2600);
+}
+function motionOff(){
+  return document.documentElement.getAttribute("data-motion")==="off" ||
+    (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   7. NAVEGACIÓN
+   ═══════════════════════════════════════════════════════════ */
+var VIEWS = ["home","crisis","proto","done"];
+function go(id){
+  stopAll();
+  VIEWS.forEach(function(v){ $("#v-"+v).classList.toggle("is-active", v===id); });
+  window.scrollTo({ top:0, behavior: motionOff() ? "auto" : "smooth" });
+  var h = $("#v-"+id+" h1");
+  if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   8. MOTOR DE PROTOCOLOS
+   Todos los tiempos con Date.now(): los navegadores estrangulan
+   setInterval en pestañas de fondo y el conteo se desincroniza.
+   ═══════════════════════════════════════════════════════════ */
+var run = { proto:null, i:0, raf:null, tStart:0, paused:true, pausedAt:0 };
+var breathState = { raf:null, phaseStart:0, phase:"in", done:0, target:3 };
+
+function stopAll(){
+  if(run.raf){ cancelAnimationFrame(run.raf); run.raf=null; }
+  if(breathState.raf){ cancelAnimationFrame(breathState.raf); breathState.raf=null; }
+}
+
+function startProtocol(key){
+  run.proto = PROTOCOLS[key]; run.i = 0;
+  $("#protoName").textContent = run.proto.name;
+  go("proto");
+  renderStep();
+}
+
+function renderStep(){
+  stopAll();
+  var p = run.proto, s = p.steps[run.i];
+  var bar = $("#protoBar"); bar.innerHTML="";
+  p.steps.forEach(function(_,idx){
+    var seg=document.createElement("span");
+    seg.className="stepper__seg"+(idx<run.i?" is-done":"");
+    seg.innerHTML="<i></i>";
+    bar.appendChild(seg);
+  });
+  $("#protoCount").textContent = (run.i+1)+" / "+p.steps.length;
+
+  var host = $("#protoStep"), foot = $("#protoFoot");
+  host.innerHTML=""; foot.innerHTML="";
+
+  var head = '<p class="step__label">'+esc(s.label||"")+'</p><h2>'+esc(s.title)+'</h2>';
+
+  /* --- paso de verificación de peligro --- */
+  if(s.kind==="check"){
+    host.innerHTML = head +
+      '<div class="check">' +
+        '<p class="check__hint">Se trata de lo que está pasando <b>afuera</b>, no de lo que sientes por dentro. ' +
+        'Sentirse muy mal no es lo mismo que estar en peligro.</p>' +
+        '<div class="check__opts">' +
+          '<button class="check__opt" data-ans="no">No, nada está pasando afuera.' +
+            '<small>Estoy en un lugar seguro en este segundo.</small></button>' +
+          '<button class="check__opt" data-ans="mal">Me siento muy mal, pero no hay peligro afuera.' +
+            '<small>Miedo intenso, pánico, angustia, sin amenaza real alrededor.</small></button>' +
+          '<button class="check__opt check__opt--danger" data-ans="si">Sí, hay un peligro real ahora.' +
+            '<small>Alguien puede hacerme daño, el lugar no es seguro, o es una urgencia médica.</small></button>' +
+        '</div>' +
+      '</div>';
+    $$(".check__opt",host).forEach(function(b){
+      b.addEventListener("click", function(){ answerCheck(b.getAttribute("data-ans")); });
+    });
+    foot.innerHTML = '<button class="btn btn--quiet" data-exit>Salir del protocolo</button>';
+    bindFoot(foot);
+    return;
+  }
+
+  /* --- paso de respiración --- */
+  if(s.kind==="breath"){
+    var reduced = motionOff();
+    host.innerHTML = head +
+      '<p class="step__text">'+s.text+'</p>' +
+      '<div class="breath">' +
+        '<div class="breath__orb" id="orb">' +
+          '<div>' +
+            '<div class="breath__cue" id="breathCue">Inhala</div>' +
+            '<div class="breath__count" id="breathCount">4</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="breath__cycles" id="breathCycles">Ciclo 1 de '+(s.cycles||3)+'</p>' +
+        '<div class="breath__warn">Si respirar así te marea, te hormiguean las manos o aumenta el pánico: ' +
+        'vuelve a tu respiración natural y usa solo orientación sensorial. ' +
+        'Lo mismo si tienes una condición respiratoria o cardíaca.</div>' +
+      '</div>';
+    foot.innerHTML =
+      '<button class="btn btn--block" data-next>Continuar</button>' +
+      '<div class="btn-row">' +
+        '<button class="btn btn--ghost" data-ground>Cambiar a orientación sensorial</button>' +
+      '</div>' +
+      '<button class="btn btn--quiet" data-exit>Salir del protocolo</button>';
+    bindFoot(foot);
+    startBreath(s.cycles||3);
+    return;
+  }
+
+  /* --- paso de escritura --- */
+  if(s.kind==="write"){
+    var fieldsHTML = (s.fields||[]).map(function(f){
+      var saved = Store.get("draft:"+f.id, "");
+      return '<div class="field">' +
+        '<label for="f-'+f.id+'">'+esc(f.label)+'</label>' +
+        '<textarea id="f-'+f.id+'" data-fid="'+f.id+'" placeholder="'+esc(f.ph||"")+'">'+esc(saved)+'</textarea>' +
+      '</div>';
+    }).join("");
+    host.innerHTML = head +
+      '<p class="step__text">'+s.text+'</p>' +
+      '<div style="margin-top:var(--sp-4)">'+fieldsHTML+'</div>' +
+      '<p class="note">Lo que escribes se queda en este navegador y solo si activas el guardado en Ajustes. ' +
+      'Ahora mismo está <b id="saveState"></b>.</p>';
+    $("#saveState").textContent = Store.get("persist",false) ? "activado" : "desactivado";
+    $$("textarea",host).forEach(function(t){
+      t.addEventListener("input", function(){
+        if(Store.get("persist",false)) Store.set("draft:"+t.getAttribute("data-fid"), t.value);
+      });
+    });
+    foot.innerHTML =
+      '<button class="btn btn--block" data-next>Continuar</button>' +
+      '<div class="btn-row">' +
+        '<button class="btn btn--ghost" data-copy>Copiar lo que escribí</button>' +
+        '<button class="btn btn--ghost" data-stuck>No logro conectar</button>' +
+      '</div>' +
+      '<button class="btn btn--quiet" data-exit>Salir del protocolo</button>';
+    bindFoot(foot);
+    if(s.seconds) mountTimer(foot, s.seconds);
+    return;
+  }
+
+  /* --- paso simple --- */
+  var listHTML = "";
+  if(s.list){
+    listHTML = '<ul class="step__list">' + s.list.map(function(li,i){
+      return '<li data-n="'+(i+1)+'">'+li+'</li>';
+    }).join("") + '</ul>';
+  }
+  host.innerHTML = head +
+    '<p class="step__text">'+s.text+'</p>' +
+    (s.say ? '<div class="quote">«'+esc(s.say)+'»</div>' : '') +
+    listHTML;
+  foot.innerHTML =
+    '<button class="btn btn--block" data-next>Continuar</button>' +
+    '<div class="btn-row"><button class="btn btn--ghost" data-stuck>No logro conectar</button></div>' +
+    '<button class="btn btn--quiet" data-exit>Salir del protocolo</button>';
+  bindFoot(foot);
+  if(s.seconds) mountTimer(foot, s.seconds);
+}
+
+function bindFoot(foot){
+  var n=$("[data-next]",foot); if(n) n.addEventListener("click", nextStep);
+  var e=$("[data-exit]",foot); if(e) e.addEventListener("click", function(){ go("crisis"); });
+  var st=$("[data-stuck]",foot); if(st) st.addEventListener("click", function(){ openSheet("stuck"); });
+  var g=$("[data-ground]",foot); if(g) g.addEventListener("click", function(){ openSheet("ground"); });
+  var c=$("[data-copy]",foot);
+  if(c) c.addEventListener("click", function(){
+    var txt = $$("#protoStep textarea").map(function(t){
+      var lb = $("label[for='"+t.id+"']"); return (lb?lb.textContent+": ":"") + t.value;
+    }).join("\n\n");
+    if(!txt.trim()){ toast("Todavía no has escrito nada."); return; }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(function(){ toast("Copiado."); },
+        function(){ toast("No se pudo copiar."); });
+    } else { toast("Tu navegador no permite copiar automáticamente."); }
+  });
+}
+
+function answerCheck(ans){
+  if(ans==="si"){ openSOS(); return; }
+  if(ans==="mal"){
+    /* Ruta de regulación: no es emergencia y tampoco toca cerrar
+       con una afirmación. Se va directo al siguiente paso del
+       protocolo, que es exactamente regular. */
+    toast("Vamos a regular primero.");
+    nextStep(); return;
+  }
+  /* Ruta NO — se conserva el texto original íntegro. */
+  var host=$("#protoStep"), foot=$("#protoFoot");
+  host.innerHTML =
+    '<p class="step__label">Presente</p>' +
+    '<h2>Entonces, en este segundo, estás aquí.</h2>' +
+    '<div class="quote">«En este segundo estoy aquí. Respiro. Aquí y ahora todo está en un orden divino y perfecto.»</div>' +
+    '<p class="step__text">Quédate con la frase el tiempo que quieras. Repítela en voz baja si te ayuda.</p>';
+  foot.innerHTML =
+    '<button class="btn btn--primary btn--block" data-next>Continuar</button>' +
+    '<button class="btn btn--quiet" data-exit>Salir del protocolo</button>';
+  bindFoot(foot);
+}
+
+function nextStep(){
+  stopAll();
+  if(run.i < run.proto.steps.length-1){ run.i++; renderStep(); }
+  else { go("done"); }
+}
+
+/* ---- cronómetro opcional ---- */
+function mountTimer(foot, seconds){
+  var box=document.createElement("div");
+  box.className="timer";
+  box.innerHTML =
+    '<div class="timer__ring">' +
+      '<svg viewBox="0 0 64 64" aria-hidden="true">' +
+        '<circle class="bg" cx="32" cy="32" r="28"/>' +
+        '<circle class="fg" cx="32" cy="32" r="28" stroke-dasharray="175.9" stroke-dashoffset="0"/>' +
+      '</svg>' +
+      '<span class="timer__num" id="tNum">'+fmt(seconds)+'</span>' +
+    '</div>' +
+    '<div class="timer__ctrl">' +
+      '<button class="btn btn--ghost" id="tToggle" style="min-height:44px;padding:.5rem 1rem">Iniciar</button>' +
+    '</div>' +
+    '<span style="font-family:var(--font-ui);font-size:.83rem;color:var(--ink-soft)">Opcional. Puedes avanzar cuando quieras.</span>';
+  foot.insertBefore(box, foot.firstChild);
+
+  var total=seconds*1000, elapsed=0, startedAt=0, running=false;
+  var fg=$(".fg",box), num=$("#tNum",box), btn=$("#tToggle",box);
+
+  function tick(){
+    if(!running) return;
+    var e = elapsed + (Date.now()-startedAt);
+    var left = Math.max(0, total-e);
+    num.textContent = fmt(Math.ceil(left/1000));
+    fg.setAttribute("stroke-dashoffset", String(175.9*(1-left/total)));
+    if(left<=0){ running=false; btn.textContent="Listo"; num.textContent="0:00"; return; }
+    run.raf = requestAnimationFrame(tick);
+  }
+  btn.addEventListener("click", function(){
+    if(running){ running=false; elapsed += Date.now()-startedAt; btn.textContent="Reanudar";
+      if(run.raf){cancelAnimationFrame(run.raf); run.raf=null;} }
+    else { running=true; startedAt=Date.now(); btn.textContent="Pausar"; tick(); }
+  });
+}
+function fmt(s){ var m=Math.floor(s/60); var r=s%60; return m+":"+(r<10?"0":"")+r; }
+
+/* ---- pauta de respiración ---- */
+function startBreath(cycles){
+  var IN=4000, OUT=6000;
+  var orb=$("#orb"), cue=$("#breathCue"), cnt=$("#breathCount"), cyc=$("#breathCycles");
+  if(!orb) return;
+  var reduced = motionOff();
+  breathState.done=0; breathState.target=cycles; breathState.phase="in"; breathState.phaseStart=Date.now();
+  if(!reduced) orb.classList.add("is-in");
+  else orb.style.transition="none";
+
+  function loop(){
+    var now=Date.now(), dur=(breathState.phase==="in")?IN:OUT;
+    var left=Math.max(0, dur-(now-breathState.phaseStart));
+    cnt.textContent = String(Math.ceil(left/1000));
+    if(left<=0){
+      if(breathState.phase==="in"){
+        breathState.phase="out"; breathState.phaseStart=now;
+        cue.textContent="Exhala, más largo";
+        if(!reduced) orb.classList.remove("is-in");
+      } else {
+        breathState.done++;
+        if(breathState.done>=breathState.target){
+          cue.textContent="Vuelve a tu respiración natural";
+          cnt.textContent="✓";
+          cyc.textContent="Completado";
+          breathState.raf=null; return;
+        }
+        breathState.phase="in"; breathState.phaseStart=now;
+        cue.textContent="Inhala";
+        if(!reduced) orb.classList.add("is-in");
+        cyc.textContent="Ciclo "+(breathState.done+1)+" de "+breathState.target;
+      }
+    }
+    breathState.raf=requestAnimationFrame(loop);
+  }
+  cue.textContent="Inhala";
+  cyc.textContent="Ciclo 1 de "+cycles;
+  breathState.raf=requestAnimationFrame(loop);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   9. HOJAS
+   ═══════════════════════════════════════════════════════════ */
+var lastFocus=null;
+
+var SHEETS = {
+  /* Escape universal. Sin frío ni inmersión: en una página que se
+     dirige explícitamente a personas con riesgo de autolesión, una
+     técnica basada en sostener malestar físico intenso enseña el
+     patrón equivocado. Se cubre la misma función con recursos que
+     no dependen de la respiración ni del dolor. */
+  stuck:{
+    title:"No logro conectar con esta actividad.",
+    lede:"No tienes que forzarte. Si respirar no está funcionando, esto tampoco es un fracaso: es información. Prueba otra puerta.",
+    body:
+      '<div class="card"><h3>Sal a caminar</h3>' +
+      '<p>Lo más útil casi siempre. No se trata de huir de la emoción, sino de ayudar al cuerpo y a la mente a salir de la inmovilidad. ' +
+      'Si puedes, camina en un lugar con árboles o cielo abierto. Mira el entorno en vez de rumiar a propósito. Vuelve antes de agotarte.</p>' +
+      '<div class="btn-row" style="margin-top:var(--sp-3)">' +
+        '<button class="btn" data-walk="10">10 min</button>' +
+        '<button class="btn" data-walk="20">20 min</button>' +
+        '<button class="btn" data-walk="30">30 min</button>' +
+        '<button class="btn" data-walk="45">45 min</button>' +
+      '</div>' +
+      '<p class="note" style="margin-top:var(--sp-3)">Si hay mareo, intoxicación, indicación médica de reposo o el entorno no es seguro, no salgas. ' +
+      'Camina dentro de casa o de un pasillo.</p></div>' +
+
+      '<div class="card"><h3>Orientación sensorial</h3>' +
+      '<p>No pide respirar de ninguna forma particular. Solo mirar, tocar y oír. Sirve cuando cerrar los ojos o atender al cuerpo aumenta la desconexión.</p>' +
+      '<ul class="step__list" style="margin-top:var(--sp-2)">' +
+        '<li data-n="5">cosas que ves — di su color en voz baja</li>' +
+        '<li data-n="4">texturas que puedes tocar ahora mismo</li>' +
+        '<li data-n="3">sonidos, cercanos o lejanos</li>' +
+        '<li data-n="2">olores, o el aire entrando por la nariz</li>' +
+        '<li data-n="1">sabor en tu boca</li>' +
+      '</ul>' +
+      '<p style="margin-top:var(--sp-3)">Termina diciendo dónde estás y qué día es. Mantén los ojos abiertos.</p></div>' +
+
+      '<div class="card"><h3>Tapping / EFT</h3>' +
+      '<p>Combina enfoque cognitivo con golpeteo suave en puntos del cuerpo. Las revisiones recientes muestran resultados prometedores para ansiedad y estrés, ' +
+      'pero con heterogeneidad y riesgo de sesgo; NICE lo mantiene como área de investigación, no como recomendación estándar. ' +
+      'Úsalo como complemento si ya te resulta familiar, sobre el malestar presente y no sobre un recuerdo traumático completo. ' +
+      'Si la intensidad sube en vez de bajar, detente.</p>' +
+      '<p class="note" style="margin:var(--sp-3) 0">Evidencia moderada / emergente. No sustituye tratamiento para estrés postraumático.</p>' +
+      '<a class="btn btn--block" href="https://www.youtube.com/watch?v=QfbweRiQGTw" target="_blank" rel="noopener noreferrer">Abrir el video guía ↗</a></div>' +
+
+      '<div class="card"><h3>Habla con alguien</h3>' +
+      '<p>Elige una persona segura. Di qué pasa en una frase. Pide algo concreto: compañía, una llamada, comida, transporte, escucha. ' +
+      'Aclara si no quieres consejos.</p>' +
+      '<div class="quote" style="margin:var(--sp-3) 0 0;font-size:1.02rem">«Estoy pasando un momento difícil. No necesito consejos, solo que sepas que estoy aquí.»</div>' +
+      '<button class="btn btn--block" data-copyq style="margin-top:var(--sp-3)">Copiar este mensaje</button></div>'
+  },
+  ground:{
+    title:"Orientación sensorial, sin respiración.",
+    lede:"Si atender la respiración aumenta el pánico o el mareo, esto la reemplaza por completo. Mantén los ojos abiertos.",
+    body:
+      '<ul class="step__list">' +
+        '<li data-n="5">cosas que ves — nombra su color o su forma</li>' +
+        '<li data-n="4">texturas que puedes tocar: tu ropa, la mesa, tu piel</li>' +
+        '<li data-n="3">sonidos, cercanos o lejanos</li>' +
+        '<li data-n="2">olores, o simplemente el aire entrando</li>' +
+        '<li data-n="1">sabor en tu boca</li>' +
+      '</ul>' +
+      '<p style="margin-top:var(--sp-4)">Presiona los pies y la espalda contra superficies reales. Después di, en voz baja:</p>' +
+      '<div class="quote">«Estoy aquí, ahora. Hoy es ___. Estoy en ___.»</div>' +
+      '<p class="note">Tu respiración natural ya está funcionando sola. No tienes que dirigirla.</p>'
+  },
+  settings:{ title:"Ajustes", lede:"", body:"" }
+};
+
+function openSheet(key){
+  var s=SHEETS[key]; if(!s) return;
+  lastFocus=document.activeElement;
+  if(key==="settings") s=buildSettings();
+  $("#sheetBody").innerHTML =
+    (s.title? '<h2 id="sheet-h">'+esc(s.title)+'</h2>':'') +
+    (s.lede? '<p style="margin-bottom:var(--sp-4)">'+esc(s.lede)+'</p>':'') +
+    s.body +
+    '<button class="btn btn--block" data-closesheet style="margin-top:var(--sp-4)">Cerrar</button>';
+  $("#sheet").classList.add("is-open");
+  document.body.style.overflow="hidden";
+  wireSheet();
+  var f=$("#sheetBody button, #sheetBody a"); if(f) f.focus();
+}
+function closeSheet(){
+  $("#sheet").classList.remove("is-open");
+  document.body.style.overflow="";
+  if(lastFocus && lastFocus.focus) lastFocus.focus();
+}
+function wireSheet(){
+  var c=$("[data-closesheet]"); if(c) c.addEventListener("click", closeSheet);
+  $$("[data-walk]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var m=b.getAttribute("data-walk");
+      toast("Sal a caminar "+m+" minutos. Vuelve cuando quieras.");
+      closeSheet();
+    });
+  });
+  var q=$("[data-copyq]");
+  if(q) q.addEventListener("click", function(){
+    var t="Estoy pasando un momento difícil. No necesito consejos, solo que sepas que estoy aquí.";
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){toast("Copiado.");},function(){toast("No se pudo copiar.");});
+    } else toast("Tu navegador no permite copiar automáticamente.");
+  });
+  wireSettings();
+}
+
+/* ---- ajustes ---- */
+function buildSettings(){
+  var dark  = document.documentElement.getAttribute("data-theme")==="dark";
+  var mOff  = Store.get("motion","auto")==="off";
+  var keep  = Store.get("persist",false);
+  return { title:"Ajustes", lede:"",
+    body:
+      '<div class="setting"><div class="setting__body"><strong>Modo oscuro</strong>' +
+        '<span>Menos luz en pantalla.</span></div>' +
+        '<button class="switch" role="switch" aria-checked="'+dark+'" data-set="theme" aria-label="Modo oscuro"></button></div>' +
+      '<div class="setting"><div class="setting__body"><strong>Reducir movimiento</strong>' +
+        '<span>Quita animaciones. La guía de respiración pasa a conteo numérico.</span></div>' +
+        '<button class="switch" role="switch" aria-checked="'+mOff+'" data-set="motion" aria-label="Reducir movimiento"></button></div>' +
+      '<div class="setting"><div class="setting__body"><strong>Guardar lo que escribo</strong>' +
+        '<span>Desactivado por defecto. Actívalo solo si este dispositivo es tuyo y nadie más lo usa.</span></div>' +
+        '<button class="switch" role="switch" aria-checked="'+keep+'" data-set="persist" aria-label="Guardar lo que escribo"></button></div>' +
+      '<p class="note" style="margin-top:var(--sp-4)">Almacenamiento activo: <b>' +
+        (Store.mode==="local" ? "este navegador" : "solo memoria, se pierde al cerrar") + '</b>. ' +
+        'Nada se envía a ningún servidor.</p>' +
+      '<button class="btn btn--block" data-wipe style="margin-top:var(--sp-3);border-color:var(--emergency);color:var(--emergency)">Borrar mis datos</button>'
+  };
+}
+function wireSettings(){
+  $$("[data-set]").forEach(function(sw){
+    sw.addEventListener("click", function(){
+      var k=sw.getAttribute("data-set");
+      var on = sw.getAttribute("aria-checked")!=="true";
+      sw.setAttribute("aria-checked", String(on));
+      if(k==="theme"){ Store.set("theme", on?"dark":"light"); applyTheme(); }
+      if(k==="motion"){ Store.set("motion", on?"off":"auto"); applyMotion(); }
+      if(k==="persist"){
+        Store.set("persist", on);
+        if(!on){ wipeDrafts(); toast("Guardado desactivado. Borradores eliminados."); }
+        else toast("Se guardará en este navegador.");
+      }
+    });
+  });
+  var w=$("[data-wipe]");
+  if(w) w.addEventListener("click", function(){
+    if(w.getAttribute("data-armed")==="1"){
+      Store.clear(); applyTheme(); applyMotion();
+      toast("Todo borrado."); closeSheet();
+    } else {
+      w.setAttribute("data-armed","1");
+      w.textContent="Toca otra vez para confirmar";
+    }
+  });
+}
+function wipeDrafts(){
+  try{
+    if(Store.mode==="local"){
+      var del=[];
+      for(var i=0;i<window.localStorage.length;i++){
+        var k=window.localStorage.key(i);
+        if(k && k.indexOf("botiquin:draft:")===0) del.push(k);
+      }
+      del.forEach(function(k){ window.localStorage.removeItem(k); });
+    }
+  }catch(e){}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   10. CAPA DE EMERGENCIA
+   ═══════════════════════════════════════════════════════════ */
+function renderLines(code){
+  var c = COUNTRIES.filter(function(x){return x.code===code;})[0] || COUNTRIES[0];
+  $("#linesBox").innerHTML = c.lines.map(function(l){
+    var href = l.url ? l.url : "tel:"+l.tel;
+    var ext  = l.url ? ' target="_blank" rel="noopener noreferrer"' : '';
+    return '<a class="line'+(l.urgent?" line--urgent":"")+'" href="'+href+'"'+ext+'>' +
+      '<span class="line__num">'+esc(l.num)+'</span>' +
+      '<span class="line__meta"><strong>'+esc(l.label)+'</strong><span>'+esc(l.meta)+'</span></span>' +
+    '</a>';
+  }).join("");
+}
+function openSOS(){
+  lastFocus=document.activeElement;
+  stopAll();
+  $("#overlaySOS").classList.add("is-open");
+  document.body.style.overflow="hidden";
+  $("#closeSOS").focus();
+}
+function closeSOS(){
+  $("#overlaySOS").classList.remove("is-open");
+  document.body.style.overflow="";
+  if(lastFocus && lastFocus.focus) lastFocus.focus();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   11. TEMA Y MOVIMIENTO
+   ═══════════════════════════════════════════════════════════ */
+function applyTheme(){
+  var t=Store.get("theme","auto");
+  if(t==="auto"){
+    var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme", prefersDark?"dark":"light");
+  } else document.documentElement.setAttribute("data-theme", t);
+}
+function applyMotion(){
+  document.documentElement.setAttribute("data-motion", Store.get("motion","auto"));
+}
+
+/* ═══════════════════════════════════════════════════════════
+   12. ARRANQUE
+   ═══════════════════════════════════════════════════════════ */
+function init(){
+  applyTheme(); applyMotion();
+
+  $$("[data-human]").forEach(function(el){ el.innerHTML = HUMAN_HTML; });
+
+  var sel=$("#countrySel");
+  sel.innerHTML = COUNTRIES.map(function(c){
+    return '<option value="'+c.code+'">'+esc(c.name)+'</option>';
+  }).join("");
+  sel.value = Store.get("country","CO");
+  renderLines(sel.value);
+  sel.addEventListener("change", function(){
+    Store.set("country", sel.value); renderLines(sel.value);
+  });
+
+  $$("[data-go]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var t=b.getAttribute("data-go");
+      if(t==="p60"||t==="p5"||t==="p20") startProtocol(t); else go(t);
+    });
+  });
+  $$("[data-sheet]").forEach(function(b){
+    b.addEventListener("click", function(){ openSheet(b.getAttribute("data-sheet")); });
+  });
+
+  $("#btnSOS").addEventListener("click", openSOS);
+  $("#closeSOS").addEventListener("click", closeSOS);
+  $("#closeSOS2").addEventListener("click", closeSOS);
+  $("#btnSettings").addEventListener("click", function(){ openSheet("settings"); });
+  $("#sheet").addEventListener("click", function(e){ if(e.target===$("#sheet")) closeSheet(); });
+
+  $("#pathLearn").addEventListener("click", function(){
+    toast("En construcción — llega en el siguiente bloque.");
+  });
+
+  document.addEventListener("keydown", function(e){
+    if(e.key!=="Escape") return;
+    if($("#overlaySOS").classList.contains("is-open")) closeSOS();
+    else if($("#sheet").classList.contains("is-open")) closeSheet();
+  });
+
+  if(window.matchMedia){
+    var mq=window.matchMedia("(prefers-color-scheme: dark)");
+    if(mq.addEventListener) mq.addEventListener("change", applyTheme);
+  }
+}
+
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", init);
+else init();
+
+})();
+</script>
+</body>
+</html>

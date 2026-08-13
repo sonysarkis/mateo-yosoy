@@ -2652,7 +2652,7 @@ audios:{ h:"Audios del programa.", lede:"Todos reunidos aquí, para no tener que
   {t:"audioSlot", id:"yosoy", label:"Hipnosis de la noche · Protección Divina del Yo Soy"},
   {t:"text", v:"<b>Cuando lo necesites.</b>"},
   {t:"audioSlot", id:"relax"},
-  {t:"note", v:"Los audios son archivos que viajan junto a esta página, en una carpeta llamada <code>audios</code>. Si mueves el archivo HTML, lleva la carpeta contigo o dejarán de sonar."}
+  {t:"note", v:"Los audios son archivos <code>.mp3</code> que viajan junto a esta página, en la misma carpeta. Si mueves el archivo HTML, llévalos contigo o dejarán de sonar."}
 ]},
 videos:{ h:"Biblioteca audiovisual.", lede:"Ninguno de estos videos es nuestro. Los reunimos porque pueden servir, nada más.", blocks:[
   {t:"ytwarn"},
@@ -2670,7 +2670,7 @@ biblio:{ h:"Bibliografía.", lede:"Selección prioritaria. No pretende ser una r
 var AUDIOS = {
   yosoy:{
     titulo:"Protección Divina del Yo Soy",
-    src:"audios/yo-soy.mp3", duracion:"40 min", momento:"noche", tipo:"hipnosis",
+    src:"yosoy.mp3", duracion:"40 min", momento:"noche", tipo:"hipnosis",
     desc:"Este es un audio de hipnosis para conectar con la esencia divina que habita dentro de ti. "+
       "Búscate un lugar donde puedas recostarte y aflojar el cuerpo. Escúchalo con audífonos si puedes. "+
       "Relájate y confía en tu ser: todo está bien. Solo permítete sentir y escuchar.",
@@ -2678,7 +2678,7 @@ var AUDIOS = {
   },
   zen:{
     titulo:"Meditación · Budismo Zen",
-    src:"audios/meditacion-zen.mp3", duracion:"7 min", momento:"cualquiera", tipo:"meditación",
+    src:"budismozen.mp3", duracion:"7 min", momento:"cualquiera", tipo:"meditación",
     desc:"Una meditación breve que enseña algo muy concreto: soltar los pensamientos. "+
       "No se trata de vaciar la mente ni de conseguir nada, sino de ir aprendiendo a no engancharte "+
       "con cada cosa que aparece.",
@@ -2922,8 +2922,8 @@ function renderAudioSlot(id,label){
   if(a.src){
     return head +
       '<audio class="audio__el" controls preload="none" src="'+a.src+'" data-audio="'+id+'"></audio>' +
-      '<p class="audio__miss" hidden>No se pudo cargar el audio. Revisa que la carpeta <code>audios</code> '+
-      'esté junto a este archivo, o descárgalo aparte.</p>' +
+      '<p class="audio__miss" hidden>No se pudo cargar el audio. Revisa que el archivo <code>'+a.src+'</code> '+
+      'esté junto a esta página.</p>' +
       (a.pauta? '<p class="audio__pauta">'+a.pauta+'</p>':'') + '</div>';
   }
   return head + '<p class="audio__pauta">Todavía no se ha cargado este audio.</p></div>';

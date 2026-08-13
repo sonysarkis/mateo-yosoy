@@ -268,7 +268,8 @@ button{font:inherit; color:inherit; cursor:pointer}
 /* ---------- RESPIRACIÓN ---------- */
 .breath{text-align:center; padding:var(--sp-4) 0}
 .breath__orb{
-  width:min(58vw,15rem); aspect-ratio:1; margin:0 auto var(--sp-4);
+  width:min(58vw,15rem); height:min(58vw,15rem); aspect-ratio:1;
+  flex:0 0 auto; margin:0 auto var(--sp-4);
   border-radius:50%; display:grid; place-items:center; position:relative;
   background:radial-gradient(circle at 50% 45%, color-mix(in srgb,var(--sage) 40%, transparent), transparent 68%);
   border:1px solid var(--line);
@@ -364,6 +365,28 @@ button{font:inherit; color:inherit; cursor:pointer}
 .wa__disclaimer{
   font-family:var(--font-ui); font-size:.83rem; color:var(--ink-soft);
   margin-top:var(--sp-2); text-align:center; line-height:1.45;
+}
+
+.bio{
+  border-top:1px solid var(--line); margin-top:var(--sp-4); padding-top:var(--sp-4);
+  font-family:var(--font-ui); font-size:.98rem; line-height:1.6;
+}
+.bio p{margin:0 0 .8rem}
+.bio__name{
+  font-family:var(--font-body); font-size:1.35rem; font-weight:600;
+  letter-spacing:-.01em; margin-bottom:.15rem !important; color:var(--ink);
+}
+.bio__cred{
+  font-size:.8rem; letter-spacing:.03em; color:var(--ink-soft);
+  text-transform:none; margin-bottom:var(--sp-3) !important;
+}
+.bio__bless{
+  font-family:var(--font-body); font-size:1.08rem; font-style:italic;
+  color:var(--ink); margin-bottom:0 !important;
+}
+.bio__bless span{
+  font-style:normal; font-family:var(--font-ui); font-size:.72rem;
+  font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--terra);
 }
 
 /* ---------- CAPA DE EMERGENCIA ---------- */
@@ -486,6 +509,432 @@ html[data-motion="off"] *,html[data-motion="off"] *::before,html[data-motion="of
 html[data-motion="off"] .horizon__plate{animation:none; transform:rotate(-3deg)}
 html[data-motion="off"] .breath__orb{transform:scale(.86)}
 
+
+/* ══════════════ BLOQUE 2 ══════════════ */
+
+/* --- badges de evidencia ---
+   El terracota es color de marca, así que no puede ser también un badge:
+   la metáfora usa violeta apagado. Nunca solo color: siempre icono + texto. */
+:root{
+  --ev-solid:#4A7C59;
+  --ev-mod:#A57E3A;
+  --ev-cont:#466C84;
+  --ev-meta:#7B6296;
+  --ev-none:#A43D35;
+}
+[data-theme="dark"]{
+  --ev-solid:#7FB08D; --ev-mod:#C8A05C; --ev-cont:#7BA3BF;
+  --ev-meta:#A98FC4; --ev-none:#E0705F;
+}
+.badge{
+  display:inline-flex; align-items:center; gap:.4rem; vertical-align:middle;
+  font-family:var(--font-ui); font-size:.7rem; font-weight:700;
+  letter-spacing:.07em; text-transform:uppercase;
+  padding:.3rem .6rem .3rem .5rem; border-radius:99px;
+  border:1px solid currentColor; white-space:nowrap;
+}
+.badge::before{
+  content:""; width:9px; height:9px; flex:0 0 auto;
+  background:currentColor;
+}
+.badge--solid{color:var(--ev-solid)} .badge--solid::before{border-radius:50%}
+.badge--mod{color:var(--ev-mod)} .badge--mod::before{border-radius:50%; clip-path:polygon(0 0,100% 0,100% 100%)}
+.badge--cont{color:var(--ev-cont)} .badge--cont::before{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.badge--meta{color:var(--ev-meta)} .badge--meta::before{clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
+.badge--none{color:var(--ev-none)} .badge--none::before{clip-path:polygon(50% 0,100% 100%,0 100%)}
+
+/* --- navegación de secciones --- */
+.secnav{
+  display:flex; gap:.4rem; overflow-x:auto; scrollbar-width:none;
+  padding:var(--sp-2) 0 var(--sp-4); margin:0 calc(var(--sp-4) * -1);
+  padding-left:var(--sp-4); padding-right:var(--sp-4);
+  -webkit-overflow-scrolling:touch;
+}
+.secnav::-webkit-scrollbar{display:none}
+.secnav button{
+  flex:0 0 auto; font-family:var(--font-ui); font-size:.88rem; font-weight:600;
+  padding:.55rem 1rem; min-height:42px; border-radius:99px;
+  border:1px solid var(--line); background:var(--bg-raised); color:var(--ink-soft);
+  transition:all .2s;
+}
+.secnav button[aria-current="true"]{
+  background:var(--charcoal); color:var(--sand); border-color:var(--charcoal);
+}
+[data-theme="dark"] .secnav button[aria-current="true"]{background:var(--sand); color:var(--charcoal); border-color:var(--sand)}
+
+/* --- acordeón --- */
+.acc{border-top:1px solid var(--line)}
+.acc__item{border-bottom:1px solid var(--line)}
+.acc__btn{
+  width:100%; text-align:left; background:none; border:0;
+  padding:var(--sp-3) 2.4rem var(--sp-3) 0; position:relative;
+  font-size:1.1rem; font-weight:600; line-height:1.35; color:var(--ink);
+  display:block;
+}
+.acc__btn small{
+  display:block; font-family:var(--font-ui); font-size:.85rem;
+  font-weight:400; color:var(--ink-soft); margin-top:.2rem;
+}
+.acc__btn::after{
+  content:""; position:absolute; right:.5rem; top:calc(var(--sp-3) + .45rem);
+  width:10px; height:10px; border-right:2px solid var(--ink-soft);
+  border-bottom:2px solid var(--ink-soft); transform:rotate(45deg);
+  transition:transform .24s var(--ease);
+}
+.acc__btn[aria-expanded="true"]::after{transform:rotate(-135deg)}
+.acc__panel{display:none; padding:0 0 var(--sp-4)}
+.acc__panel.is-open{display:block; animation:fade .26s var(--ease)}
+.acc__panel > *:first-child{margin-top:0}
+
+/* --- tarjetas de herramienta --- */
+.tool{
+  border:1px solid var(--line); background:var(--bg-raised);
+  border-radius:var(--r-lg); padding:var(--sp-4); margin-bottom:var(--sp-3);
+}
+.tool__top{display:flex; align-items:flex-start; gap:var(--sp-3); flex-wrap:wrap; margin-bottom:var(--sp-3)}
+.tool__top h3{flex:1 1 12rem; font-size:1.25rem}
+.tool dl{margin:0; font-family:var(--font-ui); font-size:.96rem}
+.tool dt{
+  font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-soft); margin-top:var(--sp-3);
+}
+.tool dt:first-child{margin-top:0}
+.tool dd{margin:.35rem 0 0; color:var(--ink)}
+.tool ol{margin:.4rem 0 0; padding-left:1.2rem}
+.tool ol li{margin:.3rem 0}
+.tool__caution{
+  border-left:3px solid var(--ev-mod); padding-left:var(--sp-3);
+  margin-top:var(--sp-3); font-family:var(--font-ui); font-size:.92rem; color:var(--ink-soft);
+}
+.tool__src{font-size:.8rem; color:var(--ink-soft); margin-top:var(--sp-3); font-family:var(--font-ui)}
+
+/* --- filtros --- */
+.filters{margin-bottom:var(--sp-4)}
+.filters__label{
+  font-family:var(--font-ui); font-size:.72rem; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-soft); margin-bottom:.6rem;
+}
+.chips{display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:var(--sp-3)}
+.chip{
+  font-family:var(--font-ui); font-size:.84rem; font-weight:550;
+  padding:.45rem .85rem; min-height:38px; border-radius:99px;
+  border:1px solid var(--line); background:var(--bg-raised); color:var(--ink-soft);
+}
+.chip[aria-pressed="true"]{background:var(--sage); border-color:var(--sage); color:#fff}
+[data-theme="dark"] .chip[aria-pressed="true"]{color:#152016}
+.count{font-family:var(--font-ui); font-size:.86rem; color:var(--ink-soft); margin-bottom:var(--sp-3)}
+
+/* --- tabla responsive --- */
+.tbl{width:100%; border-collapse:collapse; font-family:var(--font-ui); font-size:.94rem}
+.tbl th{
+  text-align:left; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-soft); padding:.6rem .7rem; border-bottom:1px solid var(--line);
+}
+.tbl td{padding:.75rem .7rem; border-bottom:1px solid var(--line); vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl__scroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 calc(var(--sp-4) * -1); padding:0 var(--sp-4)}
+@media (max-width:640px){
+  .tbl, .tbl tbody, .tbl tr, .tbl td{display:block; width:100%}
+  .tbl thead{display:none}
+  .tbl tr{border:1px solid var(--line); border-radius:var(--r-md); padding:var(--sp-3); margin-bottom:var(--sp-2); background:var(--bg-raised)}
+  .tbl td{border:0; padding:.35rem 0}
+  .tbl td::before{
+    content:attr(data-th); display:block; font-size:.66rem; font-weight:700;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:.15rem;
+  }
+}
+
+/* --- rejilla de selección --- */
+.grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--sp-2)}
+@media (min-width:560px){.grid2{grid-template-columns:repeat(4,1fr)}}
+.pick{
+  border:1px solid var(--line); background:var(--bg-raised); border-radius:var(--r-md);
+  padding:var(--sp-3) var(--sp-2); min-height:92px; text-align:center;
+  font-family:var(--font-ui); font-size:.95rem; font-weight:600; color:var(--ink);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.4rem;
+  transition:border-color .2s, transform .16s var(--ease);
+}
+.pick:hover{border-color:var(--ink-soft)}
+.pick:active{transform:scale(.98)}
+.pick[aria-pressed="true"]{border-color:var(--sage); background:color-mix(in srgb,var(--sage) 12%, var(--bg-raised))}
+.pick i{font-style:normal; font-size:1.35rem; line-height:1}
+.pick small{font-size:.74rem; font-weight:400; color:var(--ink-soft)}
+
+/* --- flujo / secuencia --- */
+.flow{list-style:none; padding:0; margin:0; counter-reset:f}
+.flow li{
+  position:relative; padding:0 0 var(--sp-4) 2.6rem; counter-increment:f;
+}
+.flow li::before{
+  content:counter(f); position:absolute; left:0; top:0;
+  width:1.9rem; height:1.9rem; border-radius:50%;
+  border:1px solid var(--line); background:var(--bg-raised);
+  display:grid; place-items:center;
+  font-family:var(--font-ui); font-size:.8rem; font-weight:700; color:var(--terra);
+}
+.flow li::after{
+  content:""; position:absolute; left:.95rem; top:1.9rem; bottom:.4rem;
+  width:1px; background:var(--line);
+}
+.flow li:last-child{padding-bottom:0}
+.flow li:last-child::after{display:none}
+.flow strong{display:block; font-size:1.06rem; margin-bottom:.15rem}
+.flow span{font-family:var(--font-ui); font-size:.94rem; color:var(--ink-soft)}
+
+/* --- elementos (tierra/agua/aire/fuego) --- */
+.elem{
+  border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:var(--sp-4); margin-bottom:var(--sp-3); position:relative; overflow:hidden;
+}
+.elem::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px}
+.elem--tierra::before{background:#8A6A4B} .elem--agua::before{background:var(--ev-cont)}
+.elem--aire::before{background:#9FAFB5} .elem--fuego::before{background:var(--terra)}
+.elem h3{font-size:1.3rem; margin-bottom:.3rem}
+.elem__say{font-size:1.12rem; font-style:italic; color:var(--ink-soft); margin-bottom:var(--sp-3)}
+
+/* --- práctica de pantalla completa --- */
+.practice{
+  background:var(--bg-sunk); border-radius:var(--r-xl);
+  padding:var(--sp-5) var(--sp-4); margin:var(--sp-4) 0;
+}
+.practice__text{
+  font-size:1.22rem; line-height:1.68; text-wrap:pretty;
+}
+.player{
+  display:flex; align-items:center; gap:var(--sp-3);
+  border:1px dashed var(--line); border-radius:var(--r-md);
+  padding:var(--sp-3); margin-top:var(--sp-4);
+  font-family:var(--font-ui); font-size:.9rem; color:var(--ink-soft);
+}
+.player__ic{
+  width:44px; height:44px; border-radius:50%; background:var(--bg-raised);
+  border:1px solid var(--line); display:grid; place-items:center; flex:0 0 auto; font-size:1.1rem;
+}
+
+/* --- audio --- */
+.audio{
+  border:1px solid var(--line); background:var(--bg-raised);
+  border-radius:var(--r-lg); padding:var(--sp-4); margin:var(--sp-3) 0;
+}
+.audio__t{
+  font-family:var(--font-body); font-size:1.15rem; font-weight:600;
+  margin:0 0 .5rem; color:var(--ink);
+}
+.audio__d{
+  font-family:var(--font-ui); font-size:.7rem; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--terra); border:1px solid currentColor;
+  border-radius:99px; padding:.15rem .5rem; vertical-align:middle; margin-left:.3rem;
+}
+.audio__desc{
+  font-family:var(--font-ui); font-size:.96rem; line-height:1.6;
+  color:var(--ink-soft); margin:0 0 var(--sp-3);
+}
+.audio__el{width:100%; display:block; border-radius:var(--r-md)}
+.audio__miss{
+  font-family:var(--font-ui); font-size:.88rem; color:var(--emergency);
+  background:color-mix(in srgb,var(--emergency) 7%, transparent);
+  border-radius:var(--r-sm); padding:var(--sp-2); margin:var(--sp-2) 0 0;
+}
+.audio__pauta{
+  font-family:var(--font-ui); font-size:.9rem; font-weight:600; color:var(--ink);
+  background:var(--bg-sunk); border-left:3px solid var(--sage);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:var(--sp-2) var(--sp-3); margin:var(--sp-3) 0 0;
+}
+
+/* --- aviso de contenido de terceros --- */
+.ytnote{
+  font-family:var(--font-ui); font-size:.86rem; line-height:1.5;
+  color:var(--ink-soft); background:var(--bg-sunk);
+  border-left:3px solid var(--ev-mod); border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:var(--sp-3); margin:var(--sp-3) 0;
+}
+.ytnote b{color:var(--ink)}
+.ytnote--tight{margin:0; border-radius:0; background:transparent; border-left:0;
+  padding:var(--sp-3) var(--sp-4) 0; font-size:.83rem}
+
+/* --- video --- */
+.vid{
+  border:1px solid var(--line); background:var(--bg-raised);
+  border-radius:var(--r-lg); overflow:hidden; margin-bottom:var(--sp-3);
+}
+.vid__thumb{
+  aspect-ratio:16/9; width:100%; border:0; display:block; cursor:pointer;
+  background:linear-gradient(135deg, color-mix(in srgb,var(--sage) 28%, var(--bg-sunk)), var(--bg-sunk));
+  position:relative;
+}
+.vid__thumb::after{
+  content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:0; height:0; border-left:22px solid var(--bg-raised);
+  border-top:14px solid transparent; border-bottom:14px solid transparent;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.25));
+}
+.vid__thumb::before{
+  content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:62px; height:62px; border-radius:50%;
+  border:2px solid var(--bg-raised); background:rgba(38,40,39,.28);
+}
+.vid__body{padding:var(--sp-3) var(--sp-4) var(--sp-4)}
+.vid__body h4{font-size:1.08rem; margin-bottom:.3rem}
+.vid__body p{font-family:var(--font-ui); font-size:.9rem; color:var(--ink-soft); margin:0}
+.vid__n{
+  font-family:var(--font-ui); font-size:.7rem; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--terra); margin-bottom:.35rem;
+}
+.vid iframe{width:100%; aspect-ratio:16/9; border:0; display:block}
+
+/* --- reto 28 días --- */
+.reto__head{
+  display:flex; align-items:center; gap:var(--sp-3);
+  background:var(--bg-sunk); border-radius:var(--r-lg); padding:var(--sp-4); margin-bottom:var(--sp-4);
+}
+.reto__day{
+  font-family:var(--font-ui); font-size:2.4rem; font-weight:700; line-height:1;
+  color:var(--terra); font-variant-numeric:tabular-nums;
+}
+.reto__meta{flex:1; font-family:var(--font-ui); font-size:.92rem; color:var(--ink-soft)}
+.reto__meta strong{display:block; font-size:1.05rem; color:var(--ink); font-weight:600}
+.dots{display:flex; flex-wrap:wrap; gap:5px; margin-bottom:var(--sp-4)}
+.dot{
+  width:30px; height:30px; border-radius:8px; border:1px solid var(--line);
+  background:var(--bg-raised); font-family:var(--font-ui); font-size:.72rem;
+  font-weight:600; color:var(--ink-soft); display:grid; place-items:center;
+}
+.dot[data-state="done"]{background:var(--sage); border-color:var(--sage); color:#fff}
+.dot[data-state="current"]{border-color:var(--terra); color:var(--terra); border-width:2px}
+[data-theme="dark"] .dot[data-state="done"]{color:#152016}
+.stack{
+  list-style:none; padding:0; margin:0;
+}
+.stack li{
+  font-family:var(--font-ui); font-size:.94rem; padding:.5rem 0 .5rem 1.5rem;
+  position:relative; border-bottom:1px solid var(--line); color:var(--ink-soft);
+}
+.stack li::before{content:"↺"; position:absolute; left:0; color:var(--sage)}
+.stack li:first-child{color:var(--ink); font-weight:600}
+.stack li:first-child::before{content:"→"; color:var(--terra)}
+
+.draft{
+  display:inline-block; font-family:var(--font-ui); font-size:.66rem; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ev-mod);
+  border:1px dashed currentColor; border-radius:4px; padding:.15rem .4rem; margin-left:.4rem;
+  vertical-align:middle;
+}
+
+.check-row{
+  display:flex; align-items:center; gap:var(--sp-3); width:100%;
+  border:1px solid var(--line); background:var(--bg-raised); border-radius:var(--r-md);
+  padding:var(--sp-3); min-height:60px; text-align:left;
+  font-family:var(--font-ui); font-size:1rem; color:var(--ink); margin-bottom:.5rem;
+}
+.check-row__box{
+  width:26px; height:26px; border-radius:7px; border:2px solid var(--line);
+  flex:0 0 auto; display:grid; place-items:center; color:transparent; font-size:.85rem; font-weight:700;
+}
+.check-row[aria-pressed="true"] .check-row__box{background:var(--sage); border-color:var(--sage); color:#fff}
+.check-row[aria-pressed="true"]{opacity:.72}
+
+/* --- diario / gratitud --- */
+.entry{
+  border-left:2px solid var(--line); padding:0 0 var(--sp-3) var(--sp-3);
+  margin-bottom:var(--sp-3); font-family:var(--font-ui);
+}
+.entry time{font-size:.76rem; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft)}
+.entry p{font-size:.98rem; margin:.3rem 0 0; white-space:pre-wrap}
+.streak{
+  font-family:var(--font-ui); font-size:.88rem; color:var(--ink-soft);
+  background:var(--bg-sunk); border-radius:var(--r-md); padding:var(--sp-3); margin-bottom:var(--sp-3);
+}
+.empty{
+  font-family:var(--font-ui); font-size:.92rem; color:var(--ink-soft);
+  text-align:center; padding:var(--sp-4); border:1px dashed var(--line); border-radius:var(--r-md);
+}
+
+
+/* ══════════════ MODO GUIADO SIMPLE ══════════════
+   Una frase por pantalla. Se avanza tocando en cualquier parte.
+   Sin contadores, sin cronómetros, sin menús. */
+.flowview{
+  position:fixed; inset:0; z-index:120; display:none;
+  background:var(--bg); flex-direction:column;
+  padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+}
+.flowview.is-on{display:flex}
+.flowline{height:2px; background:var(--line); flex:0 0 auto}
+.flowline i{display:block; height:100%; width:0; background:var(--sage); transition:width .5s linear}
+.flowtop{display:flex; justify-content:flex-end; padding:.6rem .8rem 0; flex:0 0 auto}
+.flowx{
+  background:transparent; border:0; color:var(--ink-soft);
+  width:44px; height:44px; display:grid; place-items:center; border-radius:50%;
+}
+.flowx svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.flowmain{
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+  padding:var(--sp-4) var(--sp-4); text-align:center; cursor:pointer;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+}
+.flowmain > *{flex:0 0 auto; max-width:100%}
+.flowmain::before,.flowmain::after{content:""; flex:1 0 var(--sp-3)}
+.flowmain p.big{
+  font-size:clamp(2rem,9vw,3.2rem); line-height:1.2; font-weight:600;
+  letter-spacing:-.02em; margin:0; text-wrap:balance; color:var(--ink);
+}
+.flowmain p.sub{
+  font-family:var(--font-ui); font-size:1.05rem; color:var(--ink-soft);
+  margin:var(--sp-4) 0 0; max-width:22rem;
+}
+.flowhint{
+  font-family:var(--font-ui); font-size:.8rem; color:var(--ink-soft);
+  letter-spacing:.1em; text-transform:uppercase; opacity:.55;
+  padding:0 0 var(--sp-4); text-align:center; flex:0 0 auto;
+}
+.flowbar{
+  flex:0 0 auto; border-top:1px solid var(--line);
+  padding:var(--sp-3) var(--sp-4);
+  display:flex; flex-direction:column; gap:.3rem;
+}
+/* Botón siempre en la misma posición, al alcance del pulgar.
+   Antes el aviso "toca para seguir" quedaba fuera del área sensible. */
+.flowgo{
+  width:100%; min-height:64px; border:0; border-radius:var(--r-md);
+  background:var(--charcoal); color:var(--sand);
+  font-family:var(--font-ui); font-size:1.15rem; font-weight:650;
+  display:flex; align-items:center; justify-content:center; gap:.5rem;
+}
+[data-theme="dark"] .flowgo{background:var(--sand); color:var(--charcoal)}
+.flowgo:active{transform:scale(.99)}
+.flowgo[hidden]{display:none}
+.flowdanger{
+  width:100%; background:transparent; border:0; padding:.7rem;
+  font-family:var(--font-ui); font-size:.9rem; font-weight:600; color:var(--emergency);
+  min-height:48px; border-radius:var(--r-md);
+}
+.flowdanger:hover{background:color-mix(in srgb,var(--emergency) 8%, transparent)}
+
+/* orbe grande, sin caja de advertencia a la vista */
+.flowmain .breath__orb{
+  flex:0 0 auto; width:min(56vw,13.5rem); height:min(56vw,13.5rem);
+  aspect-ratio:auto; margin:0 auto var(--sp-4);
+}
+.flowmain .breath__cue{font-size:1.3rem}
+.flowmain .breath__count{font-size:3rem}
+
+/* opciones dentro del flujo: etiquetas cortas, sin subtítulos */
+.flowopts{display:grid; gap:.55rem; width:100%; max-width:26rem; margin-top:var(--sp-4)}
+.flowopt{
+  width:100%; min-height:66px; border-radius:var(--r-md);
+  border:1px solid var(--line); background:var(--bg-raised); color:var(--ink);
+  font-family:var(--font-ui); font-size:1.08rem; font-weight:600; padding:1rem;
+}
+.flowopt:active{transform:scale(.99)}
+.flowopt--red{border-color:var(--emergency); color:var(--emergency)}
+.flowfield{width:100%; max-width:26rem; margin-top:var(--sp-4)}
+.flowfield textarea{
+  width:100%; font:inherit; font-size:1.1rem; text-align:center; color:var(--ink);
+  background:var(--bg-sunk); border:1px solid var(--line); border-radius:var(--r-md);
+  padding:1rem; min-height:110px; resize:none;
+}
+
 @media print{.topbar,.sos,.overlay,.sheet{display:none !important}}
 </style>
 </head>
@@ -525,16 +974,14 @@ html[data-motion="off"] .breath__orb{transform:scale(.86)}
       <p class="horizon__caption">Turbulencia no significa caída.</p>
 
       <div class="paths">
-        <button class="path path--crisis" data-go="crisis">
-          <span class="path__tag">Ahora</span>
-          <h2>Estoy en crisis ahora</h2>
-          <p>Ve directo a lo que puedes hacer en los próximos 60 segundos.</p>
+        <button class="path path--crisis" id="btnStart">
+          <h2>Empezar</h2>
+          <p>Te voy guiando paso a paso. No tienes que elegir nada.</p>
         </button>
-        <button class="path path--soon" id="pathLearn">
-          <span class="path__tag">Preparación</span>
-          <h2>Quiero comprender y prepararme</h2>
-          <p>Los cuatro cuerpos, emociones, herramientas, turbulencia y evidencia.</p>
-        </button>
+      </div>
+
+      <div class="btn-row" style="margin-bottom:var(--sp-5)">
+        <button class="btn btn--ghost" id="pathLearn">Quiero comprender y prepararme</button>
       </div>
 
       <div class="note">
@@ -547,6 +994,8 @@ html[data-motion="off"] .breath__orb{transform:scale(.86)}
   <div class="wrap"><div class="foot">
     <p><strong>Botiquín para la Conciencia</strong> · Qué hacer cuando no sabes qué hacer.</p>
     <p>Nada de lo que escribas sale de este dispositivo. No hay cuentas, ni analítica, ni cookies.</p>
+    <p>Única excepción: si abres un video, sales hacia YouTube y ahí aplican sus condiciones.
+    Ninguno de esos videos es nuestro.</p>
   </div></div>
 </section>
 
@@ -555,8 +1004,8 @@ html[data-motion="off"] .breath__orb{transform:scale(.86)}
   <div class="wrap">
     <div class="pagehead">
       <p class="eyebrow">Ahora</p>
-      <h1 id="crisis-h">Elige por el tiempo que tengas.</h1>
-      <p>No tienes que hacer los tres. Empieza por el primero.</p>
+      <h1 id="crisis-h">Los protocolos completos.</h1>
+      <p>Si prefieres leerlos tú, en vez de que te guíe paso a paso.</p>
     </div>
     <div class="options">
       <button class="opt" data-go="p60">
@@ -609,9 +1058,9 @@ html[data-motion="off"] .breath__orb{transform:scale(.86)}
     </div>
     <div class="quote">«La intensidad de este momento no es una predicción exacta de mi futuro.»</div>
     <div class="options">
-      <button class="opt" data-go="crisis">
-        <span class="opt__time">↩</span>
-        <span class="opt__body"><strong>Volver a los protocolos</strong><span>Hacer otro, o repetir el mismo.</span></span>
+      <button class="opt" id="againBtn">
+        <span class="opt__time">↺</span>
+        <span class="opt__body"><strong>Hacerlo otra vez</strong><span>Desde el principio, tantas veces como quieras.</span></span>
         <span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span>
       </button>
       <button class="opt" data-sheet="stuck">
@@ -621,6 +1070,34 @@ html[data-motion="off"] .breath__orb{transform:scale(.86)}
       </button>
     </div>
     <div class="human" data-human></div>
+    <div style="height:var(--sp-6)"></div>
+  </div>
+</section>
+
+
+<!-- ══════════ HUB DE SECCIÓN ══════════ -->
+<section class="view" id="v-hub" aria-labelledby="hub-h">
+  <div class="wrap">
+    <div class="pagehead">
+      <button class="btn btn--quiet" data-back style="padding-left:0">← Atrás</button>
+      <h1 id="hub-h"><span id="hubTitle"></span></h1>
+      <p id="hubLede"></p>
+    </div>
+    <div class="options" id="hubList"></div>
+    <div class="human" data-human></div>
+    <div style="height:var(--sp-6)"></div>
+  </div>
+</section>
+
+<!-- ══════════ TEMA ══════════ -->
+<section class="view" id="v-topic" aria-labelledby="topic-h">
+  <div class="wrap">
+    <div class="pagehead">
+      <button class="btn btn--quiet" data-back style="padding-left:0">← Atrás</button>
+      <h1 id="topic-h"><span id="topicTitle"></span></h1>
+      <p id="topicLede"></p>
+    </div>
+    <div id="topicBody"></div>
     <div style="height:var(--sp-6)"></div>
   </div>
 </section>
@@ -678,6 +1155,23 @@ html[data-motion="off"] .breath__orb{transform:scale(.86)}
   <div class="sheet__panel">
     <div class="sheet__grab"></div>
     <div id="sheetBody"></div>
+  </div>
+</div>
+
+
+<!-- ══════════ MODO GUIADO ══════════ -->
+<div class="flowview" id="flowview" role="dialog" aria-modal="true" aria-label="Modo guiado">
+  <div class="flowline"><i id="flowfill"></i></div>
+  <div class="flowtop">
+    <button class="flowx" id="flowClose" aria-label="Salir">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="flowmain" id="flowmain" aria-live="polite"></div>
+  <p class="flowhint" id="flowhint"></p>
+  <div class="flowbar">
+    <button class="flowgo" id="flowGo">Continuar</button>
+    <button class="flowdanger" id="flowSOS">¿Hay peligro ahora? Toca aquí</button>
   </div>
 </div>
 
@@ -780,13 +1274,20 @@ var WA_URL = "https://wa.me/573117889407?text=Hola%2C%20encontr%C3%A9%20la%20p%C
 var HUMAN_HTML =
   '<p>Si tienes a alguien con quien hablar, hazlo.</p>' +
   '<p>Si no quieres hablar, o no tienes con quién hacerlo, escribe.</p>' +
-  '<p>Y si quieres hablar con quien creó esta página, contáctame. Estaré encantado de ayudarte.</p>' +
-  '<p class="human__last">No estás sola. Estamos para ayudarnos. Entre todos nos ayudamos.</p>' +
+  '<p class="human__last">No estás sola. No estás solo. Estamos para ayudarnos. Entre todos nos ayudamos.</p>' +
+  '<div class="bio">' +
+    '<p class="bio__name">Mateo Álvarez</p>' +
+    '<p class="bio__cred">Psicólogo · Especialista en hipnosis clínica · Máster en neuropsicología · 15 años de experiencia</p>' +
+    '<p>Mi trabajo se centra en algo muy concreto: <b>cómo se pasa del sufrimiento a la aceptación.</b></p>' +
+    '<p>Hice esta página pensando en alguien que quizá no quiere pedirle ayuda a nadie todavía, pero sí quiere hacer algo con lo que está sintiendo. Si ese es tu caso, esto es para ti. No se cobra nada y no se vende nada: existe para ayudar.</p>' +
+    '<p>Si necesitas ayuda para usarla, o simplemente quieres hablar con alguien, te puedo escuchar.</p>' +
+    '<p class="bio__bless">Mucho amor para tu proceso.<br><span>Bendiciones.</span></p>' +
+  '</div>' +
   '<a class="wa" href="'+WA_URL+'" target="_blank" rel="noopener noreferrer">' +
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.8 14.16c-.25.69-1.44 1.32-1.99 1.36-.53.04-1.02.23-3.44-.72-2.9-1.14-4.73-4.1-4.87-4.29-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.41-.07.64.49.24.57.81 1.97.88 2.11.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.16-.29.36-.42.48-.14.14-.28.29-.12.57.16.28.72 1.19 1.55 1.93 1.07.95 1.97 1.25 2.25 1.39.28.14.44.12.6-.07.16-.19.69-.81.88-1.09.19-.28.37-.23.62-.14.25.09 1.61.76 1.89.9.28.14.46.21.53.32.07.12.07.66-.18 1.35z"/></svg>' +
-    'Hablar por WhatsApp' +
+    'Escríbeme por WhatsApp' +
   '</a>' +
-  '<p class="wa__disclaimer">Soy una persona, no un servicio de emergencia. Respondo cuando puedo.<br>Si es urgente, usa <b>Necesito ayuda ahora</b>.</p>';
+  '<p class="wa__disclaimer">Soy una persona, no un servicio de emergencia: respondo cuando puedo.<br>Si es urgente, usa <b>Necesito ayuda ahora</b>.</p>';
 
 /* ═══════════════════════════════════════════════════════════
    4. MICROCOMPONENTE DE RECONEXIÓN
@@ -945,10 +1446,11 @@ function motionOff(){
 /* ═══════════════════════════════════════════════════════════
    7. NAVEGACIÓN
    ═══════════════════════════════════════════════════════════ */
-var VIEWS = ["home","crisis","proto","done"];
+var VIEWS = ["home","crisis","proto","done","hub","topic"];
 function go(id){
   stopAll();
-  VIEWS.forEach(function(v){ $("#v-"+v).classList.toggle("is-active", v===id); });
+  if(typeof navStack!=="undefined") navStack=[];
+  VIEWS.forEach(function(v){ var e=$("#v-"+v); if(e) e.classList.toggle("is-active", v===id); });
   window.scrollTo({ top:0, behavior: motionOff() ? "auto" : "smooth" });
   var h = $("#v-"+id+" h1");
   if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); }
@@ -1182,6 +1684,11 @@ function startBreath(cycles){
   var IN=4000, OUT=6000;
   var orb=$("#orb"), cue=$("#breathCue"), cnt=$("#breathCount"), cyc=$("#breathCycles");
   if(!orb) return;
+  /* Estos tres pueden no existir según la pantalla que invoque la pauta.
+     Sin este colchón, una pantalla sin contador rompe todo el flujo. */
+  var setCue=function(t){ if(cue) cue.textContent=t; };
+  var setCnt=function(t){ if(cnt) cnt.textContent=t; };
+  var setCyc=function(t){ if(cyc) cyc.textContent=t; };
   var reduced = motionOff();
   breathState.done=0; breathState.target=cycles; breathState.phase="in"; breathState.phaseStart=Date.now();
   if(!reduced) orb.classList.add("is-in");
@@ -1190,30 +1697,31 @@ function startBreath(cycles){
   function loop(){
     var now=Date.now(), dur=(breathState.phase==="in")?IN:OUT;
     var left=Math.max(0, dur-(now-breathState.phaseStart));
-    cnt.textContent = String(Math.ceil(left/1000));
+    setCnt(String(Math.ceil(left/1000)));
     if(left<=0){
       if(breathState.phase==="in"){
         breathState.phase="out"; breathState.phaseStart=now;
-        cue.textContent="Exhala, más largo";
+        setCue("Exhala, más largo");
         if(!reduced) orb.classList.remove("is-in");
       } else {
         breathState.done++;
         if(breathState.done>=breathState.target){
-          cue.textContent="Vuelve a tu respiración natural";
-          cnt.textContent="✓";
-          cyc.textContent="Completado";
+          setCue("Vuelve a tu respiración natural");
+          setCnt("✓");
+          setCyc("Completado");
+          if(typeof onBreathDone==="function") onBreathDone();
           breathState.raf=null; return;
         }
         breathState.phase="in"; breathState.phaseStart=now;
-        cue.textContent="Inhala";
+        setCue("Inhala");
         if(!reduced) orb.classList.add("is-in");
-        cyc.textContent="Ciclo "+(breathState.done+1)+" de "+breathState.target;
+        setCyc("Ciclo "+(breathState.done+1)+" de "+breathState.target);
       }
     }
     breathState.raf=requestAnimationFrame(loop);
   }
-  cue.textContent="Inhala";
-  cyc.textContent="Ciclo 1 de "+cycles;
+  setCue("Inhala");
+  setCyc("Ciclo 1 de "+cycles);
   breathState.raf=requestAnimationFrame(loop);
 }
 
@@ -1261,7 +1769,8 @@ var SHEETS = {
       'Úsalo como complemento si ya te resulta familiar, sobre el malestar presente y no sobre un recuerdo traumático completo. ' +
       'Si la intensidad sube en vez de bajar, detente.</p>' +
       '<p class="note" style="margin:var(--sp-3) 0">Evidencia moderada / emergente. No sustituye tratamiento para estrés postraumático.</p>' +
-      '<a class="btn btn--block" href="https://www.youtube.com/watch?v=QfbweRiQGTw" target="_blank" rel="noopener noreferrer">Abrir el video guía ↗</a></div>' +
+      ytNote() +
+      '<a class="btn btn--block" href="https://www.youtube.com/watch?v=QfbweRiQGTw" target="_blank" rel="noopener noreferrer">Abrir el video en YouTube ↗</a></div>' +
 
       '<div class="card"><h3>Habla con alguien</h3>' +
       '<p>Elige una persona segura. Di qué pasa en una frase. Pide algo concreto: compañía, una llamada, comida, transporte, escucha. ' +
@@ -1427,6 +1936,1646 @@ function applyMotion(){
   document.documentElement.setAttribute("data-motion", Store.get("motion","auto"));
 }
 
+
+/* ═══════════════════════════════════════════════════════════
+   BLOQUE 2 — CONTENIDO Y RENDERIZADORES
+   ═══════════════════════════════════════════════════════════ */
+
+/* Aviso obligatorio en cualquier enlace a YouTube.
+   Ninguno de estos videos es propio ni está bajo nuestro control. */
+/* Material propio del autor, alojado en YouTube. */
+function ytOwn(tight){
+  return '<p class="ytnote'+(tight?' ytnote--tight':'')+'" style="border-left-color:var(--sage)">'+
+    '<b>Video propio de Mateo Álvarez</b>, autor de esta página. Está alojado en YouTube, '+
+    'así que al abrirlo sales hacia allí y aplican sus condiciones: esa parte ya no ocurre dentro de esta página.</p>';
+}
+function ytNote(tight){
+  return '<p class="ytnote'+(tight?' ytnote--tight':'')+'">'+
+    '<b>Video de otra persona, ajeno a esta página.</b> Es solo orientativo. '+
+    'Quien lo explica no tiene ninguna relación con quien desarrolló este manual: '+
+    'no lo produjimos, no lo controlamos, no respondemos por lo que diga y puede cambiar '+
+    'o desaparecer en cualquier momento. Si algo de lo que dice contradice lo que lees aquí, '+
+    'o te hace sentir peor, ciérralo. '+
+    'Al abrirlo sales hacia YouTube, que aplica sus propias condiciones y recoge datos: '+
+    'eso ya no ocurre dentro de esta página.</p>';
+}
+
+var EV = {
+  solid:{c:"solid", t:"Evidencia sólida"},
+  mod:  {c:"mod",   t:"Evidencia moderada"},
+  cont: {c:"cont",  t:"Práctica contemplativa"},
+  meta: {c:"meta",  t:"Metáfora"},
+  none: {c:"none",  t:"Evidencia insuficiente"}
+};
+function badge(k){ var e=EV[k]; return '<span class="badge badge--'+e.c+'">'+e.t+'</span>'; }
+
+/* ---------- 14 HERRAMIENTAS ---------- */
+var TOOLS = [
+  { id:"resp", n:"Respiración lenta y cómoda", ev:"mod", tags:["cuerpo","claridad"],
+    para:"Puede reducir la activación subjetiva y modificar variables autonómicas. La evidencia de breathwork es prometedora, con efectos pequeños a moderados; los protocolos varían y no todos son equivalentes.",
+    como:["Siéntate o apóyate.","Inhala por nariz o boca sin llenar al máximo.","Deja que la exhalación sea ligeramente más larga.","Haz 6–10 ciclos cómodos y vuelve a respirar normal."],
+    dur:"1–3 minutos", cuando:"Ansiedad, urgencia, tensión, antes de una conversación difícil.",
+    prec:"No hagas hiperventilación, respiración intensa ni retenciones largas en crisis aguda. Detente si aparece mareo, hormigueo o más pánico.",
+    src:"Fincham et al. (2023); Laborde et al. (2022)." },
+  { id:"ground", n:"Grounding / orientación sensorial", ev:"mod", tags:["cuerpo","rumia"],
+    para:"Ayuda a volver al aquí y ahora cuando la atención quedó capturada por una amenaza, un pensamiento o un recuerdo. Está en guías de autoayuda y herramientas de trauma, aunque la evidencia aislada de cada variante es menos robusta que la de tratamientos completos.",
+    como:["Mira lentamente alrededor.","Nombra 5 cosas que ves, 4 que tocas, 3 que oyes.","Presiona pies y espalda contra superficies reales.","Di en voz baja: «Estoy aquí, ahora; hoy es ___; estoy en ___.»"],
+    dur:"1–5 minutos", cuando:"Desborde, intrusión, desrealización leve, rumiación.",
+    prec:"Si mirar hacia adentro aumenta la disociación, mantén los ojos abiertos y quédate en la orientación externa.",
+    src:"OMS (2020) Hacer lo que importa; VA PTSD Coach Online." },
+  { id:"rmp", n:"Relajación muscular progresiva", ev:"mod", tags:["cuerpo","energia"],
+    para:"Reduce la tensión y puede disminuir estrés y ansiedad. Funciona mejor como práctica repetida que como interruptor instantáneo.",
+    como:["Tensa suavemente las manos 5 segundos.","Suelta 10–15 segundos y nota la diferencia.","Repite con hombros, mandíbula, abdomen y piernas.","Nunca lleves la tensión hasta el dolor."],
+    dur:"5–15 minutos", cuando:"Tensión corporal, dificultad para bajar revoluciones, preparación para dormir.",
+    prec:"Evita tensar zonas lesionadas o dolorosas.", src:"Muhammad Khir et al. (2024)." },
+  { id:"mind", n:"Mindfulness breve: notar y nombrar", ev:"mod", tags:["rumia","claridad"],
+    para:"Entrena la atención al presente y una relación menos reactiva con pensamientos y emociones. Los programas de mindfulness tienen evidencia para reducir malestar, pero una práctica breve no equivale a un tratamiento completo.",
+    como:["Elige un ancla: pies, sonidos o respiración.","Nota: «pensamiento», «miedo», «presión en el pecho».","No intentes vaciar la mente.","Vuelve al ancla cada vez que te vayas."],
+    dur:"2–10 minutos", cuando:"Rumiación, ansiedad, reactividad.",
+    prec:"En algunas personas con trauma o disociación, cerrar los ojos o atender intensamente el cuerpo puede empeorar los síntomas. Hazlo con ojos abiertos o suspende.",
+    src:"Galante et al. (2021); OMS Hacer lo que importa." },
+  { id:"defus", n:"Defusión cognitiva", ev:"solid", tags:["rumia","claridad"],
+    para:"Reduce la fusión con los pensamientos: pasar de «esto es verdad» a «estoy teniendo este pensamiento». Es un proceso central de ACT.",
+    como:["Elige el pensamiento que domina.","Anteponle: «Estoy teniendo el pensamiento de que…»","Luego: «Mi mente está intentando protegerme prediciendo…»","Pregunta: «¿Qué acción valiosa puedo tomar aunque este pensamiento siga aquí?»"],
+    dur:"2–5 minutos", cuando:"Catastrofización, vergüenza, ansiedad, autocrítica.",
+    prec:"No la uses para negar hechos reales o peligros que requieren acción.",
+    src:"Metaanálisis de ACT; Hsu et al. (2023)." },
+  { id:"reenc", n:"Reencuadre realista", ev:"solid", tags:["claridad"],
+    para:"La terapia cognitivo-conductual no exige pensar bonito: busca interpretaciones más proporcionadas y útiles.",
+    como:["Escribe el pensamiento automático.","Busca evidencia a favor y en contra.","Reformula sin negar lo difícil.","Añade el siguiente paso controlable."],
+    dur:"5–10 minutos", cuando:"Pensamientos absolutos y anticipaciones.",
+    prec:"En las primeras horas de un shock puede ser demasiado cognitivo. Regula primero.",
+    src:"Principios CBT; guías NICE." },
+  { id:"ctrl", n:"Círculos de control", ev:"mod", tags:["claridad","impotencia"],
+    para:"Convierte la impotencia difusa en agencia específica.",
+    como:["Dibuja tres círculos: control / influencia / fuera de control.","Ubica cada preocupación.","Elige una acción solo de los dos primeros.","Para lo tercero, practica aceptación o pide apoyo."],
+    dur:"5 minutos", cuando:"Incertidumbre, problemas laborales, ruptura, noticias, duelo.",
+    prec:"No uses «fuera de control» para justificar pasividad frente a algo sobre lo que sí puedes pedir ayuda o poner un límite.",
+    src:"Compatible con solución de problemas, ACT y afrontamiento." },
+  { id:"social", n:"Conexión social con pedido concreto", ev:"solid", tags:["compania","duelo"],
+    para:"El apoyo social se asocia de forma robusta con menor severidad de síntomas postraumáticos y mejor adaptación. No toda compañía ayuda: importa que sea segura y no juzgadora.",
+    como:["Elige una persona segura.","Di qué pasa en una frase.","Pide algo concreto: compañía, llamada, comida, transporte, escucha.","Aclara si no quieres consejos."],
+    dur:"5–30 minutos", cuando:"Casi cualquier crisis, especialmente aislamiento y duelo.",
+    prec:"Evita personas que minimizan, agreden, envenenan el conflicto o presionan para que cuentes detalles.",
+    src:"Wang et al. (2021), metaanálisis de apoyo social y TEPT." },
+  { id:"caminar", n:"Caminar / movimiento suave", ev:"solid", tags:["cuerpo","energia","rumia"],
+    para:"El movimiento puede reducir la activación y sostener el estado de ánimo. La evidencia del ejercicio es fuerte a mediano plazo; una caminata breve es una herramienta de regulación, no un tratamiento completo.",
+    como:["Camina 10–20 minutos a un ritmo tolerable.","Mira el entorno en vez de rumiar a propósito.","Si quieres, coordina los pasos con tu respiración natural.","Vuelve antes de agotarte."],
+    dur:"10–30 minutos", cuando:"Inquietud, rabia, rumiación, baja energía leve.",
+    prec:"No si hay indicación médica de reposo, intoxicación, mareo o riesgo físico en el entorno.",
+    src:"Noetel et al. (2024); guía de estrés del CDC." },
+  { id:"natura", n:"Naturaleza", ev:"mod", tags:["cuerpo","energia","significado"],
+    para:"La exposición a espacios verdes y naturales se asocia con beneficios sobre estrés y bienestar. La dosis óptima no es universal y la evidencia varía por población y diseño.",
+    como:["Ve a un lugar natural seguro, aunque sea un parque urbano.","Deja el teléfono guardado 10 minutos.","Observa colores, profundidad, temperatura, sonidos.","No busques «sentir algo especial»."],
+    dur:"10–30 minutos", cuando:"Estrés, rumiación, necesidad de descanso atencional.",
+    prec:"Seguridad física primero. La naturaleza no sustituye atención clínica.",
+    src:"Bettmann et al. (2024)." },
+  { id:"escrib", n:"Escritura de descarga estructurada", ev:"mod", tags:["claridad","rumia"],
+    para:"Escribir puede ayudar a ordenar la experiencia, pero la evidencia es heterogénea y escribir en detalle sobre un trauma puede aumentar la activación en algunas personas. En crisis aguda: estructura, no excavación.",
+    como:["Pon un temporizador de 7 minutos.","Escribe: hechos / emoción / necesidad / siguiente paso.","No lo releas cinco veces.","Cierra con una acción concreta."],
+    dur:"5–10 minutos", cuando:"Confusión, exceso de pensamientos, preparación de una conversación.",
+    prec:"Si aumenta mucho el malestar, detente. No hagas exposición escrita de un trauma por tu cuenta en pleno shock.",
+    src:"Gerger et al. (2022); la evidencia de escritura expresiva es mixta." },
+  { id:"eft", n:"EFT / tapping", ev:"mod", tags:["cuerpo","compania"],
+    para:"Combina enfoque cognitivo y exposición con golpeteo de puntos corporales. Las revisiones recientes encuentran resultados prometedores para ansiedad, estrés y estrés postraumático, pero con heterogeneidad, riesgo de sesgo y una base menor que las terapias de primera línea.",
+    como:["Úsalo solo sobre el malestar presente, no sobre el recuerdo traumático completo.","Di: «Aunque siento esta activación, voy a quedarme aquí conmigo.»","Golpea suavemente los puntos habituales durante 1–2 minutos si ya conoces la técnica.","Evalúa: ¿bajó, igual o subió? Si subió, detente."],
+    dur:"2–5 minutos", cuando:"Como complemento, si ya te resulta familiar.",
+    prec:"No presentarlo como «liberación de energía bloqueada» demostrada ni como sustituto de tratamiento para estrés postraumático. NICE lo mantiene como área de investigación, no como recomendación estándar.",
+    src:"Stapleton et al. (2023, 2026); recomendación de investigación de NICE.",
+    video:"https://www.youtube.com/watch?v=QfbweRiQGTw" },
+  { id:"oracion", n:"Oración / mantra", ev:"cont", tags:["significado","espiritual","duelo"],
+    para:"Puede ofrecer estructura, consuelo, pertenencia y orientación a personas con fe o práctica espiritual. Su utilidad depende de la relación de cada quien con su tradición.",
+    como:["Elige una frase breve que no niegue la realidad.","Repítela lentamente con respiración natural.","Incluye una petición de ayuda, presencia o fortaleza si corresponde a tu fe.","Termina con una acción concreta en el mundo."],
+    dur:"2–15 minutos", cuando:"Crisis de sentido, duelo, soledad, miedo.",
+    prec:"Evita frases que conviertan el dolor en culpa («esto pasó porque vibré bajo») o que sustituyan atención médica.",
+    src:"Práctica espiritual. La evidencia sobre religiosidad y afrontamiento es contextual y no valida doctrinas específicas." },
+  { id:"lugar", n:"Visualización de lugar seguro", ev:"mod", tags:["cuerpo","compania"],
+    para:"Para algunas personas ayuda a bajar la activación imaginando un entorno protector. Para otras, especialmente con trauma, puede sentirse falso o activar recuerdos.",
+    como:["Mantén los ojos abiertos si lo prefieres.","Imagina un lugar suficientemente seguro, real o inventado.","Añade tres detalles sensoriales.","Regresa al entorno real y confirma dónde estás."],
+    dur:"2–5 minutos", cuando:"Ansiedad leve o moderada, preparación para el descanso.",
+    prec:"Suspende si aumenta la disociación, los flashbacks o la sensación de irrealidad.",
+    src:"Usada en múltiples enfoques; la evidencia depende del protocolo y la población." }
+];
+
+var TOOL_FILTERS = [
+  {id:"cuerpo", label:"Calmar el cuerpo"}, {id:"rumia", label:"Estoy rumiando"},
+  {id:"claridad", label:"Necesito claridad"}, {id:"compania", label:"Necesito compañía"},
+  {id:"duelo", label:"Estoy en duelo"}, {id:"significado", label:"Necesito significado"},
+  {id:"energia", label:"Tengo poca energía"}, {id:"espiritual", label:"Práctica espiritual"}
+];
+
+/* ---------- EMOCIONES ---------- */
+var EMOS = [
+  { id:"miedo", n:"Miedo", ic:"◔", señal:"Una posible amenaza.",
+    ayuda:"Seguridad primero. Orientar al presente. Respiración suave. Comprobar la probabilidad real y tu capacidad de respuesta.",
+    cuidado:"«Tengo miedo» no equivale a «estoy en peligro».", tool:"ground" },
+  { id:"tristeza", n:"Tristeza", ic:"◟", señal:"Pérdida, separación, decepción.",
+    ayuda:"Permitir lágrimas o quietud. Reducir la exigencia. Buscar compañía. Mantener las necesidades básicas.",
+    cuidado:"No apresures la gratitud ni el propósito.", tool:"social" },
+  { id:"rabia", n:"Rabia", ic:"◤", señal:"Un límite vulnerado, injusticia, frustración.",
+    ayuda:"Bajar la activación antes de confrontar. Movimiento. Escribir sin enviar. Después, una petición o un límite claro.",
+    cuidado:"No conviertas la intensidad en permiso para dañar.", tool:"caminar" },
+  { id:"culpa", n:"Culpa", ic:"◈", señal:"Percepción de haber hecho algo incorrecto.",
+    ayuda:"Distinguir la responsabilidad real de la culpa inflada. Reparar cuando sea posible. Aprender.",
+    cuidado:"No asumas responsabilidad por lo que no controlabas.", tool:"reenc" },
+  { id:"verguenza", n:"Vergüenza", ic:"◍", señal:"Una evaluación global del yo: «soy malo, soy defectuoso».",
+    ayuda:"Separar la conducta de la identidad. Autocompasión. Hablar con alguien seguro.",
+    cuidado:"La exposición social indiscriminada puede empeorarla.", tool:"defus" },
+  { id:"ansiedad", n:"Ansiedad", ic:"◇", señal:"Amenaza futura e incertidumbre.",
+    ayuda:"Respiración lenta y pausada, dejando la salida más larga que la entrada. Identificar qué estás pensando exactamente: la ansiedad casi siempre va montada sobre una frase concreta. Después, volver a lo verificable, reducir el horizonte, elegir la siguiente acción y limitar la búsqueda compulsiva de certeza.",
+    cuidado:"Si es persistente o incapacitante, busca evaluación profesional.", tool:"resp" },
+  { id:"impotencia", n:"Impotencia", ic:"◎", señal:"Sensación de no tener agencia.",
+    ayuda:"Círculos de control. Una acción de menos de 15 minutos. Pedir ayuda específica.",
+    cuidado:"No confundas «no controlo esto» con «no puedo hacer nada».", tool:"ctrl" },
+  { id:"duelo", n:"Duelo", ic:"◐", señal:"Respuesta a una pérdida significativa.",
+    ayuda:"Oscilar entre sentir y descansar del dolor. Ritual, recuerdos, apoyo, rutina mínima.",
+    cuidado:"No hay cinco etapas obligatorias ni cronograma universal.", tool:"social" }
+];
+
+/* ---------- CUATRO CUERPOS ---------- */
+var BODIES = [
+  { id:"fisico", n:"Físico", ic:"◍", q:"¿Qué está ocurriendo en mi organismo?",
+    pasa:"Tensión, taquicardia, respiración rápida, temblor, náusea, cansancio o entumecimiento.",
+    ident:"¿Dónde lo siento? ¿Qué necesita mi cuerpo ahora?",
+    hacer:"Empieza por el cuerpo, no por la cabeza. Con que hagas una de estas ya es suficiente:"+
+      "<ul style='margin:.6rem 0 0;padding-left:1.1rem'>"+
+      "<li style='margin-bottom:.5rem'><b>Sal a caminar.</b> Aunque sean diez minutos, aunque sea por tu casa.</li>"+
+      "<li style='margin-bottom:.5rem'><b>Respira más despacio</b> y siente el aire entrando, llenándote, y después vaciándose. No lo fuerces: solo acompáñalo.</li>"+
+      "<li style='margin-bottom:.5rem'><b>Camina descalzo sobre el pasto</b> y lleva toda tu atención a lo que sienten tus pies: la temperatura, la textura, la humedad.</li>"+
+      "<li style='margin-bottom:.5rem'><b>Bebe agua despacio</b>, notando cómo baja por la garganta hasta el estómago. Es un recorrido que casi nunca miramos.</li>"+
+      "<li><b>Pon las manos unos segundos en agua fresca</b> y atiende a lo que sienten. No se trata de aguantar nada: en cuanto lo notes, saca las manos.</li></ul>"+
+      "<p style='margin:.7rem 0 0;font-size:.9rem;color:var(--ink-soft)'>Todas hacen lo mismo: devolverle a tu atención algo real y presente. No es magia, es que la atención no puede estar en dos sitios a la vez.</p>",
+    ayuda:"Síntomas médicos graves, desmayo, dolor de pecho, falta de aire severa, intoxicación.", tool:"resp" },
+  { id:"emocional", n:"Emocional", ic:"◐", q:"¿Qué estoy sintiendo?",
+    pasa:"Miedo, tristeza, rabia, culpa, vergüenza, ansiedad, impotencia, duelo.",
+    ident:"«Estoy sintiendo ___; intensidad 0 a 10.»",
+    donde:"Antes de ponerle nombre, búscala en el cuerpo. ¿En el pecho? ¿En el estómago? ¿En la garganta? ¿En la cabeza? ¿En los hombros? La emoción casi siempre tiene un lugar, y encontrarlo ya la vuelve algo más manejable.",
+    hacer:"Di qué es lo que sientes. <b>Y si no sabes ponerle nombre, no pasa nada:</b> no siempre hay una palabra. En ese caso solo respira, quédate donde la sientes, y dile en voz baja:"+
+      "<div class='quote' style='margin:.7rem 0;font-size:1.05rem'>«Te siento. Estoy aquí para ti.»</div>"+
+      "<p style='margin:0'>Intenta sentir la emoción sin irte a los pensamientos, sin contarte nada sobre ella y sin decirte cosas. Solo sentirla. <b>No es fácil</b> — la mente se va a escapar hacia las historias una y otra vez, y cada vez que lo notes, vuelve al lugar del cuerpo donde la sientes. Eso ya es hacerlo bien.</p>",
+    ayuda:"Emoción insoportable persistente, autolesión, violencia, incapacidad para funcionar.", tool:"social" },
+  { id:"mental", n:"Mental", ic:"◇", q:"¿Qué estoy pensando?",
+    pasa:"Bajo amenaza la mente produce siempre los mismos patrones. Reconocerlos ya les quita fuerza:"+
+      "<ul style='margin:.6rem 0 0;padding-left:1.1rem'>"+
+      "<li style='margin-bottom:.45rem'><b>Catastrofizar</b> — ir directo al peor final posible: «esto arruinó todo».</li>"+
+      "<li style='margin-bottom:.45rem'><b>Rumiar</b> — dar vueltas a lo mismo esperando resolverlo, sin que aparezca nada nuevo.</li>"+
+      "<li style='margin-bottom:.45rem'><b>Absolutismo</b> — pensar en todo o nada, siempre o nunca, sin puntos intermedios.</li>"+
+      "<li style='margin-bottom:.45rem'><b>Anticipar</b> — dar por hecho un futuro que todavía no ocurrió, y sufrirlo hoy.</li>"+
+      "<li><b>Leer la mente</b> — creer que sabes lo que otros piensan de ti, sin que nadie lo haya dicho.</li></ul>",
+    ident:"¿Qué es hecho? ¿Qué es historia? ¿Qué estoy prediciendo?",
+    hacer:"Cuando notes uno de esos pensamientos, hazte tres preguntas:"+
+      "<ol style='margin:.6rem 0;padding-left:1.2rem;font-size:1.02rem'>"+
+      "<li style='margin-bottom:.35rem'>Esto que estoy pensando, <b>¿me hace sentir bien?</b></li>"+
+      "<li style='margin-bottom:.35rem'>Esto que estoy pensando, <b>¿me gusta?</b></li>"+
+      "<li>Esto que estoy pensando, <b>¿me lleva a un lugar positivo?</b></li></ol>"+
+      "<p style='margin:0'>Si la respuesta a las tres es <b>no</b>, tienes delante un pensamiento que tu consciencia necesita revisar. No hay que pelearse con él ni negarlo: basta con verlo y marcarlo. Más adelante, en las herramientas, está el cómo.</p>"+
+      "<p style='margin:.7rem 0 0;font-size:.9rem;color:var(--ink-soft)'>Un matiz importante: hay pensamientos que se sienten horrible y aun así son ciertos y útiles — «tengo que ir al médico», «esta relación me está haciendo daño». Esas tres preguntas son para los pensamientos que solo dan vueltas, no para los que te están pidiendo una acción concreta.</p>",
+    ayuda:"Desorganización intensa, delirios, confusión grave, pérdida de juicio.", tool:"defus" },
+  { id:"espiritual", n:"Significado", ic:"◈", q:"¿Qué significado le estoy dando a esto?",
+    pasa:"Pérdida de sentido, crisis de fe, preguntas sobre identidad, propósito o justicia.",
+    ident:"¿Qué significado estoy imponiendo? ¿Qué valores siguen vivos?",
+    hacer:"Oración, contemplación, comunidad espiritual segura, valores, silencio, naturaleza.",
+    ayuda:"Si la espiritualidad aumenta paranoia, culpa extrema, grandiosidad o hace evitar atención necesaria.", tool:"oracion" }
+];
+
+/* ---------- MATRIZ DE EVIDENCIA ---------- */
+var EVROWS = [
+  ["Primeros auxilios psicológicos: seguridad, apoyo práctico, conexión","solid","Alta utilidad inmediata; no forzar el relato.","No sustituye atención clínica."],
+  ["CBT: reencuadre y solución de problemas","solid","Pensamiento realista y conducta.","Regular primero si hay shock intenso."],
+  ["ACT: aceptación, defusión, valores","solid","Flexibilidad psicológica y acción.","No usar la aceptación como resignación."],
+  ["Conexión social","solid","Protección y recuperación.","La calidad del apoyo importa."],
+  ["Actividad física","solid","Estado de ánimo y salud mental.","Adaptar a la condición médica."],
+  ["Mindfulness","mod","Estrés, ansiedad, reactividad.","Puede activar a algunas personas con trauma."],
+  ["Respiración lenta","mod","Regulación autonómica y subjetiva.","Evitar hiperventilación y retenciones."],
+  ["Relajación muscular progresiva","mod","Tensión, ansiedad, estrés.","Evitar zonas lesionadas."],
+  ["Naturaleza y espacios verdes","mod","Estrés, ánimo, restauración.","Efectos variables; no es tratamiento único."],
+  ["Escritura estructurada","mod","Orden mental y procesamiento posterior.","No exposición traumática forzada en crisis."],
+  ["EFT / tapping","mod","Prometedor como complemento.","Base heterogénea; no es primera línea para TEPT."],
+  ["Oración / mantra","cont","Consuelo, sentido, fe.","No sustituye medicina ni psicoterapia."],
+  ["Cuatro elementos","meta","Mapa simple de cuerpo, emoción, respiración y dirección.","No atribuir efectos fisiológicos a los elementos."],
+  ["Turbulencia","meta","Reduce la interpretación catastrófica y las decisiones impulsivas.","Es metáfora, no diagnóstico."],
+  ["Ley del Ritmo (hermetismo)","meta","Marco para pensar los ciclos y el cambio.","Origen filosófico, no científico."],
+  ["Frecuencia o vibración como causa de los eventos","none","Puede conservarse como metáfora personal.","No presentarlo como física demostrada."],
+  ["Manifestación cuántica por el pensamiento","none","No se recomienda como explicación causal.","Puede fomentar culpa o falsas expectativas."]
+];
+
+/* ---------- TRADICIONES ---------- */
+var TRADS = [
+  { f:"Budismo (Theravada, Mahayana, Zen)", c:"Impermanencia, atención, compasión, no apego, observación de la experiencia.",
+    u:"Puede apoyar la aceptación, la perspectiva y la compasión.",
+    e:"Las prácticas de mindfulness y compasión han sido estudiadas; doctrinas como el renacimiento o el karma no quedan demostradas por esos estudios.", k:"cont" },
+  { f:"Taoísmo", c:"Wu wei, flexibilidad, armonía con el proceso, no forzar.",
+    u:"Recordatorio de reducir la lucha innecesaria y actuar con menos rigidez.",
+    e:"Valor filosófico y espiritual. No demuestra mecanismos fisiológicos específicos.", k:"cont" },
+  { f:"Vedanta / Bhagavad Gita", c:"Conciencia testigo, ecuanimidad, dharma, acción sin apego al fruto.",
+    u:"Perspectiva, valores y acción comprometida.",
+    e:"Los paralelos con el self-as-context de ACT son analogías, no equivalencias científicas.", k:"cont" },
+  { f:"Torá / Biblia", c:"Lamento, oración, comunidad, esperanza, perdón, justicia, confianza.",
+    u:"Contención, significado y apoyo comunitario para quien tiene esa fe.",
+    e:"La investigación sobre afrontamiento religioso no valida afirmaciones teológicas específicas.", k:"cont" },
+  { f:"Kabbalah", c:"Lecturas místicas de la relación entre lo divino, la creación, la reparación y la transformación.",
+    u:"Mapa simbólico de significado y responsabilidad.",
+    e:"No hay evidencia científica independiente de sus afirmaciones metafísicas.", k:"cont" },
+  { f:"Hermetismo — El Kybalión (1908)", c:"Ley del Ritmo: todo fluye y refluye; todo tiene sus periodos de avance y retroceso.",
+    u:"Marco para sostener que un estado difícil es una fase de un ciclo y no un destino final.",
+    e:"Texto filosófico y esotérico del siglo XX, atribuido a los Tres Iniciados. No es una ley física ni una afirmación verificable.", k:"meta" },
+  { f:"Ramtha / JZ Knight", c:"Enseñanzas canalizadas sobre consciencia y energía, creación de realidad, frecuencia y naturaleza divina del individuo.",
+    u:"Puede usarse como marco espiritual o metáfora personal si ayuda sin negar la realidad.",
+    e:"Sus afirmaciones sobre campos cuánticos, creación de realidad o canalización no cuentan con validación científica independiente suficiente.", k:"none" },
+  { f:"Kryon / Lee Carroll", c:"Mensajes canalizados sobre conciencia, energía, despertar y evolución espiritual.",
+    u:"Puede ofrecer lenguaje de esperanza o contemplación a quienes siguen ese material.",
+    e:"No existe evidencia científica independiente que confirme la entidad canalizada ni los mecanismos metafísicos descritos.", k:"none" },
+  { f:"Tobias / Crimson Circle", c:"Material canalizado centrado en la conciencia, «Yo Existo», la realización y el permitir.",
+    u:"Puede funcionar como lenguaje contemplativo de identidad y presencia.",
+    e:"No existe evidencia científica independiente que confirme la canalización ni su cosmología.", k:"none" }
+];
+
+/* ---------- RETO DE 28 DÍAS ----------
+   Los títulos y enlaces son los que entregó el autor.
+   Las actividades están marcadas como BORRADOR: se derivaron del
+   título porque el contenido del video no es accesible desde aquí.
+   Deben confirmarse o reemplazarse antes de publicar. */
+var RETO_INTRO = { url:"https://youtu.be/atenabuXys8", t:"Introducción al reto" };
+var RETO = [
+  ["D-SWcjlIYt0","Percibimos la realidad de acuerdo a nuestros pensamientos","Anota tres situaciones del día y, al lado, el pensamiento con el que las interpretaste."],
+  ["7UAfs9RVGgU","La mente es como un niño que todo se lo cree — frase de poder","Elige una frase de poder y repítela al despertar, al mediodía y antes de dormir."],
+  ["Cpg6tazV8_o","Se pueden cambiar los pensamientos","Cada vez que notes un pensamiento repetido, escríbelo y formula una versión alternativa."],
+  ["PGhY8Gs1p54","Cómo se resuelve un problema en el momento","Toma un problema pendiente y define el paso más pequeño que puedas dar hoy."],
+  ["EZqHGamN4Ms","Pasar pensamientos negativos a positivos","Lleva una lista de los pensamientos negativos del día y reescríbelos."],
+  ["M3pkBZMbzHI","Cambio de negativo a propositivo","Convierte cada queja del día en una petición o una acción concreta."],
+  ["uUpthREzTWg","Si no escribe no sirve","Escribe a mano, cada día, lo trabajado. Sin escribirlo no se fija."],
+  ["t-GSVMS0MOg","El significado es el que nos hace daño","Separa el hecho del significado que le diste. Anota ambos por separado."],
+  ["evb0T-FkMDo","Meditación: explicación e impacto","Medita cinco minutos y registra cómo estabas antes y cómo después."],
+  ["95n1Cmtqwck","Darle el verdadero peso a las cosas","Ordena tus preocupaciones del día de mayor a menor peso real."],
+  ["51Jo0pX1wKw","La gratitud como herramienta para mejorar","Agradece dos cosas al despertar y dos antes de dormir."],
+  ["X8UFzH8nXcY","Misión de vida","Escribe qué quieres que quede de ti. Sin editarlo."],
+  ["wOFraPPaQng","Cómo crear tu misión de vida","Redacta tu misión en una sola frase y déjala visible."],
+  ["5_lozYU3B1k","Objetivos trascendentales","Define un objetivo que te trascienda y un primer paso."],
+  ["HmCA_scvFck","Eres el dueño de tu realidad","Identifica una situación donde estés cediendo decisiones y retómala."],
+  ["JOML8EWk78A","Cuando me siento mal y no soy capaz de mejorar","Anota qué haces cuando no puedes salir del bajón y qué sí te ha funcionado antes."],
+  ["b5frcPcR1oQ","Regla del 80/20","Identifica el 20 % de tus acciones que produce el 80 % de tus resultados."],
+  ["M9h3NG7WFD8","Encuentra el regalo que traen las crisis a tu vida","Solo si ya estás estable: escribe qué te ha mostrado una crisis pasada."],
+  ["ghIDw1MeVo4","Carta del futuro","Escríbete una carta desde dentro de un año."],
+  ["0Q6oh1GUA3I","Pasos para vencer el miedo","Nombra un miedo concreto y define el primer paso de exposición."],
+  ["FasZC8GqlMg","Lidiando con las preocupaciones","Separa las preocupaciones en resolubles y no resolubles."],
+  ["WdmRH7iBfWQ","Domina tu ansiedad","Registra cuándo aparece la ansiedad, qué la precede y qué la baja."],
+  ["8shAoA3kmWA","Alcanzar los objetivos","Divide tu objetivo principal en tareas de menos de treinta minutos."],
+  ["5CotG9aCD_g","El arte de visualizar el objetivo","Visualiza tu objetivo cinco minutos con detalle sensorial."],
+  ["lmM-MIAFpLY","Ponerse en acción","Ejecuta hoy la tarea que llevas más tiempo posponiendo."],
+  ["M5sG2c3DLdo","Qué hacer cuando el plan no funciona","Revisa un plan que falló y escribe la corrección, no la culpa."],
+  ["-ImsBcHJRgc","Qué puede causar el estrés","Identifica tus tres fuentes principales de estrés y qué depende de ti en cada una."],
+  ["aySFQmWar6c","Hábitos de vida saludable","Elige un hábito de sueño, alimentación o movimiento y sostenlo."]
+];
+
+
+/* ---------- FRASES DE EMERGENCIA ---------- */
+var FRASES = [
+  "No tengo que resolver toda mi vida ahora.",
+  "Primero me estabilizo; después decido.",
+  "Esto está ocurriendo, pero no define todo lo que soy.",
+  "Puedo sentir esta emoción sin obedecerla.",
+  "Una emoción es real; la historia que construyo alrededor puede necesitar revisión.",
+  "Lo que ocurrió es un hecho; lo que predigo sobre el futuro es una interpretación.",
+  "No necesito certeza total para dar un buen siguiente paso.",
+  "¿Qué sí puedo hacer en los próximos quince minutos?",
+  "Puedo pedir ayuda sin tener que explicar todo.",
+  "No saber qué hacer todavía también es información: necesito más estabilidad o más datos.",
+  "No todo lo que mi mente produce bajo amenaza merece una decisión.",
+  "Aceptar que esto ocurre no significa aprobarlo.",
+  "El dolor no necesita una explicación espiritual inmediata.",
+  "La intensidad de hoy no es una sentencia sobre mañana.",
+  "Puedo estar en turbulencia sin estar cayendo."
+];
+function renderFrases(){
+  return '<div class="card" style="text-align:center;padding:var(--sp-5) var(--sp-4)">' +
+    '<p class="eyebrow" id="frIdx"></p>' +
+    '<p class="practice__text" id="frTxt" style="min-height:6.5rem;display:flex;align-items:center;justify-content:center">…</p>' +
+    '<div class="btn-row" style="margin-top:var(--sp-4)">' +
+      '<button class="btn" data-fr="prev">←</button>' +
+      '<button class="btn" data-fr="fav" aria-pressed="false">Favorita</button>' +
+      '<button class="btn" data-fr="copy">Copiar</button>' +
+      '<button class="btn" data-fr="next">→</button>' +
+    '</div>' +
+    '<button class="btn btn--ghost btn--block" data-fr="rand" style="margin-top:var(--sp-2)">Dame una al azar</button>' +
+  '</div><div id="frFavs"></div>';
+}
+var frI = 0;
+function paintFrase(){
+  var t=document.getElementById("frTxt"); if(!t) return;
+  t.textContent = "«" + FRASES[frI] + "»";
+  document.getElementById("frIdx").textContent = (frI+1)+" de "+FRASES.length;
+  var favs=Store.get("favFrases",[]);
+  var fb=document.querySelector('[data-fr="fav"]');
+  if(fb){ var on=favs.indexOf(frI)>=0; fb.setAttribute("aria-pressed",String(on)); fb.textContent=on?"★ Favorita":"Favorita"; }
+  var box=document.getElementById("frFavs");
+  if(box){
+    box.innerHTML = favs.length
+      ? '<p class="filters__label">Tus favoritas</p>' + favs.map(function(i){
+          return '<div class="entry"><p>«'+esc(FRASES[i])+'»</p></div>'; }).join("")
+      : "";
+  }
+}
+function wireFrases(root){
+  if(!document.getElementById("frTxt")) return;
+  paintFrase();
+  $$('[data-fr]', root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var a=b.getAttribute("data-fr");
+      if(a==="next") frI=(frI+1)%FRASES.length;
+      else if(a==="prev") frI=(frI-1+FRASES.length)%FRASES.length;
+      else if(a==="rand") frI=Math.floor(Math.random()*FRASES.length);
+      else if(a==="copy"){ copy(FRASES[frI]); return; }
+      else if(a==="fav"){
+        var favs=Store.get("favFrases",[]); var i=favs.indexOf(frI);
+        if(i>=0) favs.splice(i,1); else favs.push(frI);
+        Store.set("favFrases",favs);
+      }
+      paintFrase();
+    });
+  });
+}
+
+/* ---------- RECURSOS ---------- */
+var VIDEOS = [
+  { id:"QfbweRiQGTw", t:"Tapping / EFT guiado", p:"Secuencia completa de golpeteo. Úsalo sobre el malestar presente, no sobre un recuerdo traumático completo." },
+  { id:"eP3VHiqmelc", t:"Respiración diafragmática y relajación", p:"Ejercicio de respiración lenta. Detente si aparece mareo u hormigueo." },
+  { id:"EKPxr-CUNYU", t:"Yoga — saludo al sol", p:"Movimiento suave para la mañana. Adáptalo a tu condición física; no fuerces ninguna postura." },
+  { id:"lUZr28wjnLU", t:"Meditación guiada para liberar miedos", p:"Práctica contemplativa. Si cerrar los ojos aumenta la desconexión, hazla con los ojos abiertos." }
+];
+
+var RECURSOS_INST = [
+  { t:"OMS — Hacer lo que importa en tiempos de estrés", p:"Guía ilustrada con audios: grounding, defusión, aceptación y valores. 5–20 min por práctica.",
+    u:"https://www.who.int/publications/i/item/9789240003927" },
+  { t:"UCLA Mindful en español", p:"Meditaciones guiadas: respiración 5 min, escaneo corporal 3 min, trabajar dificultades 8–10 min.",
+    u:"https://www.uclahealth.org/programs/uclamindful/free-guided-meditations/ucla-mindful-en-espanol" },
+  { t:"VA — PTSD Coach Online: grounding", p:"Herramientas breves para volver al momento presente. 2–10 min.",
+    u:"https://www.ptsd.va.gov/apps/ptsdcoachonline/tools/be-in-the-moment/pages/page-2.html" },
+  { t:"Oxford Mindfulness — meditaciones gratuitas", p:"Respiración, escaneo corporal, caminata consciente y práctica sentada.",
+    u:"https://oxfordmindfulness.org/free-meditations" }
+];
+
+var BIBLIO = [
+  ["Ciencia, crisis y salud mental", [
+    "World Health Organization, War Trauma Foundation, & World Vision International. (2011). <i>Psychological first aid: Guide for field workers</i>. WHO.",
+    "World Health Organization. (2020). <i>Doing what matters in times of stress: An illustrated guide</i>. WHO.",
+    "National Institute for Health and Care Excellence. (2018). <i>Post-traumatic stress disorder</i> (NG116).",
+    "Shields, G. S., Sazma, M. A., & Yonelinas, A. P. (2016). The effects of acute stress on core executive functions. <i>Neuroscience &amp; Biobehavioral Reviews, 68</i>, 651–668.",
+    "Starcke, K., & Brand, M. (2016). Effects of stress on decisions under uncertainty. <i>Psychological Bulletin, 142</i>(9), 909–933."
+  ]],
+  ["Psicología, regulación y hábitos", [
+    "Fincham, G. W., et al. (2023). Effect of breathwork on stress and mental health. <i>Scientific Reports, 13</i>, 432.",
+    "Laborde, S., et al. (2022). Effects of voluntary slow breathing on heart rate and HRV. <i>Neuroscience &amp; Biobehavioral Reviews, 138</i>, 104711.",
+    "Muhammad Khir, S., et al. (2024). Efficacy of Progressive Muscle Relaxation in Adults. <i>Psychology Research and Behavior Management, 17</i>, 345–365.",
+    "Galante, J., et al. (2021). Mindfulness-based programmes for mental health promotion in adults. <i>PLoS Medicine</i>.",
+    "Noetel, M., et al. (2024). Effect of exercise for depression. <i>BMJ, 384</i>, e075847.",
+    "Wang, Y., et al. (2021). Social support and posttraumatic stress disorder. <i>Clinical Psychology Review, 85</i>, 101998.",
+    "Bettmann, J. E., et al. (2024). How does nature exposure affect adults with symptoms of mental illness? <i>IJMHN, 33</i>(6), 1889–1907.",
+    "Gerger, H., et al. (2022). Comparative efficacy of expressive writing treatments. <i>Psychological Medicine, 52</i>(15), 3484–3496.",
+    "Hsu, T., Adamowicz, J. L., & Thomas, E. B. K. (2023). The effect of ACT on psychological flexibility. <i>JCBS, 30</i>, 169–180."
+  ]],
+  ["EFT / tapping", [
+    "Stapleton, P., & van Elst, A. (2026). Clinical EFT for psychological and physiological stress reduction. <i>Explore</i>.",
+    "Emotional Freedom Techniques for Anxiety Disorders: A Systematic Review. (2025). <i>Healthcare</i>.",
+    "Stapleton, P., et al. (2023). EFT for treating post traumatic stress disorder. <i>Frontiers in Psychology, 14</i>, 1195286.",
+    "NICE. <i>Emotional freedom techniques: research recommendation for PTSD in adults</i>."
+  ]],
+  ["Fuentes contemplativas y espirituales", [
+    "Se citan como tradiciones o sistemas de creencias, no como evidencia científica.",
+    "<i>Bhagavad Gita</i>; <i>Tao Te Ching</i>; textos budistas Theravada, Mahayana y Zen; Torá y Biblia.",
+    "Tres Iniciados. (1908). <i>El Kybalión</i>. Fuente de la Ley del Ritmo.",
+    "Ramtha's School of Enlightenment; Kryon / Lee Carroll; Crimson Circle — material canalizado."
+  ]]
+];
+
+/* ═══════════════════════════════════════════════════════════
+   BLOQUE 2 — RENDERIZADORES
+   ═══════════════════════════════════════════════════════════ */
+
+var HUBS = {
+  learn:{ title:"Comprender y prepararme.", lede:"Esto es para leer cuando ya bajó la intensidad. No hace falta leerlo entero ni en orden.",
+    items:[
+      ["salir","Empezar a salir","Cinco pasos para los días después del golpe.","5 pasos"],
+      ["entender","Entender qué pasa","Cuerpo, emoción, mente y significado. Herramientas y evidencia.","Manual"],
+      ["espiritual","Dimensión espiritual","Yo Soy, los cuatro elementos, transmutación, tradiciones y ritmos.","Práctica"],
+      ["despues","Después de la crisis","24 horas, 7 días, integración y el reto de 28 días.","Proceso"],
+      ["recursos","Recursos y fuentes","Audios, videos, bibliografía y de dónde sale cada cosa.","Fuentes"]
+    ]},
+  entender:{ title:"Entender qué está pasando.", lede:"Cuatro planos, ocho emociones, catorce herramientas y una matriz que dice qué respalda cada cosa.",
+    items:[
+      ["__proto","Los protocolos completos","60 segundos, 5 minutos y 20 minutos, paso a paso.",""],
+      ["dentro","Qué está pasando dentro de mí","La respuesta del organismo, sin caricaturas.",""],
+      ["cuerpos","Los cuatro cuerpos","Físico, emocional, mental y de significado.",""],
+      ["emociones","Emociones: sentir sin obedecer","Qué señala cada una y qué ayuda.",""],
+      ["mente","Hecho, historia y siguiente paso","Los patrones del pensamiento bajo amenaza.",""],
+      ["aceptacion","Aceptación sin rendición","Qué es y qué no es aceptar.",""],
+      ["ctrl","Círculos de control","De la impotencia difusa a una acción concreta.",""],
+      ["herramientas","Las catorce herramientas","Filtrables por lo que necesitas y por nivel de evidencia.",""],
+      ["turbulencia","La práctica de la turbulencia","La metáfora central, convertida en secuencia.",""],
+      ["pasos10","El modelo de diez pasos","De la reacción a la respuesta.",""],
+      ["frases","Frases de emergencia","Quince frases cortas, con favoritos y copia rápida.",""],
+      ["evidencia","Matriz de evidencia","Qué tiene respaldo, qué es contemplativo y qué es metáfora.",""]
+    ]},
+  espiritual:{ title:"Dimensión espiritual.", lede:"Esta sección es explícitamente espiritual y contemplativa. No se presenta como ciencia, y no lo necesita.",
+    items:[
+      ["yosoy","Protección Divina del Yo Soy","Práctica espiritual completa, con su texto íntegro.",""],
+      ["elementos","Los cuatro elementos","Tierra, agua, aire y fuego como mapa simbólico.",""],
+      ["transmutacion","Transmutación","De la experiencia a la conducta, paso a paso.",""],
+      ["ritmo","Los ritmos de la vida y la Ley del Ritmo","Por qué cambian los ciclos.",""],
+      ["tradiciones","Tradiciones, comparadas","Nueve fuentes, con su origen y su límite.",""]
+    ]},
+  despues:{ title:"Después de la crisis.", lede:"Cuando ya no estás en el pico. Aquí sí cabe preguntarse qué significó esto — y solo aquí.",
+    items:[
+      ["h24","Las primeras 24 horas","Estructura mínima para no agregar daño.",""],
+      ["d7","Los siete días","Un enfoque por día, sin exigencia de sentirte bien.",""],
+      ["integracion","Integrar sin forzar","Por qué llegan estas situaciones, y cuándo preguntárselo.",""],
+      ["reto","Reto de transformación de 28 días","Un video y una actividad al día, acumulativas.",""],
+      ["sandwich","El efecto sándwich","Meditación en la mañana, actividad en el día, hipnosis en la noche.",""]
+    ]},
+  recursos:{ title:"Recursos y fuentes.", lede:"Todo lo que sostiene este manual, con enlace directo.",
+    items:[
+      ["practicas","Las dos prácticas diarias","Meditación zen y Yo Soy. Son la base de todo el proceso.","Diario"],
+      ["audios","Audios del programa","Todos los audios reunidos en un solo lugar.",""],
+      ["videos","Biblioteca audiovisual","Tapping, respiración, yoga y meditación guiada.",""],
+      ["inst","Recursos institucionales","OMS, UCLA, VA y Oxford. Gratuitos.",""],
+      ["biblio","Bibliografía","Metaanálisis, guías clínicas y fuentes contemplativas.",""]
+    ]}
+};
+
+/* ---------- TEMAS ---------- */
+var TOPICS = {
+
+dentro:{ h:"Qué está pasando dentro de mí.", blocks:[
+  {t:"text", v:"En una crisis, el organismo prioriza detectar y responder a la amenaza. Pueden aumentar la alerta, la tensión, la frecuencia cardiaca, la respiración, la vigilancia y la urgencia por actuar. También pueden aparecer entumecimiento, desconexión o sensación de irrealidad. <b>Estas reacciones no significan automáticamente que tengas un trastorno.</b>"},
+  {t:"text", v:"El estrés agudo puede reducir temporalmente la memoria de trabajo y la flexibilidad cognitiva, y sesgar las decisiones hacia respuestas más rápidas y reactivas. Por eso «no decidir desde el pánico» es una regla de gestión de riesgo, no una frase espiritual."},
+  {t:"note", v:"La amígdala, la corteza prefrontal y el sistema nervioso autónomo participan en estos procesos, pero evita la caricatura de que «la amígdala secuestra el cerebro». La regulación emocional emerge de redes distribuidas, contexto, aprendizaje y estado corporal."},
+  {t:"quote", v:"Cuando estás muy activado, tu primera tarea no es encontrar la interpretación perfecta. Es recuperar suficiente capacidad para pensar."}
+]},
+
+cuerpos:{ h:"Los cuatro cuerpos.", lede:"Toca el plano que sientes desbordado.", blocks:[
+  {t:"note", v:"El cuerpo de significado no se presenta como una categoría anatómica ni como un campo físico demostrado. Es un mapa de sentido, valores, identidad y práctica espiritual."},
+  {t:"bodies"}
+]},
+
+emociones:{ h:"Emociones: sentir sin obedecer.", lede:"Las emociones aportan información, pero no son órdenes ni pruebas de que una interpretación sea cierta. Regular no significa suprimir.", blocks:[
+  {t:"emos"}
+]},
+
+mente:{ h:"Hecho, historia y siguiente paso.", blocks:[
+  {t:"text", v:"En crisis, la mente intenta cerrar la incertidumbre rápido. Puede hacerlo exagerando, generalizando o adivinando. El objetivo no es pensar positivo: es pensar de forma <b>más realista, más flexible y más funcional</b>."},
+  {t:"acc", items:[
+    ["Catastrofización","«Esto arruinó todo.»","¿Qué es grave de verdad y qué estoy extendiendo al resto de mi vida?"],
+    ["Todo o nada","«Si no salió perfecto, fracasé.»","¿Qué opciones existen entre 0 y 100?"],
+    ["Sobregeneralización","«Siempre me pasa.»","¿Qué datos apoyan «siempre»? ¿Qué excepciones existen?"],
+    ["Personalización","«Esto pasó por mí.»","¿Qué otros factores causales existen?"],
+    ["Lectura de mente","«Sé lo que piensa de mí.»","¿Qué sé con certeza? ¿Qué estoy infiriendo?"],
+    ["Adivinación","«Sé que terminará mal.»","¿Cuál es la probabilidad real? ¿Qué haría si ocurriera?"],
+    ["Rumiación","«Si lo pienso una vez más, lo resolveré.»","¿Este pensamiento produce información nueva o solo repite el dolor?"]
+  ]},
+  {t:"factstory"}
+]},
+
+aceptacion:{ h:"Aceptación: realidad sin rendición.", blocks:[
+  {t:"text", v:"Aceptar no es aprobar, ni resignarse, ni perdonar, ni quedarse quieto, ni decir que algo «debía pasar». Es dejar de gastar toda tu energía peleando con el hecho de que ya ocurrió, para recuperar la capacidad de decidir qué haces desde aquí."},
+  {t:"quote", v:"No elijo que esto haya ocurrido. No tengo que estar de acuerdo. Reconozco que está ocurriendo y quiero decidir qué hago desde aquí."},
+  {t:"note", v:"Si «aceptar» te vuelve pasivo frente a abuso, violencia o peligro, estás usando la palabra de manera equivocada. Aceptar una realidad es lo contrario de tolerar un daño que sigue ocurriendo."},
+
+  {t:"text", v:"<b>Un camino corto para aceptar.</b> Es exigente: pide compromiso y que de verdad quieras aceptarlo. Y sobre todo, pide un momento adecuado."},
+  {t:"note", v:"Esto no es para el día del golpe. Si acabas de recibir la noticia, si todavía estás en el pico, si no tienes ni la energía mínima — <b>no lo hagas todavía, y está perfectamente bien.</b> No aceptar hoy no es un fracaso: es que aún no toca. Vuelve a los protocolos y deja esto para cuando puedas sostenerlo."},
+
+  {t:"flow", items:[
+    ["Paso 0 · ¿De verdad quiero aceptar esto?",
+     "Antes que nada, pregúntatelo y sé muy sincero contigo. Si la respuesta es no, o «todavía no», ahí se termina el ejercicio por hoy. Forzarlo no funciona."],
+    ["Paso 1 · Siente la emoción",
+     "Siente lo que te hace sentir esa situación. Toda, sin recortarla. Y aquí está lo difícil: <b>sin los pensamientos</b>, sin lo que te cuentas, sin justificarla ni explicarla. Solo mira dónde está en tu cuerpo y quédate ahí sintiéndola. La mente se va a escapar hacia las historias muchas veces; cada vez que lo notes, vuelve al cuerpo."],
+    ["Paso 2 · ¿Qué vine a aprender de esto?",
+     "Si te sirve el marco: <b>esta situación llegó a mi vida a enseñarme algo. ¿Qué es?</b> No busques la respuesta perfecta ni la más elevada. A veces es algo pequeño y muy concreto, y eso basta."],
+    ["Paso 3 · ¿Cómo hago para que no vuelva a pasar?",
+     "Y si vuelve a pasar, ¿cómo hago para que me afecte menos? Aquí sales de lo que sientes y entras en lo que puedes hacer. No siempre habrá respuesta, y cuando la haya, casi siempre será pequeña."],
+    ["Paso 4 · Cuando la emoción vuelva, recuerda el aprendizaje",
+     "Va a volver, y vas a creer que no habías aceptado nada. Es normal. Cada vez que aparezca, acuérdate de lo que estás aprendiendo. Eso hace que tu atención se apoye en el aprendizaje y no se hunda en la emoción."]
+  ]},
+
+  {t:"text", v:"La idea de fondo es esta: <b>el precio de ese aprendizaje fue la situación y el dolor que trajo.</b> Ya lo pagaste. Lo que cierra el ciclo es quedarte con lo aprendido — así tu mente puede dar el asunto por terminado y pasar a la aceptación llevándose algo, en vez de sentir que solo perdió."},
+  {t:"badge", k:"cont"},
+  {t:"note", v:"Los pasos 1 y 3 se apoyan en procesos con respaldo: aceptación y defusión de ACT, y solución de problemas de la terapia cognitivo-conductual. Los pasos 2 y 4 son un marco de significado, no un mecanismo demostrado: ayudan a mucha gente, pero no hay obligación de encontrarle una enseñanza a lo que te pasó. Si buscarla te hace sentir culpable o te suena a que lo merecías, sáltate esos dos pasos — el proceso funciona igual."}
+]},
+
+ctrl:{ h:"Círculos de control.", lede:"Convierte la impotencia difusa en agencia específica. Escribe cada preocupación donde corresponda.", blocks:[
+  {t:"control"},
+  {t:"note", v:"No uses «no depende de mí» para justificar pasividad frente a algo sobre lo que sí puedes pedir ayuda o poner un límite."}
+]},
+
+herramientas:{ h:"Las catorce herramientas.", lede:"Escoge una. En crisis, más técnicas no significa más regulación.", blocks:[
+  {t:"tools"}
+]},
+
+turbulencia:{ h:"La práctica de la turbulencia.", blocks:[
+  {t:"text", v:"Un avión puede atravesar turbulencia sin estar cayendo. El piloto no aterriza en medio del océano ni salta: mantiene el rumbo, reduce la velocidad y espera a cruzar la capa de aire inestable."},
+  {t:"quote", v:"Sentir inestabilidad no prueba que todo esté colapsando."},
+  {t:"flow", items:[
+    ["Nombra","«Estoy en turbulencia.»"],
+    ["Suspende","Identifica qué decisión puede esperar."],
+    ["Estabiliza","Cuerpo, respiración, orientación, agua, apoyo."],
+    ["Mira los instrumentos","Hechos verificables, no solo sensaciones."],
+    ["Espera claridad suficiente","No necesitas certeza total."],
+    ["Decide","La opción más coherente con tu seguridad y tus valores."]
+  ]},
+  {t:"badge", k:"meta"},
+  {t:"quote", v:"La intensidad de este momento no es una predicción exacta de mi futuro."}
+]},
+
+pasos10:{ h:"El modelo de diez pasos.", lede:"De la reacción a la respuesta. No siempre debes completar los diez en una sola sesión.", blocks:[
+  {t:"flow", items:[
+    ["Detener","Interrumpir la conducta automática antes de aumentar el daño."],
+    ["Regular","Dar al cuerpo señales de seguridad suficiente: postura, respiración, orientación, descanso."],
+    ["Sentir","Identificar la emoción sin suprimirla y sin convertirla en una orden."],
+    ["Observar","Notar pensamientos, impulsos y sensaciones como experiencias presentes."],
+    ["Diferenciar","Separar hechos comprobables de interpretaciones, predicciones y lecturas de mente."],
+    ["Aceptar","Reconocer lo que ya está ocurriendo, sin confundir aceptación con aprobación."],
+    ["Elegir","Distinguir control, influencia y lo que no depende de ti."],
+    ["Actuar","Ejecutar la acción útil más pequeña y reversible posible."],
+    ["Conectar","Buscar apoyo humano, comunidad o ayuda profesional."],
+    ["Integrar","Solo cuando haya más estabilidad: construir significado, aprendizaje y dirección."]
+  ]},
+  {t:"note", v:"Base conceptual: primeros auxilios psicológicos de la OMS, CBT, ACT, DBT, mindfulness y principios de resiliencia y apoyo social. La secuencia como conjunto es un modelo práctico propio, no un protocolo clínico validado como unidad."}
+]},
+
+frases:{ h:"Frases de emergencia.", lede:"Para leer cuando la mente no puede sostener un párrafo entero. Guarda las que te sirvan.", blocks:[
+  {t:"frases"}
+]},
+
+evidencia:{ h:"Matriz de evidencia.", lede:"Cada práctica de este manual, con su nivel de respaldo y su límite.", blocks:[
+  {t:"legend"}, {t:"evtable"}
+]},
+
+/* ── EMPEZAR A SALIR ── */
+salir:{ h:"Cinco pasos para empezar a salir.", lede:"No son para el minuto uno. Son para los días siguientes, cuando ya puedes sostener algo más que respirar.", blocks:[
+  {t:"steps5"}
+]},
+s1:{ h:"1 · Siente las emociones.", blocks:[
+  {t:"text", v:"Permítete sentir sin reproche. No tienes que analizar nada todavía, ni entender por qué, ni sacar una conclusión."},
+  {t:"quote", v:"Puedes poner aquí todo lo que sientes sin ningún tipo de reproche."},
+  {t:"journal", id:"emoDiary", title:"Diario de emociones", fields:[
+    ["q1","¿Qué estoy sintiendo?","Sin filtrar. Varias emociones a la vez está bien."],
+    ["q2","¿Dónde lo siento en el cuerpo?","Pecho, garganta, estómago, mandíbula…"],
+    ["q3","¿Qué intensidad tiene, de 0 a 10?",""],
+    ["q4","¿Qué necesito ahora?","Descanso, compañía, silencio, comer, llorar…"],
+    ["q5","Escribe libremente","Lo que salga."]
+  ]},
+  {t:"note", v:"Si escribir aumenta mucho el malestar, detente. En crisis aguda: estructura, no excavación. No hagas exposición escrita de un trauma por tu cuenta."}
+]},
+s2:{ h:"2 · Mueve el cuerpo.", blocks:[
+  {t:"quote", v:"Sal a caminar. Muévete. Si puedes, camina en la naturaleza. Conecta con la tierra."},
+  {t:"text", v:"No se trata de huir de la emoción, sino de ayudar al cuerpo y a la mente a salir de la inmovilidad. La evidencia sobre actividad física y estado de ánimo es sólida a mediano plazo; una caminata concreta es una herramienta de regulación, no un tratamiento."},
+  {t:"text", v:"Si tienes tiempo y tu condición física lo permite, entre 30 y 45 minutos, y si hay terreno con subidas, mejor. Pero no es obligación: caminar diez minutos por tu barrio ya cuenta."},
+  {t:"walk"},
+  {t:"note", v:"No salgas si hay mareo, intoxicación, indicación médica de reposo o el entorno no es seguro. Las subidas son opcionales: no las hagas si tienes una condición cardíaca o articular sin consultarlo antes."}
+]},
+s3:{ h:"3 · Aprende algo nuevo.", blocks:[
+  {t:"quote", v:"Comprendo que estudiar en este momento pareciera ser algo negativo, pero por el contrario puede ayudarte a mantener tu mente activa de forma positiva, enfocándote por un momento en algo que estás aprendiendo y no únicamente en pensamientos negativos."},
+  {t:"text", v:"No es una obligación ni una tarea. Puede ser leer, escuchar una clase, aprender una habilidad, ver algo educativo, o estudiar eso que siempre te dio curiosidad y nunca miraste."},
+  {t:"journal", id:"learnDiary", title:"¿Qué puedo aprender hoy durante quince minutos?", fields:[
+    ["l1","Lo que voy a aprender hoy","Un tema, un video, un capítulo."],
+    ["l2","Qué me quedó","Después, en una o dos frases."]
+  ]}
+]},
+s4:{ h:"4 · Ayuda a alguien.", blocks:[
+  {t:"text", v:"Puede ser una persona, un animal, otro ser vivo o alguien de tu comunidad."},
+  {t:"quote", v:"Ayudar puede cambiar nuestro estado de ánimo y darnos otra perspectiva cuando recordamos que, incluso atravesando algo difícil, todavía podemos aportar algo a alguien."},
+  {t:"quote", v:"El ser humano tiene una capacidad natural de servir y ayudar."},
+  {t:"list", items:["Llamar a alguien que quizá también la esté pasando mal","Escuchar sin dar consejos","Alimentar a un animal","Acompañar a alguien a un trámite","Ayudar con una tarea concreta","Un pequeño acto de servicio, sin anunciarlo"]},
+  {t:"journal", id:"helpDiary", title:"Registro", fields:[
+    ["h1","¿A quién ayudé hoy y cómo?",""]
+  ]},
+  {t:"note", v:"Ayudar no es rescatar, y no tiene que ser grande. Si estás muy desbordado, este paso puede esperar."}
+]},
+s5:{ h:"5 · Gratitud al despertar y antes de dormir.", blocks:[
+  {t:"text", v:"Todas las mañanas al levantarte y todas las noches antes de dormir: <b>agradece dos cosas que realmente puedas sentir.</b> Pueden ser las mismas. Lo ideal es ir encontrando cosas nuevas, o ir aumentando poco a poco la lista."},
+  {t:"quote", v:"Esto ayuda a que tu mente vuelva a reconocer lo positivo que sí existe en tu vida y que lo negativo deje de ocupar todo el campo de visión."},
+  {t:"gratitude"},
+  {t:"note", v:"El contador es solo un registro. No es una racha que puedas romper ni una competencia. Si un día no puedes sentir nada que agradecer, ese día no se agradece y ya."}
+]},
+
+/* ── ESPIRITUAL ── */
+yosoy:{ h:"Protección Divina del Yo Soy.", blocks:[
+  {t:"badge", k:"cont"},
+  {t:"text", v:"Práctica espiritual y contemplativa. No es una técnica clínica y no se presenta como tal. Antes de empezar, respira lentamente unas cuantas veces y deja que la exhalación sea más larga que la inhalación."},
+  {t:"practice", v:"Desde el Ser que habita mi cuerpo hago un alto a mi personalidad, para que mi Ser se posesione completamente de su cuerpo; y que el Espíritu Divino que Yo Soy, y el Dios que todo lo es, surja en esta situación dentro de mi corazón con amor, benevolencia y compasión, y que se haga cargo de esta situación, generando los aprendizajes que debe tener mi ego, pero siempre en armonía con todo el mundo, bajo la gracia y de manera perfecta."},
+  {t:"audioSlot", id:"yosoy"},
+  {t:"note", v:"Repite la frase tantas veces como quieras. Si en algún momento te desconecta en vez de sostenerte, déjala y vuelve a la orientación sensorial."}
+]},
+elementos:{ h:"Los cuatro elementos.", blocks:[
+  {t:"badge", k:"meta"},
+  {t:"text", v:"Mapa contemplativo, no una explicación fisiológica de cuatro energías corporales. Los elementos no tienen efectos fisiológicos específicos: lo que hace efecto es lo que haces en cada paso."},
+  {t:"elements"}
+]},
+transmutacion:{ h:"Transmutación: de dolor a respuesta.", blocks:[
+  {t:"text", v:"Aquí la palabra tiene dos usos distintos. <b>Psicológico:</b> transformar la relación con una experiencia y la conducta que sigue. <b>Espiritual:</b> metáfora de alquimia interior. No se afirma una conversión física de energías emocionales en frecuencias medibles."},
+  {t:"quote", v:"Experiencia → emoción → pensamiento → significado → elección → conducta. No eliges todo lo que ocurre. Sí puedes entrenar el tramo entre significado, elección y conducta."},
+  {t:"journal", id:"transm", title:"Recórrelo, uno por uno", fields:[
+    ["t1","¿Qué ocurrió, sin interpretación?",""],
+    ["t2","¿Qué estoy sintiendo?",""],
+    ["t3","¿Qué historia está construyendo mi mente?",""],
+    ["t4","¿Qué significado quiero evitar imponer demasiado pronto?",""],
+    ["t5","¿Qué valor quiero encarnar aquí?",""],
+    ["t6","¿Qué conducta de quince minutos representa ese valor?",""]
+  ]},
+  {t:"note", v:"No necesitas encontrar un propósito para tu dolor hoy."}
+]},
+ritmo:{ h:"Los ritmos de la vida y la Ley del Ritmo.", blocks:[
+  {t:"badge", k:"meta"},
+  {t:"text", v:"La Ley del Ritmo viene de <i>El Kybalión</i>, un texto hermético publicado en 1908 y atribuido a los Tres Iniciados. Plantea que todo fluye y refluye, que todo tiene sus periodos de avance y de retroceso, y que el péndulo que se mueve hacia un lado se moverá después hacia el otro."},
+  {t:"text", v:"Como marco de significado, sostiene algo útil: <b>un estado difícil es una fase de un ciclo, no un destino final.</b> Lo que estás atravesando tiene una forma y esa forma se mueve."},
+  {t:"acc", items:[
+    ["¿Por qué llegan estas situaciones?","Desde este marco","Un ciclo que se cierra suele sentirse como pérdida antes de sentirse como apertura. Lo que se desarma no siempre estaba sosteniéndote bien. Esta es una lectura espiritual, no una explicación causal: no significa que hayas atraído lo que te pasó, ni que lo merecieras."],
+    ["¿Qué ocurre cuando cambia un ciclo?","La fase intermedia","Hay un tramo en el que lo viejo ya no funciona y lo nuevo todavía no aparece. Ese tramo se siente como vacío o como fracaso, y no es ninguna de las dos cosas. Es el punto medio del péndulo."],
+    ["¿Qué puedo aprender?","Cuando estés listo","No hoy si acaba de pasar. La pregunta se vuelve útil cuando ya recuperaste algo de estabilidad — no antes."]
+  ]},
+  {t:"note", v:"Origen filosófico y esotérico. No es una ley física ni una afirmación verificable. Se incluye por su valor como marco de significado, con su fuente a la vista."}
+]},
+tradiciones:{ h:"Tradiciones, comparadas.", lede:"Nueve fuentes, cada una con su concepto, su utilidad y su límite. No se mezclan entre sí ni se presentan como equivalentes.", blocks:[
+  {t:"legend"}, {t:"trads"},
+  {t:"note", v:"«Energía» en física tiene definiciones cuantificables. Usarla como sinónimo de estado emocional o espiritual puede ser útil como metáfora, pero no es la misma entidad física."}
+]},
+
+/* ── DESPUÉS ── */
+h24:{ h:"Las primeras 24 horas.", lede:"El objetivo no es sentirte mejor. Es no agregar daño.", blocks:[
+  {t:"check24"}
+]},
+d7:{ h:"Los siete días.", lede:"Un enfoque por día. Márcalos si te sirve, o ignóralos.", blocks:[
+  {t:"track7"},
+  {t:"note", v:"El crecimiento postraumático puede ocurrir, pero no es una tarea ni una prueba moral. Sobrevivir, recibir apoyo y volver gradualmente a funcionar ya es suficiente."}
+]},
+integracion:{ h:"Integrar sin forzar.", blocks:[
+  {t:"note", v:"Esta sección solo tiene sentido cuando ya bajó la intensidad. Si acabas de perder a alguien, si el golpe fue hace horas o si todavía estás en el pico, vuelve a los protocolos. Nada de lo que sigue es urgente."},
+  {t:"text", v:"Hay una idea espiritual que sostiene mucha gente y que este manual conserva íntegra: <b>las situaciones difíciles pueden venir a enseñarnos algo.</b>"},
+  {t:"text", v:"Vale la pena desarrollarla con cuidado, porque tiene una versión que sostiene y una versión que hace daño. La que sostiene aparece después, cuando la persona misma encuentra qué le mostró lo que vivió. La que hace daño es cuando alguien de afuera se lo impone mientras todavía está sangrando, y convierte el dolor en una tarea o en una culpa."},
+  {t:"acc", items:[
+    ["¿Qué puedo aprender de esto?","Cuando ya puedas mirarlo","No hay obligación de encontrar una respuesta. Si aparece, aparece sola. Si no aparece, no significa que hayas fallado en atravesar la crisis."],
+    ["¿Qué puede estar mostrándome mi vida?","Una pregunta, no un veredicto","A veces una crisis hace visible algo que ya estaba ahí: un límite que no pusiste, un vínculo que ya no era, un ritmo insostenible. Verlo no es lo mismo que merecerlo."],
+    ["¿Y si no encuentro ningún sentido?","También está bien","No todo lo que duele tiene una función. Algunas cosas simplemente son terribles. Buscar sentido a la fuerza puede ser otra forma de no dejarse sentir lo que hay."]
+  ]},
+  {t:"quote", v:"El dolor no necesita una explicación espiritual inmediata."},
+  {t:"cta", to:"reto", label:"Ir al reto de transformación de 28 días"}
+]},
+sandwich:{ h:"El efecto sándwich.", blocks:[
+  {t:"quote", v:"De esta forma generamos un efecto sándwich: durante el día, en estado consciente y despierto, realizamos las actividades del video; en la mañana y en la noche trabajamos con audios de meditación e hipnosis."},
+  {t:"flow", items:[
+    ["Mañana","Escuchar un audio de meditación al despertar."],
+    ["Durante el día","Ver el video y realizar la actividad consciente, sumada a las de los días anteriores."],
+    ["Noche","Escuchar un audio de hipnosis antes de dormir."]
+  ]},
+  {t:"text", v:"Sobre la hipnosis, la idea central del programa: <b>la hipnosis no es perder el control. Es un estado de relajación profunda en el que sigues teniendo control de tu mente.</b> La propuesta es que en estados mentales más relajados el aprendizaje y la reorganización interna se dan con menos resistencia."},
+  {t:"note", v:"<b>Nota de evidencia.</b> La hipnosis clínica tiene evidencia para dolor, ansiedad de procedimiento y algunos síntomas específicos, con efectos variables según la persona y el protocolo. No es un tratamiento demostrado para reestructurar la personalidad o los hábitos por sí sola. No se recomienda en psicosis activa ni en trastornos disociativos, y no debe escucharse conduciendo ni operando maquinaria."},
+  {t:"text", v:"<b>Al despertar.</b>"},
+  {t:"audioSlot", id:"zen", label:"Meditación de la mañana · Budismo Zen"},
+  {t:"text", v:"<b>Antes de dormir.</b>"},
+  {t:"audioSlot", id:"yosoy", label:"Hipnosis de la noche · Protección Divina del Yo Soy"}
+]},
+reto:{ h:"Reto de transformación de 28 días.", blocks:[
+  {t:"retoUI"}
+]},
+
+/* ── RECURSOS ── */
+practicas:{ h:"Las dos prácticas diarias.", lede:"Si de todo este manual solo pudieras quedarte con dos cosas, serían estas. No hace falta entenderlas: hace falta hacerlas.", blocks:[
+  {t:"audioSlot", id:"zen"},
+  {t:"text", v:"Tres veces al día parece mucho, pero son siete minutos cada vez. Puedes escucharlo mientras te preparas por la mañana, en una pausa de la tarde y al llegar la noche. Lo que entrena no es la calma: es la capacidad de <b>soltar un pensamiento</b> en lugar de irte detrás de él."},
+  {t:"audioSlot", id:"yosoy"},
+  {t:"text", v:"Este es más largo y pide otra disposición: acostarte, aflojar, no hacer nada más. Por eso va de noche, justo antes de dormir. Si te quedas dormido a mitad, no lo estás haciendo mal."},
+  {t:"note", v:"Ninguna de las dos prácticas sustituye atención profesional. Y no las escuches conduciendo, operando maquinaria ni haciendo nada que requiera tu atención. La hipnosis no se recomienda en psicosis activa ni en trastornos disociativos."}
+]},
+
+audios:{ h:"Audios del programa.", lede:"Todos reunidos aquí, para no tener que buscarlos por las secciones.", blocks:[
+  {t:"text", v:"<b>Para la mañana.</b>"},
+  {t:"audioSlot", id:"zen", label:"Meditación de la mañana · Budismo Zen"},
+  {t:"text", v:"<b>Para la noche.</b>"},
+  {t:"audioSlot", id:"yosoy", label:"Hipnosis de la noche · Protección Divina del Yo Soy"},
+  {t:"text", v:"<b>Cuando lo necesites.</b>"},
+  {t:"audioSlot", id:"relax"},
+  {t:"note", v:"Los audios son archivos que viajan junto a esta página, en una carpeta llamada <code>audios</code>. Si mueves el archivo HTML, lleva la carpeta contigo o dejarán de sonar."}
+]},
+videos:{ h:"Biblioteca audiovisual.", lede:"Ninguno de estos videos es nuestro. Los reunimos porque pueden servir, nada más.", blocks:[
+  {t:"ytwarn"},
+  {t:"videos"}
+]},
+inst:{ h:"Recursos institucionales.", lede:"Gratuitos, de universidades y organismos de salud.", blocks:[
+  {t:"links", items:"inst"}
+]},
+biblio:{ h:"Bibliografía.", lede:"Selección prioritaria. No pretende ser una revisión exhaustiva.", blocks:[
+  {t:"biblio"}
+]}
+};
+
+/* ---------- AUDIOS: estructura lista, sin archivos inventados ---------- */
+var AUDIOS = {
+  yosoy:{
+    titulo:"Protección Divina del Yo Soy",
+    src:"audios/yo-soy.mp3", duracion:"40 min", momento:"noche", tipo:"hipnosis",
+    desc:"Este es un audio de hipnosis para conectar con la esencia divina que habita dentro de ti. "+
+      "Búscate un lugar donde puedas recostarte y aflojar el cuerpo. Escúchalo con audífonos si puedes. "+
+      "Relájate y confía en tu ser: todo está bien. Solo permítete sentir y escuchar.",
+    pauta:"Lo ideal es escucharlo todas las noches antes de dormir."
+  },
+  zen:{
+    titulo:"Meditación · Budismo Zen",
+    src:"audios/meditacion-zen.mp3", duracion:"7 min", momento:"cualquiera", tipo:"meditación",
+    desc:"Una meditación breve que enseña algo muy concreto: soltar los pensamientos. "+
+      "No se trata de vaciar la mente ni de conseguir nada, sino de ir aprendiendo a no engancharte "+
+      "con cada cosa que aparece.",
+    pauta:"Escúchalo todos los días, al menos tres veces: mañana, tarde y noche."
+  },
+  relax:{
+    titulo:"Relajación guiada",
+    yt:"https://www.youtube.com/watch?v=vAaRM_wV5W8",
+    src:null, duracion:null, momento:"cualquiera", tipo:"relajación",
+    desc:"Una relajación guiada para aflojar el cuerpo cuando la tensión no cede."
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   RENDERIZADO DE BLOQUES
+   ═══════════════════════════════════════════════════════════ */
+function renderBlocks(blocks){
+  return blocks.map(function(b){
+    switch(b.t){
+      case "text":   return '<p class="body-p">'+b.v+'</p>';
+      case "quote":  return '<div class="quote">«'+b.v+'»</div>';
+      case "note":   return '<p class="note">'+b.v+'</p>';
+      case "badge":  return '<p style="margin-bottom:var(--sp-3)">'+badge(b.k)+'</p>';
+      case "list":   return '<ul class="step__list">'+b.items.map(function(i,n){
+                        return '<li data-n="'+(n+1)+'">'+i+'</li>'; }).join("")+'</ul>';
+      case "acc":    return renderAcc(b.items);
+      case "flow":   return '<ol class="flow">'+b.items.map(function(i){
+                        return '<li><strong>'+i[0]+'</strong><span>'+i[1]+'</span></li>'; }).join("")+'</ol>';
+      case "legend": return renderLegend();
+      case "bodies": return renderBodies();
+      case "emos":   return renderEmos();
+      case "tools":  return renderTools();
+      case "evtable":return renderEvTable();
+      case "trads":  return renderTrads();
+      case "elements":return renderElements();
+      case "factstory":return renderFactStory();
+      case "control":return renderControl();
+      case "steps5": return renderSteps5();
+      case "journal":return renderJournal(b);
+      case "gratitude":return renderGratitude();
+      case "walk":   return renderWalk();
+      case "check24":return renderCheck24();
+      case "track7": return renderTrack7();
+      case "retoUI": return renderReto();
+      case "videos": return renderVideos();
+      case "links":  return renderLinks();
+      case "biblio": return renderBiblio();
+      case "ytwarn": return ytNote();
+      case "frases": return renderFrases();
+      case "practice":return '<div class="practice"><p class="practice__text">'+b.v+'</p></div>';
+      case "audioSlot":return renderAudioSlot(b.id,b.label);
+      case "cta":    return '<button class="btn btn--accent btn--block" data-topic="'+b.to+'" style="margin:var(--sp-4) 0">'+b.label+'</button>';
+      default: return "";
+    }
+  }).join("");
+}
+
+function renderAcc(items){
+  return '<div class="acc">'+items.map(function(it,i){
+    return '<div class="acc__item">'+
+      '<button class="acc__btn" aria-expanded="false" data-acc="'+i+'">'+it[0]+
+        (it[1]?'<small>'+it[1]+'</small>':'')+'</button>'+
+      '<div class="acc__panel" data-accp="'+i+'"><p>'+it[2]+'</p></div>'+
+    '</div>';
+  }).join("")+'</div>';
+}
+function renderLegend(){
+  return '<div class="chips" style="margin-bottom:var(--sp-4)">'+
+    ["solid","mod","cont","meta","none"].map(badge).join("")+'</div>';
+}
+function renderBodies(){
+  return '<div class="grid2" style="margin-bottom:var(--sp-4)">'+BODIES.map(function(b){
+    return '<button class="pick" data-body="'+b.id+'"><i>'+b.ic+'</i>'+b.n+'</button>';
+  }).join("")+'</div><div id="bodyOut"></div>';
+}
+function renderEmos(){
+  return '<div class="grid2" style="margin-bottom:var(--sp-4)">'+EMOS.map(function(e){
+    return '<button class="pick" data-emo="'+e.id+'"><i>'+e.ic+'</i>'+e.n+'</button>';
+  }).join("")+'</div><div id="emoOut"></div>';
+}
+function renderTools(){
+  return '<div class="filters">'+
+    '<p class="filters__label">¿Qué necesitas?</p><div class="chips" id="fNeed">'+
+    TOOL_FILTERS.map(function(f){ return '<button class="chip" aria-pressed="false" data-need="'+f.id+'">'+f.label+'</button>'; }).join("")+
+    '</div><p class="filters__label">Nivel de evidencia</p><div class="chips" id="fEv">'+
+    ["solid","mod","cont","meta"].map(function(k){ return '<button class="chip" aria-pressed="false" data-ev="'+k+'">'+EV[k].t+'</button>'; }).join("")+
+    '</div><p class="count" id="toolCount"></p></div><div id="toolList"></div>';
+}
+function renderEvTable(){
+  return '<div class="tbl__scroll"><table class="tbl"><thead><tr>'+
+    '<th>Herramienta</th><th>Nivel</th><th>Utilidad</th><th>Precaución</th></tr></thead><tbody>'+
+    EVROWS.map(function(r){
+      return '<tr><td data-th="Herramienta"><b>'+r[0]+'</b></td>'+
+      '<td data-th="Nivel">'+badge(r[1])+'</td>'+
+      '<td data-th="Utilidad">'+r[2]+'</td>'+
+      '<td data-th="Precaución">'+r[3]+'</td></tr>';
+    }).join("")+'</tbody></table></div>';
+}
+function renderTrads(){
+  return '<div class="tbl__scroll"><table class="tbl"><thead><tr>'+
+    '<th>Fuente</th><th>Concepto</th><th>Utilidad</th><th>Evidencia y límite</th></tr></thead><tbody>'+
+    TRADS.map(function(t){
+      return '<tr><td data-th="Fuente"><b>'+t.f+'</b><br>'+badge(t.k)+'</td>'+
+      '<td data-th="Concepto">'+t.c+'</td><td data-th="Utilidad">'+t.u+'</td>'+
+      '<td data-th="Evidencia y límite">'+t.e+'</td></tr>';
+    }).join("")+'</tbody></table></div>';
+}
+function renderElements(){
+  var E=[
+    ["tierra","🪨","Tierra","Vuelvo al cuerpo.","Siéntate. Presiona los talones contra el suelo. Siente el peso, el apoyo, y tres objetos reales a tu alrededor."],
+    ["agua","💧","Agua","Permito que la emoción se mueva.","Nombra la emoción y permite entre 60 y 90 segundos sin intentar resolverla. No contengas el río."],
+    ["aire","🌬️","Aire","Regulo mi respiración.","Suelta el aire retenido. Respiración lenta y cómoda, sin retención. Tus pensamientos son aire que pasa: no eres el viento, eres el espacio por donde cruza."],
+    ["fuego","🔥","Fuego","Recupero dirección.","Conecta con la chispa mínima de tu voluntad. ¿Cuál es el paso correcto más pequeño que puedo dar ahora?"]
+  ];
+  return E.map(function(e){
+    return '<div class="elem elem--'+e[0]+'"><h3>'+e[1]+' '+e[2]+'</h3>'+
+      '<p class="elem__say">«'+e[3]+'»</p><p>'+e[4]+'</p></div>';
+  }).join("");
+}
+function renderFactStory(){
+  return '<div class="card"><h3>Plantilla de tres líneas</h3>'+
+    ['fs1','fs2','fs3'].map(function(id,i){
+      var L=["Hecho verificable","Historia que mi mente cuenta","Siguiente paso útil"][i];
+      var P=["Lo que registraría una cámara.","Lo que temo, supongo o predigo.","Una sola cosa, de menos de 15 minutos."][i];
+      return '<div class="field"><label for="f-'+id+'">'+L+'</label>'+
+        '<textarea id="f-'+id+'" data-fid="'+id+'" placeholder="'+P+'"></textarea></div>';
+    }).join("")+
+    '<button class="btn btn--block" data-copyfields="fs1,fs2,fs3">Copiar</button></div>';
+}
+function renderControl(){
+  var C=[["c1","Depende de mí"],["c2","Puedo influir"],["c3","No depende de mí"]];
+  return '<div class="card">'+C.map(function(c){
+    return '<div class="field"><label for="f-'+c[0]+'">'+c[1]+'</label>'+
+      '<textarea id="f-'+c[0]+'" data-fid="'+c[0]+'" placeholder="Una por línea."></textarea></div>';
+  }).join("")+
+  '<p class="note">Ahora elige una acción de menos de quince minutos, solo de los dos primeros cajones.</p>'+
+  '<button class="btn btn--block" data-copyfields="c1,c2,c3" style="margin-top:var(--sp-3)">Copiar</button></div>';
+}
+function renderSteps5(){
+  var S=[["s1","Siente las emociones","Diario, sin reproche."],
+         ["s2","Mueve el cuerpo","Caminar, naturaleza, salir de la inmovilidad."],
+         ["s3","Aprende algo nuevo","Quince minutos de mente ocupada en otra cosa."],
+         ["s4","Ayuda a alguien","Una persona, un animal, un pequeño acto."],
+         ["s5","Gratitud, mañana y noche","Dos cosas que realmente puedas sentir."]];
+  return '<div class="options">'+S.map(function(s,i){
+    return '<button class="opt" data-topic="'+s[0]+'">'+
+      '<span class="opt__time">'+(i+1)+'</span>'+
+      '<span class="opt__body"><strong>'+s[1]+'</strong><span>'+s[2]+'</span></span>'+
+      '<span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span></button>';
+  }).join("")+'</div>';
+}
+function renderJournal(b){
+  return '<div class="card"><h3>'+b.title+'</h3>'+
+    b.fields.map(function(f){
+      return '<div class="field"><label for="f-'+f[0]+'">'+f[1]+'</label>'+
+        '<textarea id="f-'+f[0]+'" data-fid="'+f[0]+'" placeholder="'+(f[2]||"")+'"></textarea></div>';
+    }).join("")+
+    '<div class="btn-row"><button class="btn" data-savej="'+b.id+'">Guardar entrada</button>'+
+    '<button class="btn btn--ghost" data-copyfields="'+b.fields.map(function(f){return f[0];}).join(",")+'">Copiar</button></div>'+
+    '<div id="jl-'+b.id+'" style="margin-top:var(--sp-4)"></div></div>';
+}
+function renderGratitude(){
+  return '<div class="card"><div class="streak" id="gStreak"></div>'+
+    '<div class="field"><label for="f-g1">Primera cosa</label><input id="f-g1" data-fid="g1" placeholder="Algo que puedas sentir de verdad."></div>'+
+    '<div class="field"><label for="f-g2">Segunda cosa</label><input id="f-g2" data-fid="g2" placeholder=""></div>'+
+    '<div class="btn-row"><button class="btn" data-grat="manana">Guardar como mañana</button>'+
+    '<button class="btn" data-grat="noche">Guardar como noche</button></div>'+
+    '<div id="gList" style="margin-top:var(--sp-4)"></div></div>';
+}
+function renderWalk(){
+  return '<div class="btn-row" style="margin:var(--sp-3) 0">'+
+    [10,20,30,45].map(function(m){ return '<button class="btn" data-walk="'+m+'">'+m+' min</button>'; }).join("")+
+    '</div>';
+}
+function renderCheck24(){
+  var L=["Posponer decisiones irreversibles si es seguro hacerlo",
+    "Reducir alcohol y otras sustancias",
+    "Comer algo, aunque no haya apetito",
+    "Tomar líquidos de forma regular",
+    "Proteger una ventana de sueño, aunque no duermas profundo",
+    "Una caminata suave o movimiento tolerable",
+    "Hablar con al menos una persona segura, pidiendo algo concreto",
+    "Limitar la repetición compulsiva de noticias, chats o redes",
+    "Escribir solo hechos, necesidades y próximo paso",
+    "No forzarte a narrar el evento en detalle"];
+  return '<div id="c24">'+L.map(function(x,i){
+    return '<button class="check-row" data-c24="'+i+'" aria-pressed="false">'+
+      '<span class="check-row__box">✓</span><span>'+x+'</span></button>';
+  }).join("")+'</div>'+
+  '<button class="btn btn--quiet" data-reset24>Reiniciar la lista</button>';
+}
+function renderTrack7(){
+  var D=[["Día 1","Seguridad y cuerpo","Dormir, comer, hidratarte, recibir apoyo, reducir decisiones."],
+    ["Día 2","Nombrar","Identificar emociones y necesidades sin resolver toda la historia."],
+    ["Día 3","Ordenar","Hechos frente a interpretaciones; pendientes reales; círculo de control."],
+    ["Día 4","Conectar","Una conversación útil; una actividad compartida; pedir ayuda específica."],
+    ["Día 5","Mover","Actividad física tolerable o naturaleza; recuperar ritmo cotidiano."],
+    ["Día 6","Valores","¿Qué quiero proteger o encarnar aunque esto duela? Elige una acción coherente."],
+    ["Día 7","Revisar","¿Estoy 5 % más estable? ¿Qué sigue igual? ¿Necesito ayuda profesional?"]];
+  return '<div id="t7">'+D.map(function(d,i){
+    return '<button class="check-row" data-t7="'+i+'" aria-pressed="false">'+
+      '<span class="check-row__box">✓</span>'+
+      '<span><b>'+d[0]+' · '+d[1]+'</b><br><span style="font-size:.88rem;color:var(--ink-soft)">'+d[2]+'</span></span></button>';
+  }).join("")+'</div><button class="btn btn--quiet" data-reset7>Reiniciar</button>';
+}
+function renderVideos(){
+  return VIDEOS.map(function(v){
+    return '<div class="vid" data-vid="'+v.id+'">'+
+      '<button class="vid__thumb" data-play="'+v.id+'" aria-label="Reproducir '+v.t+'"></button>'+
+      '<div class="vid__body"><h4>'+v.t+'</h4><p>'+v.p+'</p></div>'+ytNote(true)+'</div>';
+  }).join("");
+}
+function renderLinks(){
+  return RECURSOS_INST.map(function(r){
+    return '<a class="line" href="'+r.u+'" target="_blank" rel="noopener noreferrer">'+
+      '<span class="line__meta"><strong>'+r.t+'</strong><span>'+r.p+'</span></span>'+
+      '<span class="line__num" style="font-size:1rem">↗</span></a>';
+  }).join("");
+}
+function renderBiblio(){
+  return BIBLIO.map(function(g){
+    return '<h3 style="margin:var(--sp-5) 0 var(--sp-3);font-size:1.15rem">'+g[0]+'</h3>'+
+      '<ul style="padding-left:1.1rem;font-family:var(--font-ui);font-size:.92rem;color:var(--ink-soft);line-height:1.55">'+
+      g[1].map(function(x){ return '<li style="margin-bottom:.6rem">'+x+'</li>'; }).join("")+'</ul>';
+  }).join("");
+}
+function renderAudioSlot(id,label){
+  var a=AUDIOS[id];
+  if(!a) return "";
+  var head='<div class="audio"><p class="audio__t">'+(label||a.titulo)+
+    (a.duracion? ' <span class="audio__d">'+a.duracion+'</span>':'')+'</p>'+
+    (a.desc? '<p class="audio__desc">'+a.desc+'</p>':'');
+
+  /* Enlace externo (no es un archivo nuestro) */
+  if(a.yt){
+    return head + ytNote() +
+      '<a class="btn btn--block" href="'+a.yt+'" target="_blank" rel="noopener noreferrer">Abrir en YouTube ↗</a>' +
+      (a.pauta? '<p class="audio__pauta">'+a.pauta+'</p>':'') + '</div>';
+  }
+  /* Archivo propio */
+  if(a.src){
+    return head +
+      '<audio class="audio__el" controls preload="none" src="'+a.src+'" data-audio="'+id+'"></audio>' +
+      '<p class="audio__miss" hidden>No se pudo cargar el audio. Revisa que la carpeta <code>audios</code> '+
+      'esté junto a este archivo, o descárgalo aparte.</p>' +
+      (a.pauta? '<p class="audio__pauta">'+a.pauta+'</p>':'') + '</div>';
+  }
+  return head + '<p class="audio__pauta">Todavía no se ha cargado este audio.</p></div>';
+}
+
+/* ---------- RETO DE 28 DÍAS ---------- *//* ---------- RETO DE 28 DÍAS ---------- */
+function renderReto(){
+  var day = Store.get("retoDay",0);
+  var done = Store.get("retoDone",[]);
+  var dots = "";
+  for(var i=0;i<=28;i++){
+    var st = done.indexOf(i)>=0 ? "done" : (i===day ? "current" : "");
+    dots += '<button class="dot" data-state="'+st+'" data-day="'+i+'" aria-label="Día '+i+'">'+(i===0?"·":i)+'</button>';
+  }
+  return '<div class="reto__head">'+
+      '<span class="reto__day">'+(day===0?"·":day)+'</span>'+
+      '<span class="reto__meta"><strong>'+(day===0?"Introducción":"Día "+day+" de 28")+'</strong>'+
+      done.length+' completados · las actividades se acumulan</span></div>'+
+    '<div class="dots">'+dots+'</div>'+
+    '<div id="retoBody"></div>';
+}
+function retoBody(){
+  var day = Store.get("retoDay",0);
+  var done = Store.get("retoDone",[]);
+  var host = document.getElementById("retoBody"); if(!host) return;
+  var html="";
+
+  if(day===0){
+    html = '<div class="vid" data-vid="'+ytid(RETO_INTRO.url)+'">'+
+      '<button class="vid__thumb" data-play="'+ytid(RETO_INTRO.url)+'" aria-label="Reproducir introducción"></button>'+
+      '<div class="vid__body"><p class="vid__n">Introducción</p><h4>'+RETO_INTRO.t+'</h4>'+
+      '<p>Míralo antes de empezar el día 1.</p></div>'+ytOwn(true)+'</div>'+
+      renderAudioSlot("zen") + renderAudioSlot("yosoy");
+  } else {
+    var r = RETO[day-1];
+    html = '<div class="vid" data-vid="'+r[0]+'">'+
+      '<button class="vid__thumb" data-play="'+r[0]+'" aria-label="Reproducir video del día '+day+'"></button>'+
+      '<div class="vid__body"><p class="vid__n">Día '+day+'</p><h4>'+r[1]+'</h4></div>'+ytOwn(true)+'</div>'+
+      '<div class="card"><h3>Actividad del día <span class="draft">Borrador</span></h3>'+
+      '<p style="font-family:var(--font-ui);font-size:1.02rem;color:var(--ink)">'+r[2]+'</p>'+
+      '<p class="note" style="margin-top:var(--sp-3)">Esta actividad se derivó del título del video, no de su contenido. '+
+      'Confírmala o reemplázala con la que realmente propone la clase.</p></div>';
+
+    if(done.length){
+      html += '<div class="card"><h3>Actividades acumuladas</h3><ul class="stack">'+
+        '<li>Día '+day+' — '+r[1]+'</li>'+
+        done.filter(function(d){return d>0 && d<day;}).sort(function(a,b){return b-a;}).slice(0,6)
+          .map(function(d){ return '<li>Día '+d+' — '+RETO[d-1][1]+'</li>'; }).join("")+
+        '</ul></div>';
+    }
+    html += renderAudioSlot("zen") + renderAudioSlot("yosoy");
+    html += '<div class="card"><h3>Reflexión y notas</h3>'+
+      '<div class="field"><label for="f-reto'+day+'">¿Qué pasó hoy con esto?</label>'+
+      '<textarea id="f-reto'+day+'" data-fid="reto'+day+'"></textarea></div></div>';
+  }
+
+  html += '<button class="check-row" data-retodone="'+day+'" aria-pressed="'+(done.indexOf(day)>=0)+'">'+
+    '<span class="check-row__box">✓</span><span>Completé la actividad de hoy</span></button>'+
+    '<div class="btn-row" style="margin-top:var(--sp-3)">'+
+      '<button class="btn" data-retonav="-1">← Día anterior</button>'+
+      '<button class="btn" data-retonav="1">Día siguiente →</button>'+
+    '</div>'+
+    '<div class="btn-row" style="margin-top:var(--sp-2)">'+
+      '<button class="btn btn--ghost" data-sheet="stuck">No logro conectar</button>'+
+      '<button class="btn btn--ghost" data-sos>Necesito ayuda</button>'+
+    '</div>';
+  host.innerHTML = html;
+  wireTopic(host);
+}
+function ytid(u){ var m=u.match(/(?:youtu\.be\/|v=)([A-Za-z0-9_-]{6,})/); return m?m[1]:u; }
+
+/* ═══════════════════════════════════════════════════════════
+   BLOQUE 2 — VISTAS E INTERACCIÓN
+   ═══════════════════════════════════════════════════════════ */
+
+var navStack = [];
+
+function openHub(id){
+  var h = HUBS[id]; if(!h) return;
+  navStack.push({k:"hub", id:id});
+  $("#hubTitle").textContent = h.title;
+  $("#hubLede").textContent  = h.lede;
+  $("#hubList").innerHTML = h.items.map(function(it){
+    return '<button class="opt" data-open="'+it[0]+'">'+
+      (it[3]?'<span class="opt__time">'+it[3]+'</span>':'<span class="opt__time">›</span>')+
+      '<span class="opt__body"><strong>'+it[1]+'</strong><span>'+it[2]+'</span></span>'+
+      '<span class="opt__chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></span></button>';
+  }).join("");
+  $$("#hubList [data-open]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var t=b.getAttribute("data-open");
+      if(t==="__proto"){ go("crisis"); return; }
+      if(HUBS[t]) openHub(t); else openTopic(t);
+    });
+  });
+  goView("hub");
+}
+
+function openTopic(id){
+  var tp = TOPICS[id]; if(!tp) return;
+  navStack.push({k:"topic", id:id});
+  $("#topicTitle").textContent = tp.h;
+  $("#topicLede").innerHTML = tp.lede || "";
+  $("#topicLede").style.display = tp.lede ? "" : "none";
+  var body = $("#topicBody");
+  body.innerHTML = renderBlocks(tp.blocks) +
+    '<div class="human" data-human></div>';
+  $$("[data-human]", body).forEach(function(el){ el.innerHTML = HUMAN_HTML; });
+  wireTopic(body);
+  if(id==="reto") retoBody();
+  goView("topic");
+}
+
+function goBack(){
+  navStack.pop();
+  var prev = navStack.pop();
+  if(!prev){ go("home"); return; }
+  if(prev.k==="hub") openHub(prev.id); else openTopic(prev.id);
+}
+
+function goView(id){
+  stopAll();
+  ["home","crisis","proto","done","hub","topic"].forEach(function(v){
+    var el=$("#v-"+v); if(el) el.classList.toggle("is-active", v===id);
+  });
+  window.scrollTo({top:0, behavior: motionOff()?"auto":"smooth"});
+  var h=$("#v-"+id+" h1"); if(h){ h.setAttribute("tabindex","-1"); h.focus({preventScroll:true}); }
+}
+
+/* ---------- CABLEADO DE INTERACCIONES ---------- */
+function wireTopic(root){
+  /* acordeones */
+  $$("[data-acc]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var i=b.getAttribute("data-acc");
+      var p=$('[data-accp="'+i+'"]', b.parentNode);
+      var open = b.getAttribute("aria-expanded")==="true";
+      b.setAttribute("aria-expanded", String(!open));
+      p.classList.toggle("is-open", !open);
+    });
+  });
+
+  /* cuatro cuerpos */
+  $$("[data-body]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var id=b.getAttribute("data-body");
+      $$("[data-body]",root).forEach(function(x){ x.setAttribute("aria-pressed", String(x===b)); });
+      var d = BODIES.filter(function(x){return x.id===id;})[0];
+      var tool = TOOLS.filter(function(x){return x.id===d.tool;})[0];
+      $("#bodyOut").innerHTML =
+        '<div class="card"><h3>'+d.n+'</h3>'+
+        '<p style="font-style:italic;color:var(--ink)">'+d.q+'</p>'+
+        '<dl style="font-family:var(--font-ui);font-size:.96rem">'+
+          '<dt>Qué puede ocurrir</dt><dd>'+d.pasa+'</dd>'+
+          '<dt>Cómo lo identifico</dt><dd>'+d.ident+'</dd>'+
+          (d.donde? '<dt>Dónde lo siento</dt><dd>'+d.donde+'</dd>' : '')+
+          '<dt>Qué hacer</dt><dd>'+d.hacer+'</dd>'+
+          '<dt>Cuándo pedir ayuda</dt><dd>'+d.ayuda+'</dd>'+
+        '</dl>'+
+        '<button class="btn btn--block" data-tool="'+tool.id+'" style="margin-top:var(--sp-3)">Abrir: '+tool.n+'</button></div>';
+      wireTopic($("#bodyOut"));
+    });
+  });
+
+  /* emociones */
+  $$("[data-emo]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var id=b.getAttribute("data-emo");
+      $$("[data-emo]",root).forEach(function(x){ x.setAttribute("aria-pressed", String(x===b)); });
+      var e = EMOS.filter(function(x){return x.id===id;})[0];
+      var tool = TOOLS.filter(function(x){return x.id===e.tool;})[0];
+      $("#emoOut").innerHTML =
+        '<div class="card"><h3>'+e.n+'</h3>'+
+        '<dl style="font-family:var(--font-ui);font-size:.96rem">'+
+          '<dt>Qué puede señalar</dt><dd>'+e.señal+'</dd>'+
+          '<dt>Qué ayuda</dt><dd>'+e.ayuda+'</dd>'+
+          '<dt>Cuidado</dt><dd>'+e.cuidado+'</dd>'+
+        '</dl>'+
+        '<button class="btn btn--block" data-tool="'+tool.id+'" style="margin-top:var(--sp-3)">Abrir: '+tool.n+'</button></div>';
+      wireTopic($("#emoOut"));
+    });
+  });
+
+  /* abrir una herramienta suelta */
+  $$("[data-tool]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var t = TOOLS.filter(function(x){return x.id===b.getAttribute("data-tool");})[0];
+      openSheetHTML(t.n, toolHTML(t, true));
+    });
+  });
+
+  /* filtros de herramientas */
+  if($("#toolList", root)) initToolFilters();
+
+  /* frases */
+  wireFrases(root);
+
+  /* campos con guardado opcional */
+  $$("textarea[data-fid], input[data-fid]", root).forEach(function(t){
+    var id=t.getAttribute("data-fid");
+    var saved = Store.get("draft:"+id, "");
+    if(saved && !t.value) t.value = saved;
+    t.addEventListener("input", function(){
+      if(Store.get("persist",false)) Store.set("draft:"+id, t.value);
+    });
+  });
+
+  /* copiar campos */
+  $$("[data-copyfields]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var ids=b.getAttribute("data-copyfields").split(",");
+      var txt=ids.map(function(id){
+        var el=document.getElementById("f-"+id); if(!el) return "";
+        var lb=$("label[for='f-"+id+"']");
+        return (lb?lb.textContent+": ":"")+el.value;
+      }).filter(function(x){return x.trim();}).join("\n\n");
+      if(!txt){ toast("Todavía no has escrito nada."); return; }
+      copy(txt);
+    });
+  });
+
+  /* diarios */
+  $$("[data-savej]", root).forEach(function(b){
+    b.addEventListener("click", function(){ saveJournal(b.getAttribute("data-savej")); });
+  });
+  $$("[id^='jl-']", root).forEach(function(el){ paintJournal(el.id.slice(3)); });
+
+  /* gratitud */
+  if($("#gList", root)){
+    paintGratitude();
+    $$("[data-grat]", root).forEach(function(b){
+      b.addEventListener("click", function(){ saveGratitude(b.getAttribute("data-grat")); });
+    });
+  }
+
+  /* caminata */
+  $$("[data-walk]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      toast("Sal a caminar "+b.getAttribute("data-walk")+" minutos. Vuelve cuando quieras.");
+    });
+  });
+
+  /* checklists */
+  wireChecks(root, "c24", "chk24");
+  wireChecks(root, "t7", "chk7");
+  var r24=$("[data-reset24]",root);
+  if(r24) r24.addEventListener("click", function(){ Store.set("chk24",[]); repaintChecks("c24","chk24"); toast("Lista reiniciada."); });
+  var r7=$("[data-reset7]",root);
+  if(r7) r7.addEventListener("click", function(){ Store.set("chk7",[]); repaintChecks("t7","chk7"); toast("Reiniciado."); });
+
+  /* audio: si el archivo no está, decirlo en vez de dejar un reproductor mudo */
+  $$("audio[data-audio]", root).forEach(function(a){
+    a.addEventListener("error", function(){
+      var m=a.parentNode.querySelector(".audio__miss");
+      if(m) m.hidden=false;
+      a.style.display="none";
+    }, true);
+  });
+
+  /* videos: el iframe solo se inyecta al tocar */
+  $$("[data-play]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var id=b.getAttribute("data-play");
+      var box=b.parentNode;
+      var f=document.createElement("iframe");
+      f.src="https://www.youtube-nocookie.com/embed/"+id+"?rel=0&autoplay=1";
+      f.title="Video";
+      f.allow="accelerometer; autoplay; encrypted-media; picture-in-picture";
+      f.setAttribute("allowfullscreen","");
+      box.replaceChild(f, b);
+    });
+  });
+
+  /* reto */
+  $$("[data-day]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      Store.set("retoDay", parseInt(b.getAttribute("data-day"),10));
+      openTopic("reto"); navStack.pop();
+    });
+  });
+  $$("[data-retonav]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var d=Store.get("retoDay",0)+parseInt(b.getAttribute("data-retonav"),10);
+      d=Math.max(0,Math.min(28,d));
+      Store.set("retoDay",d); openTopic("reto"); navStack.pop();
+    });
+  });
+  $$("[data-retodone]", root).forEach(function(b){
+    b.addEventListener("click", function(){
+      var d=parseInt(b.getAttribute("data-retodone"),10);
+      var done=Store.get("retoDone",[]);
+      var i=done.indexOf(d);
+      if(i>=0) done.splice(i,1); else done.push(d);
+      Store.set("retoDone",done);
+      b.setAttribute("aria-pressed", String(i<0));
+      toast(i<0 ? "Marcado." : "Desmarcado.");
+    });
+  });
+
+  /* navegación interna */
+  $$("[data-topic]", root).forEach(function(b){
+    b.addEventListener("click", function(){ openTopic(b.getAttribute("data-topic")); });
+  });
+  $$("[data-sos]", root).forEach(function(b){ b.addEventListener("click", openSOS); });
+  $$("[data-sheet]", root).forEach(function(b){
+    b.addEventListener("click", function(){ openSheet(b.getAttribute("data-sheet")); });
+  });
+}
+
+function wireChecks(root, attr, key){
+  var list=$$("[data-"+attr+"]", root);
+  if(!list.length) return;
+  var saved=Store.get(key,[]);
+  list.forEach(function(b){
+    var i=parseInt(b.getAttribute("data-"+attr),10);
+    b.setAttribute("aria-pressed", String(saved.indexOf(i)>=0));
+    b.addEventListener("click", function(){
+      var cur=Store.get(key,[]); var p=cur.indexOf(i);
+      if(p>=0) cur.splice(p,1); else cur.push(i);
+      Store.set(key,cur);
+      b.setAttribute("aria-pressed", String(p<0));
+    });
+  });
+}
+function repaintChecks(attr,key){
+  var saved=Store.get(key,[]);
+  $$("[data-"+attr+"]").forEach(function(b){
+    b.setAttribute("aria-pressed", String(saved.indexOf(parseInt(b.getAttribute("data-"+attr),10))>=0));
+  });
+}
+
+/* ---------- DIARIOS ---------- */
+function saveJournal(id){
+  if(!Store.get("persist",false)){
+    toast("Activa «Guardar lo que escribo» en Ajustes para conservar entradas.");
+    return;
+  }
+  var host=document.getElementById("jl-"+id); if(!host) return;
+  var card=host.parentNode;
+  var vals=$$("textarea[data-fid], input[data-fid]", card).map(function(t){
+    var lb=$("label[for='"+t.id+"']");
+    return t.value.trim() ? (lb?lb.textContent+": ":"")+t.value.trim() : "";
+  }).filter(Boolean);
+  if(!vals.length){ toast("No hay nada que guardar."); return; }
+  var list=Store.get("journal:"+id, []);
+  list.unshift({ d:new Date().toISOString(), v:vals.join("\n") });
+  Store.set("journal:"+id, list.slice(0,60));
+  $$("textarea[data-fid], input[data-fid]", card).forEach(function(t){
+    t.value=""; Store.set("draft:"+t.getAttribute("data-fid"), "");
+  });
+  paintJournal(id); toast("Entrada guardada en este dispositivo.");
+}
+function paintJournal(id){
+  var host=document.getElementById("jl-"+id); if(!host) return;
+  var list=Store.get("journal:"+id, []);
+  if(!list.length){ host.innerHTML='<p class="empty">Todavía no hay entradas guardadas.</p>'; return; }
+  host.innerHTML = '<p class="filters__label">Entradas anteriores</p>' +
+    list.slice(0,12).map(function(e){
+      return '<div class="entry"><time>'+fdate(e.d)+'</time><p>'+esc(e.v)+'</p></div>';
+    }).join("") +
+    '<button class="btn btn--quiet" data-wipej="'+id+'">Borrar estas entradas</button>';
+  var w=$("[data-wipej]",host);
+  if(w) w.addEventListener("click", function(){
+    Store.set("journal:"+id, []); paintJournal(id); toast("Entradas borradas.");
+  });
+}
+function fdate(iso){
+  try{
+    return new Date(iso).toLocaleDateString("es",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"});
+  }catch(e){ return ""; }
+}
+
+/* ---------- GRATITUD ---------- */
+function saveGratitude(momento){
+  if(!Store.get("persist",false)){
+    toast("Activa «Guardar lo que escribo» en Ajustes para conservar el registro.");
+    return;
+  }
+  var a=document.getElementById("f-g1"), b=document.getElementById("f-g2");
+  var vals=[a?a.value.trim():"", b?b.value.trim():""].filter(Boolean);
+  if(!vals.length){ toast("Escribe al menos una."); return; }
+  var list=Store.get("gratitude", []);
+  list.unshift({ d:new Date().toISOString(), m:momento, v:vals });
+  Store.set("gratitude", list.slice(0,120));
+  if(a){a.value=""; Store.set("draft:g1","");}
+  if(b){b.value=""; Store.set("draft:g2","");}
+  paintGratitude(); toast("Guardado.");
+}
+function paintGratitude(){
+  var host=document.getElementById("gList"); if(!host) return;
+  var list=Store.get("gratitude", []);
+  var days={}; list.forEach(function(e){ days[e.d.slice(0,10)]=1; });
+  var n=Object.keys(days).length;
+  var s=document.getElementById("gStreak");
+  if(s) s.innerHTML = n
+    ? '<b>'+n+'</b> '+(n===1?"día registrado":"días registrados")+'. Sin rachas ni metas: solo un registro.'
+    : 'Aún no hay registros. Dos cosas bastan, y pueden ser las mismas de ayer.';
+  if(!list.length){ host.innerHTML=""; return; }
+  host.innerHTML = '<p class="filters__label">Registro</p>' +
+    list.slice(0,14).map(function(e){
+      return '<div class="entry"><time>'+fdate(e.d)+' · '+(e.m==="manana"?"mañana":"noche")+'</time>'+
+        '<p>'+esc(e.v.join(" · "))+'</p></div>';
+    }).join("") +
+    '<button class="btn btn--quiet" data-wipeg>Borrar el registro</button>';
+  var w=$("[data-wipeg]",host);
+  if(w) w.addEventListener("click", function(){
+    Store.set("gratitude",[]); paintGratitude(); toast("Registro borrado.");
+  });
+}
+
+/* ---------- HERRAMIENTAS ---------- */
+function toolHTML(t, full){
+  return '<div class="tool">'+
+    '<div class="tool__top"><h3>'+t.n+'</h3>'+badge(t.ev)+'</div>'+
+    '<dl><dt>Para qué sirve</dt><dd>'+t.para+'</dd>'+
+    '<dt>Cómo hacerlo</dt><dd><ol>'+t.como.map(function(c){return '<li>'+c+'</li>';}).join("")+'</ol></dd>'+
+    '<dt>Duración</dt><dd>'+t.dur+'</dd>'+
+    '<dt>Cuándo usarlo</dt><dd>'+t.cuando+'</dd></dl>'+
+    '<p class="tool__caution"><b>Precaución.</b> '+t.prec+'</p>'+
+    (t.video? ytNote()+'<a class="btn btn--block" href="'+t.video+'" target="_blank" rel="noopener noreferrer">Abrir el video en YouTube ↗</a>':'')+
+    '<p class="tool__src">'+t.src+'</p>'+
+    '<button class="btn btn--ghost btn--block" data-sheet="stuck" style="margin-top:var(--sp-3)">No logro conectar con esto</button>'+
+  '</div>';
+}
+function initToolFilters(){
+  var needs=[], evs=[];
+  function paint(){
+    var list=TOOLS.filter(function(t){
+      var okN = !needs.length || needs.some(function(n){ return t.tags.indexOf(n)>=0; });
+      var okE = !evs.length || evs.indexOf(t.ev)>=0;
+      return okN && okE;
+    });
+    $("#toolCount").textContent = list.length+" de "+TOOLS.length+" herramientas";
+    $("#toolList").innerHTML = list.length
+      ? list.map(function(t){return toolHTML(t);}).join("")
+      : '<p class="empty">Ninguna herramienta cumple esos filtros a la vez. Quita alguno.</p>';
+    wireTopic($("#toolList"));
+  }
+  $$("#fNeed [data-need]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var v=b.getAttribute("data-need"), i=needs.indexOf(v);
+      if(i>=0) needs.splice(i,1); else needs.push(v);
+      b.setAttribute("aria-pressed", String(i<0)); paint();
+    });
+  });
+  $$("#fEv [data-ev]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var v=b.getAttribute("data-ev"), i=evs.indexOf(v);
+      if(i>=0) evs.splice(i,1); else evs.push(v);
+      b.setAttribute("aria-pressed", String(i<0)); paint();
+    });
+  });
+  paint();
+}
+
+/* ---------- UTILIDADES ---------- */
+function copy(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){toast("Copiado.");},function(){toast("No se pudo copiar.");});
+  } else toast("Tu navegador no permite copiar automáticamente.");
+}
+function openSheetHTML(title, html){
+  lastFocus=document.activeElement;
+  $("#sheetBody").innerHTML='<h2 id="sheet-h">'+esc(title)+'</h2>'+html+
+    '<button class="btn btn--block" data-closesheet style="margin-top:var(--sp-4)">Cerrar</button>';
+  $("#sheet").classList.add("is-open");
+  document.body.style.overflow="hidden";
+  wireSheet(); wireTopic($("#sheetBody"));
+  var f=$("#sheetBody button"); if(f) f.focus();
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   MODO GUIADO SIMPLE
+   Una sola secuencia continua. Sin elegir duración, sin
+   cronómetros y sin menús: avanza sola y se toca para seguir.
+   Los puntos de salida son explícitos y voluntarios.
+   ═══════════════════════════════════════════════════════════ */
+var FLOW = [
+  { big:"Detente.", sub:"Siente tu respiración. Siente tu cuerpo. Eso basta para frenar los pensamientos.", ms:9000 },
+  { big:"Pon los dos pies en el suelo.", sub:"Siente el peso. Apoya la espalda si puedes.", ms:9000 },
+  { big:"Mira a tu alrededor.", sub:"Di en voz baja tres cosas que ves.", ms:14000 },
+  { breath:3, big:"Respira.", sub:"Sin forzar. Deja que la salida sea más larga que la entrada." },
+  { big:"Estás aquí.", sub:"Este segundo lo puedes sostener.", ms:8000 },
+
+  { pause:"¿Seguimos un poco más?", opts:[
+      ["Sigo","next"], ["Ya estoy mejor","exit"] ] },
+
+  { ask:"¿Algo malo está pasando en este segundo?",
+    sub:"Se trata de lo que pasa afuera, no de lo que sientes por dentro.",
+    opts:[
+      ["No","calma"],
+      ["Me siento mal, pero no hay peligro","next"],
+      ["Sí, hay peligro real","sos"] ] },
+
+  { big:"Nombra lo que sientes.", ms:18000,
+    sub:"Una palabra basta. Por ejemplo: «me siento inseguro», «me siento solo», «no siento nada». No sentir nada también es una respuesta." },
+  { breath:5, big:"Otra vez.", sub:"Más lento ahora." },
+  { field:"f1", big:"¿Qué pasó?", sub:"Solo el hecho, sin adjetivos. Lo que grabaría una cámara." },
+  { field:"f2", big:"¿Y qué está prediciendo tu mente?", sub:"Eso es una historia, no un hecho todavía." },
+  { big:"Ninguna de las dos cosas tiene que resolverse hoy.", ms:9000 },
+
+  { pause:"¿Quieres cerrar aquí?", opts:[
+      ["Un paso más","next"], ["Cierro aquí","exit"] ] },
+
+  { field:"f3", big:"Una sola cosa pequeña.", sub:"Algo que puedas hacer en los próximos quince minutos. Beber agua cuenta." },
+  { breath:3, big:"Última vez.", sub:"Y ya está." },
+  { big:"Eso es suficiente por ahora.", sub:"No tienes que hacer nada más.", end:true }
+];
+
+var fl = { i:0, t:null, raf:null };
+
+function flowStart(){
+  fl.i = 0;
+  $("#flowview").classList.add("is-on");
+  document.body.style.overflow="hidden";
+  flowRender();
+}
+function flowHome(){
+  flowClear();
+  $("#flowview").classList.remove("is-on");
+  document.body.style.overflow="";
+  go("home");
+}
+function flowEnd(){
+  flowClear();
+  $("#flowview").classList.remove("is-on");
+  document.body.style.overflow="";
+  go("done");
+}
+function flowClear(){
+  if(fl.t){ clearTimeout(fl.t); fl.t=null; }
+  if(breathState.raf){ cancelAnimationFrame(breathState.raf); breathState.raf=null; }
+}
+function flowNext(){
+  flowClear();
+  if(fl.i < FLOW.length-1){ fl.i++; flowRender(); } else flowEnd();
+}
+function flowJump(action){
+  if(action==="sos"){ flowClear(); $("#flowview").classList.remove("is-on"); document.body.style.overflow=""; openSOS(); return; }
+  /* Salir a mitad del flujo devuelve al inicio: quien dice «ya estoy mejor»
+     no necesita una pantalla de cierre, necesita salir. */
+  if(action==="exit"){ flowHome(); return; }
+  if(action==="calma"){ flowClear(); flowCalma(); return; }
+  flowNext();
+}
+function flowCalma(){
+  /* Ruta NO — se conserva el texto original íntegro. */
+  var m=$("#flowmain");
+  m.innerHTML =
+    '<p class="big">En este segundo estás aquí.</p>'+
+    '<p class="sub" style="font-size:1.2rem;color:var(--ink);font-style:italic;margin-top:var(--sp-4)">'+
+    '«Respiro. Aquí y ahora todo está en un orden divino y perfecto.»</p>';
+  $("#flowhint").textContent="";
+  m.dataset.tap="1";
+  flowGo("Continuar");
+  flowWire();
+}
+
+/* Un único botón, siempre en el mismo sitio.
+   label=null lo oculta (pantallas que ya traen sus propias opciones). */
+function flowGo(label){
+  var g=$("#flowGo"); if(!g) return;
+  if(label){ g.hidden=false; g.textContent=label; }
+  else g.hidden=true;
+}
+function flowRender(){
+  try{ flowPaint(); }
+  catch(e){
+    /* Ninguna pantalla puede dejar a alguien encerrado. */
+    var m2=$("#flowmain");
+    if(m2){
+      m2.innerHTML='<p class="big">Sigamos.</p>'+
+        '<div class="flowopts"><button class="flowopt" data-fo="exit">Salir</button></div>';
+      m2.dataset.tap="1"; flowGo("Continuar"); flowWire();
+    }
+  }
+}
+function flowPaint(){
+  var s = FLOW[fl.i], m = $("#flowmain");
+  $("#flowfill").style.width = Math.round((fl.i/(FLOW.length-1))*100)+"%";
+  m.style.cursor = "pointer";
+  m.dataset.tap = "0";
+  $("#flowhint").textContent = "";
+
+  /* respiración */
+  if(s.breath){
+    m.style.cursor="default";
+    m.innerHTML =
+      '<div class="breath__orb" id="orb"><div>'+
+        '<div class="breath__cue" id="breathCue">Inhala</div>'+
+        '<div class="breath__count" id="breathCount">4</div>'+
+      '</div></div>'+
+      '<p class="sub">'+s.sub+'</p>'+
+      '<button class="btn btn--quiet" data-fo="ground" style="margin-top:var(--sp-3)">Respirar me está costando</button>';
+    flowGo("Continuar");
+    flowWire();          /* primero los botones: si la pauta falla, el flujo sigue vivo */
+    try{ startBreath(s.breath); }catch(e){}
+    return;
+  }
+
+  /* pregunta con opciones */
+  if(s.ask || s.pause){
+    m.style.cursor="default";
+    m.innerHTML =
+      '<p class="big" style="font-size:clamp(1.45rem,5.6vw,2rem)">'+(s.ask||s.pause)+'</p>'+
+      (s.sub? '<p class="sub">'+s.sub+'</p>':'')+
+      '<div class="flowopts">'+s.opts.map(function(o){
+        return '<button class="flowopt'+(o[1]==="sos"?" flowopt--red":"")+'" data-fo="'+o[1]+'">'+o[0]+'</button>';
+      }).join("")+'</div>';
+    flowGo(null);
+    flowWire();
+    return;
+  }
+
+  /* campo de escritura */
+  if(s.field){
+    m.style.cursor="default";
+    m.innerHTML =
+      '<p class="big" style="font-size:clamp(1.7rem,7vw,2.6rem)">'+s.big+'</p>'+
+      '<p class="sub">'+s.sub+'</p>'+
+      '<div class="flowfield"><label class="sr" for="fl-'+s.field+'">'+s.big+'</label>'+
+      '<textarea id="fl-'+s.field+'" placeholder="Escribe aquí. O no: puedes seguir sin escribir."></textarea></div>';
+    flowGo("Continuar");
+    flowWire();
+    return;
+  }
+
+  /* pantalla simple: avanza sola, o al tocar */
+  m.innerHTML = '<p class="big">'+s.big+'</p>'+(s.sub? '<p class="sub">'+s.sub+'</p>':'');
+  m.dataset.tap = "1";
+  $("#flowhint").textContent = "";
+  flowGo(s.end ? "Terminar" : "Continuar");
+  if(s.end){ m.dataset.tap="0"; return; }
+  flowWire();
+  if(s.ms) fl.t = setTimeout(flowNext, s.ms);
+}
+
+function flowWire(){
+  $$("[data-fo]").forEach(function(b){
+    b.addEventListener("click", function(e){
+      e.stopPropagation();
+      var a=b.getAttribute("data-fo");
+      if(a==="ground"){ flowClear(); $("#flowview").classList.remove("is-on");
+        document.body.style.overflow=""; openSheet("ground"); return; }
+      flowJump(a);
+    });
+  });
+  var ta=$("#flowmain textarea");
+  if(ta) ta.addEventListener("click", function(e){ e.stopPropagation(); });
+}
+
 /* ═══════════════════════════════════════════════════════════
    12. ARRANQUE
    ═══════════════════════════════════════════════════════════ */
@@ -1462,12 +3611,31 @@ function init(){
   $("#sheet").addEventListener("click", function(e){ if(e.target===$("#sheet")) closeSheet(); });
 
   $("#pathLearn").addEventListener("click", function(){
-    toast("En construcción — llega en el siguiente bloque.");
+    navStack = []; openHub("learn");
   });
+  $("#btnStart").addEventListener("click", flowStart);
+  $("#againBtn").addEventListener("click", flowStart);
+  $("#flowClose").addEventListener("click", function(){
+    flowClear(); $("#flowview").classList.remove("is-on"); document.body.style.overflow=""; go("home");
+  });
+  $("#flowSOS").addEventListener("click", function(){
+    flowClear(); $("#flowview").classList.remove("is-on"); document.body.style.overflow=""; openSOS();
+  });
+  $("#flowGo").addEventListener("click", function(){
+    var s=FLOW[fl.i];
+    if(s && s.end){ flowHome(); return; }
+    flowNext();
+  });
+  $("#flowmain").addEventListener("click", function(){
+    if($("#flowmain").dataset.tap==="1") flowNext();
+  });
+  $$("[data-back]").forEach(function(b){ b.addEventListener("click", goBack); });
 
   document.addEventListener("keydown", function(e){
     if(e.key!=="Escape") return;
     if($("#overlaySOS").classList.contains("is-open")) closeSOS();
+    else if($("#flowview").classList.contains("is-on")){
+      flowClear(); $("#flowview").classList.remove("is-on"); document.body.style.overflow=""; go("home"); }
     else if($("#sheet").classList.contains("is-open")) closeSheet();
   });
 
